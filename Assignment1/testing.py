@@ -1,12 +1,12 @@
 #Solving the Rush Hour Game
 #Jessica McGRahan 
 #S5164013
+import find_vehicles
 
 N = 6
 EMPTY = '.'
 #This function helps aim the visual display of the board
 def visual_board(board):
-    count = 1
     print(" 1 2 3 4 5 6")
     print("+-----------+")
     print(" ", end="")
@@ -19,8 +19,8 @@ def get_board(line):
     board = []
     line = line[:-1]
     row = []
-    for letters in line:
-        row.append(letters)
+    for letter in line:
+        row.append(letter)
         if len(row) == 6:
             board.append(row)
             row = []
@@ -33,14 +33,42 @@ def get_sols(all_lines):
     sols = []
     for line in all_lines:
         if line.__contains__('Sol:'):
-            solution_items = line.rstrip().split()      # strips line of "/n" and splits it into values by spaces
+            solution_items = line.rstrip().split()      # strips line of "/n" and splits it into values by spaces  
             solution_items.pop(0)                       # pops the "Sol:" string
             sols.append(solution_items)                 # adds to list
     return sols
 
+def bfs(board):
+    bfsq = []
+    bfsq.append(board)  #start state
+    seen = set()
+    while bfsq:
+        state = bfsq.pop(0)
+
+def vehicles(board):
+    vehicles = []
+    for yrow in enumerate(board):
+        for xcols in enumerate(yrow):
+            vehicle = find_on_board(board, yrow, xcols)
+
+def find_on_board(board, y, x):
+    if board[y,x] != EMPTY:
+        h = find_vehicles.boundaries(board, y, x, 'h')
+        v = find_vehicles.boundaries(board, y, x, 'v')
+    if h:
+        return h
+    if v:
+        return v
+
+
+
+
+
+
 #main
 #Open the text file and read lines 8 - 48 which are the 40 problems
 if __name__ == "__main__":
+    
     file = open("Assignment1/rh.txt", "r")
     lines = file.readlines()
     solutions = get_sols(lines)
@@ -55,4 +83,6 @@ if __name__ == "__main__":
         print(solutions[num_sol])
         print("\n")
         num_sol += 1
+
     file.close()
+
