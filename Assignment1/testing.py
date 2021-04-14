@@ -50,6 +50,14 @@ def vehicles(board):
     for yrow in enumerate(board):
         for xcols in enumerate(yrow):
             vehicle = find_on_board(board, yrow, xcols)
+            for vehicle_ID in vehicles:
+                if vehicle is None or vehicle == vehicle_ID:
+                    break
+                if not vehicle:
+                    continue
+                vehicles.append(vehicle)
+    return vehicles     
+
 
 def find_on_board(board, y, x):
     if board[y,x] != EMPTY:
@@ -63,12 +71,9 @@ def find_on_board(board, y, x):
 
 
 
-
-
 #main
 #Open the text file and read lines 8 - 48 which are the 40 problems
 if __name__ == "__main__":
-    
     file = open("Assignment1/rh.txt", "r")
     lines = file.readlines()
     solutions = get_sols(lines)

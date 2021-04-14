@@ -52,6 +52,9 @@ class Trucks():
             vehicle.direction = 'v'
         if borders(yrows+next_v) and borders(yrows-next_v) and borders(xcols+next_h) and borders(xcols-next_h):
             if board[yrows+next_v,xcols+next_h] == board[yrows-next_v,xcols-next_h] == handle:
-
-
+                position = [{'x':xcols-next_h, 'y':yrows-next_v}, {'x':xcols, 'y':yrows}, {'x':xcols+next_h, 'y':yrows+next_v}]
+                vehicle.location = position
+                vehicle.size = 3
+                return vehicle
+        return None
 
