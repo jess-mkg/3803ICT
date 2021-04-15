@@ -8,16 +8,15 @@ if __name__ == "__main__":
     goal_state_bfs = Tools()
     file = open("Assignment1/rh.txt", "r")
     lines = file.readlines()
-    solutions = goal_state_bfs.tools_rh.get_sols(lines)
+    solutions = goal_state_bfs.get_sols(lines)
     lines = lines[8:48]
     num_sol = 0
 
     board = []
-    for line in lines:
+    for line in lines: 
         goal_state_bfs = Tools()
-        board = goal_state_bfs.tools_rh.get_board(line)
-        goal_state_bfs.tools_rh.visual_board(board)
-        goal_state_bfs.tools_rh.bfs(board)
+        board = goal_state_bfs.get_board(line)
+        goal_state_bfs.bfs(board)
         print("\nProposed Solution: ", end=" ")
         print(solutions[num_sol])
         print("\n")

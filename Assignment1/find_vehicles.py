@@ -1,3 +1,25 @@
+
+KEY = {
+    '.': 0,
+    'A': 2,
+    'B': 2,
+    'C': 2,
+    'D': 2,
+    'E': 2,
+    'F': 2,
+    'G': 2,
+    'H': 2,
+    'I': 2,
+    'J': 2,
+    'K': 2,
+    'O': 3,
+    'P': 3,
+    'Q': 3,
+    'R': 3,
+    'X': 1,
+}
+
+
 def goal_state_achived(vehicle):
     if vehicle.position[0]['X'] == 4 and vehicle.position[1]['X'] == 5:
         if vehicle.handle == 'X':
@@ -9,13 +31,13 @@ def boundaries(board, yrows, xcols, direction):
     v_id = board[yrows][xcols]
     v = Vehicle()
     v.handle = v_id
-    is_car = Cars().find_cars(board, yrows, xcols, direction, v, v.handle)
-    if is_car:
-        return is_car
-
-    is_truck = Trucks().find_trucks(board, yrows, xcols, direction, v, v.handle)
-    if is_truck:
-        return is_truck
+    if v_id != 0:
+        is_car = Cars().find_cars(board, yrows, xcols, direction, v, v.handle)
+        if is_car:
+            return is_car
+        is_truck = Trucks().find_trucks(board, yrows, xcols, direction, v, v.handle)
+        if is_truck:
+            return is_truck
      
 
 def borders(n):
@@ -42,7 +64,7 @@ class Cars(Vehicle):
             next_v = 1
             vehicle.direction = 'v'
         if borders(yrows+next_h) and borders(xcols+next_v):
-            if board[yrows+next_v][xcols+next_h] == board[yrows][xcols] == handle:
+            if board[yrows-next_v][xcols-next_h] == handle:
                 position = [{'x':xcols, 'y':yrows},{'x':xcols+next_h, 'y':yrows+next_v}]
                 vehicle.location = position
                 vehicle.size = 2
