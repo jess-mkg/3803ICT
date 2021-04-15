@@ -1,29 +1,37 @@
+def goal_state_achived(vehicle):
+    if vehicle.position[0]['X'] == 4 and vehicle.position[1]['X'] == 5:
+        if vehicle.handle == 'X':
+            return True
+    return False
 
-def boundaries(self, board, yrows, xcols, direction):
-    v_id = board[yrows,xcols]
+
+def boundaries(board, yrows, xcols, direction):
+    v_id = board[yrows][xcols]
     v = Vehicle()
     v.handle = v_id
-    
-    is_car = Cars().find_cars(board, yrows, xcols, direction, v, handle)
+    is_car = Cars().find_cars(board, yrows, xcols, direction, v, v.handle)
     if is_car:
         return is_car
 
-    is_truck = Trucks().find_trucks(board, yrows, xcols, direction, v, handle)
+    is_truck = Trucks().find_trucks(board, yrows, xcols, direction, v, v.handle)
     if is_truck:
         return is_truck
-    
+     
 
 def borders(n):
     return (n < 6 and n >= 0)
 
 class Vehicle:
-    handle = -1
-    size = -1
-    moved = False
-    location = []
-    direction = None
+    def __init__(self):
+        self.handle = -1
+        self.size = -1
+        self.moved = False
+        self.location = []
+        self.direction = None
     
-class Cars():
+class Cars(Vehicle):
+    def __init__(self):
+        super().__init__()
     def find_cars(self, board, yrows, xcols, direction, vehicle, handle):
         if direction == 'h':
             next_h = 1
@@ -34,13 +42,15 @@ class Cars():
             next_v = 1
             vehicle.direction = 'v'
         if borders(yrows+next_h) and borders(xcols+next_v):
-            if board[yrows+next_v,xcols+next_h] == board[yrows,xcols] == handle:
+            if board[yrows+next_v][xcols+next_h] == board[yrows][xcols] == handle:
                 position = [{'x':xcols, 'y':yrows},{'x':xcols+next_h, 'y':yrows+next_v}]
                 vehicle.location = position
                 vehicle.size = 2
                 return vehicle
         return None
-class Trucks():
+class Trucks(Vehicle):
+    def __init__(self):
+        super().__init__()
     def find_trucks(self, board, yrows, xcols, direction, vehicle, handle):
         if direction == 'h':
             next_h = 2
@@ -51,7 +61,7 @@ class Trucks():
             next_v = 2
             vehicle.direction = 'v'
         if borders(yrows+next_v) and borders(yrows-next_v) and borders(xcols+next_h) and borders(xcols-next_h):
-            if board[yrows+next_v,xcols+next_h] == board[yrows-next_v,xcols-next_h] == handle:
+            if board[yrows+next_v][xcols+next_h] == board[yrows-next_v][xcols-next_h] == handle:
                 position = [{'x':xcols-next_h, 'y':yrows-next_v}, {'x':xcols, 'y':yrows}, {'x':xcols+next_h, 'y':yrows+next_v}]
                 vehicle.location = position
                 vehicle.size = 3
