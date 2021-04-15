@@ -2,6 +2,7 @@
 #Jessica McGRahan 
 #S5164013
 import find_vehicles
+import collections
 from collections import deque
 import numpy
 
@@ -30,7 +31,7 @@ class Tools:
         print(" a b c d e f")
 
     #data structure that holds each problem cards board set up 
-    def get_board(self, line):
+    def get_board(self, board, line):
         board = []
         line = line[:-1]
         row = []
@@ -44,7 +45,6 @@ class Tools:
         return board
 
     def fix_board(self, line, board):
-        
         matrix = line.split("\n")
         index = list()
         numy = 0
@@ -74,42 +74,41 @@ class Tools:
         goat_state = None
         solved = False
         print("BFS: ")
-        print(board)
         carsntrucks = self.vehicles(board)
-        #TEST
-        print("Final", end='')
-        print(carsntrucks)
         while self.queue:
-            if queue: 
-                other_board = self.queue.popleft()
+            #if queue: 
+            other_board = self.queue.popleft()
             carsntrucks = vehicles(other_board)
             if (goal_state_achived(goat_state)):
-                if goal_state != Nonw and not solved:
+                if goal_state != None and not solved:
                     print("CPU Time: : ")
                     print("Depth: ")
                     print("Difference: ")
                     print("Nodes Searched: " + str(count))
                     solved = True
                     break
-                goal_state = self.search
+            goal_state = self.search(other_board, carsntrucks)
+            node += 1
+            print("h")
+        return self.seen_boards
 
 
     def vehicles(self, board):
         automobiles = []
         for yrow, i in enumerate(board):
             for xcols, j in enumerate(i):
-                print(xcols)
                 vehicle = self.find_on_board(board, yrow, xcols)
-                #print(vehicle)
+                double = False
+                #print(vehicle.size)
                 for vehicle_ID in automobiles:
-                    if vehicle is None or vehicle == vehicle_ID:
+                    if vehicle is None:
                         break
-                    if not vehicle:
-                        continue
-                    #TEST1
-                    #print("vehicle test", end='')
-                    #print(vehicle)
-                    automobiles.append(vehicle)
+                    if vehicle_ID == vehicle:
+                        double = True
+                        break
+                if not vehicle or double:
+                    continue
+                automobiles.append(vehicle)
         return automobiles     
 
 #get the direction value 
@@ -123,4 +122,10 @@ class Tools:
             if v:
                 return v
 
+
+    def search(self, board, automobiles):
+        goal_state = False
+        for car_truck in automobiles:
+            if car_truck.Vehicle().self.handle == 1:
+                goal_state = True
 

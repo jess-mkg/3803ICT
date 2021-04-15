@@ -22,7 +22,7 @@ KEY = {
 
 def goal_state_achived(vehicle):
     if vehicle.position[0]['X'] == 4 and vehicle.position[1]['X'] == 5:
-        if vehicle.handle == 'X':
+        if vehicle.handle == 1:
             return True
     return False
 
@@ -50,6 +50,7 @@ class Vehicle:
         self.moved = False
         self.location = []
         self.direction = None
+
     
 class Cars(Vehicle):
     def __init__(self):
@@ -69,7 +70,7 @@ class Cars(Vehicle):
                 vehicle.location = position
                 vehicle.size = 2
                 return vehicle
-        return None
+        
 class Trucks(Vehicle):
     def __init__(self):
         super().__init__()
@@ -82,11 +83,13 @@ class Trucks(Vehicle):
             next_h = 0
             next_v = 2
             vehicle.direction = 'v'
+        #if borders(yrows+next_v) and borders(yrows-next_v) and borders(xcols+next_h) and borders(xcols-next_h):
         if borders(yrows+next_v) and borders(yrows-next_v) and borders(xcols+next_h) and borders(xcols-next_h):
-            if board[yrows+next_v][xcols+next_h] == board[yrows-next_v][xcols-next_h] == handle:
-                position = [{'x':xcols-next_h, 'y':yrows-next_v}, {'x':xcols, 'y':yrows}, {'x':xcols+next_h, 'y':yrows+next_v}]
-                vehicle.location = position
-                vehicle.size = 3
-                return vehicle
-        return None
-
+            #if board[yrows+next_v][xcols+next_h] == board[yrows-next_v][xcols-next_h] == handle:
+            if board[yrows+next_v][xcols+next_h] == handle:
+                if board[yrows-next_v][xcols-next_h] == handle:
+                    #position = [{'x':xcols-next_h, 'y':yrows-next_v}, {'x':xcols, 'y':yrows}, {'x':xcols+next_h, 'y':yrows+next_v}]
+                    position = [{'x':xcols-next_h, 'y':yrows-next_v}, {'x':xcols, 'y':yrows}, {'x':xcols+next_h, 'y':yrows+next_v}]
+                    vehicle.location = position
+                    vehicle.size = 3
+                    return vehicle

@@ -15,7 +15,7 @@ if __name__ == "__main__":
     board = []
     for line in lines: 
         goal_state_bfs = Tools()
-        board = goal_state_bfs.get_board(line)
+        board = goal_state_bfs.get_board(board, line)
         goal_state_bfs.bfs(board)
         print("\nProposed Solution: ", end=" ")
         print(solutions[num_sol])
