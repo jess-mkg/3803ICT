@@ -128,4 +128,11 @@ class Tools:
         for car_truck in automobiles:
             if car_truck.Vehicle().self.handle == 1:
                 goal_state = True
+            if (vehicle.direction == 'h'):
+                move_L = 
+                move_R = 
+                
+            else:
+                move_U = 
+                move_D = 
 
