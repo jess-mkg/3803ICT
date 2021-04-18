@@ -19,12 +19,6 @@ KEY = {
     'X': 1,
 }
 
-MOVEMENT = {
-    LEFT: "left", 
-    RIGHT: "right",
-    UP: "up"
-    DOWN: "down",
-}
 
 def goal_state_achived(vehicle):
     if vehicle.position[0]['X'] == 4 and vehicle.position[1]['X'] == 5:

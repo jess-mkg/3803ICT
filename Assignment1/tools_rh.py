@@ -122,17 +122,62 @@ class Tools:
             if v:
                 return v
 
-
     def search(self, board, automobiles):
         goal_state = False
         for car_truck in automobiles:
             if car_truck.Vehicle().self.handle == 1:
                 goal_state = True
             if (vehicle.direction == 'h'):
-                move_L = 
-                move_R = 
+                move_L = {'left': empty_spots(board, car_truck, 'left')}
+                move_R = {'right': empty_spots(board, car_truck, 'right')}
                 
             else:
-                move_U = 
-                move_D = 
+                move_U = {'up': empty_spots(board, car_truck, 'up')}
+                move_D = {'down': empty_spots(board, car_truck, 'down')}
+
+    def empty_spots(board, vehicle, movement):
+        empty_spots = 1
+        is_valid = True
+        x_axis = vehicle.location[0]['x']
+        y_axis = vehicle.location[0]['y']
+        i_size = vehicle.size - 1
+        #horezontal
+        if movement == 'left':
+            next_h = -1
+            next_v = 0
+        elif movement == 'right':
+            next_h = 1
+            next_v = 0
+        #vertical
+        elif movement == 'up':
+            next_h = 0
+            next_v = -1
+        elif movement == 'down':
+            next_h = 0
+            next_v = 1
+        
+        while is_valid:
+            y = next_v * empty_spots + y 
+            x = next_h * empty_spots + x
+            if borders(y) and board(x) and board[y][x] == 0:
+               empty_spots += 1
+            else:
+                is_valid = False
+        if empty_spots == 1:
+            return 0
+        else:
+            return empty_spots-1
+    
+    #def move_automobile(self, )
+
+
+
+
+
+
+
+
+
+
+
 
