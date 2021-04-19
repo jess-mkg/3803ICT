@@ -51,6 +51,18 @@ class Vehicle:
         self.location = []
         self.direction = None
 
+    def reset_moved(self):
+        self.moved = False
+
+    def moving_vehicle(self, axis, stepsize) #edit this
+        current_hash =  hash(str(self.location))
+        self.location[0][axis] += stepsize
+        self.location[1][axis] += stepsize
+        if self.size == 3:
+            self.location[2][axis] += stepsize
+        after_hash = hash(str(self.location))
+        if(current_hash != after_hash):
+            self.has_moved = True
     
 class Cars(Vehicle):
     def __init__(self):

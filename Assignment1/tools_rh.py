@@ -19,6 +19,7 @@ class Tools:
         self.end_time = None
         self.queue = deque()
         self.seen_boards = {}
+        self.count = 0
 
 
     #This function helps aim the visual display of the board
@@ -130,10 +131,14 @@ class Tools:
             if (vehicle.direction == 'h'):
                 move_L = {'left': empty_spots(board, car_truck, 'left')}
                 move_R = {'right': empty_spots(board, car_truck, 'right')}
+                self.move_automobile(board, vehicle, move_L)
+                self.move_automobile(board, vehicle, move_R)
                 
             else:
                 move_U = {'up': empty_spots(board, car_truck, 'up')}
                 move_D = {'down': empty_spots(board, car_truck, 'down')}
+                self.move_automobile(board, vehicle, move_U)
+                self.move_automobile(board, vehicle, move_D)
 
     def empty_spots(board, vehicle, movement):
         empty_spots = 1
@@ -168,15 +173,51 @@ class Tools:
         else:
             return empty_spots-1
     
-    #def move_automobile(self, )
+    def move_automobile(self, board, vehicle, direction):
+        if 
 
 
+    
+    def update_board(self, board, vehicle, prev_pos):
+        if(vehicle.has_moved):
+            for i, _ in enumerate(prev_pos):
+                board[prev_pos[i]['y'], prev_pos[i]['x']] = 0
+            for j, _ in enumerate(vehicle.location):
+                board[vehicle.location[j]['y'], vehicle.location[j]['x']] = vehicle.handle
 
+    
+    def slider(self, board, vehicle, direction, axis, stepsize):
+        approved = self.is_allowed(board, vehicle, direction, axis, stepsize)
+        if approved:
+            self.count += 1
+            vehicle.moving_vehicle(axis, stepsize)
+            return True
+        return False
 
+    def is_allowed(self, board, vehicle, direction, axis, stepsize):
+        is_allowed = False
+        if direction == 'left' or direction == 'up':
+            is_allowed = find_vehicles.borders(vehicle.location[0][axis] + stepsize)
+        elif direction == 'right' or direction == 'down':
+            index = vehicle.size - 1
+            is_allowed = find_vehicles.borders(vehicle.location[index][axis] + stepsize)
+            
+        if vehicle.direction == 'h' and axis == 'y':
+            is_allowed = False
 
+        if vehicle.direction == 'v' and axis == 'x':
+            is_allowed = False
 
+        # this is a guard that was necessary to correct for multiple movements of the same vehicle?
+        # TURNS out we still want one vehicle movement per exploration of the board.
+        if stepsize == 0 or vehicle.has_moved:
+           is_allowed = False
 
+        # check allowed or we are already out of bounds
+        if allowed and not helper.is_board_position_empty_in_direction(board, vehicle, direction):
+            is_allowed = False
 
+        return is_allowed
 
 
 

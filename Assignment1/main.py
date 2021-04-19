@@ -11,7 +11,7 @@ if __name__ == "__main__":
     solutions = goal_state_bfs.get_sols(lines)
     lines = lines[8:48]
     num_sol = 0
-
+ 
     board = []
     for line in lines: 
         goal_state_bfs = Tools()
