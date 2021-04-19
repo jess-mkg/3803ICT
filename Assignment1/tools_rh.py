@@ -5,6 +5,7 @@ import find_vehicles
 import collections
 from collections import deque
 import numpy
+import copy
 
 N = 6
 EMPTY = '.'
@@ -19,7 +20,9 @@ class Tools:
         self.end_time = None
         self.queue = deque()
         self.seen_boards = {}
+        self.previous_board = {}
         self.count = 0
+        self.seen = []
 
 
     #This function helps aim the visual display of the board
@@ -133,12 +136,13 @@ class Tools:
                 move_R = {'right': empty_spots(board, car_truck, 'right')}
                 self.move_automobile(board, vehicle, move_L)
                 self.move_automobile(board, vehicle, move_R)
-                
-            else:
+            else:   # going in a direction and knowing how mant empty spots are in front of it 
                 move_U = {'up': empty_spots(board, car_truck, 'up')}
                 move_D = {'down': empty_spots(board, car_truck, 'down')}
                 self.move_automobile(board, vehicle, move_U)
                 self.move_automobile(board, vehicle, move_D)
+            vehicle.reset_moved()
+        return goal_state
 
     def empty_spots(board, vehicle, movement):
         empty_spots = 1
@@ -174,8 +178,36 @@ class Tools:
             return empty_spots-1
     
     def move_automobile(self, board, vehicle, direction):
-        if 
+        if not vehicle.moved:
+            #Making a copy of the board 
+            curr = copy.copy(board)
+            #Making a deep copy for the x,y location attached to the object vehicle
+            prev_vehicle = copy.deepcopy(vehicle.location)
+            #The (string) direction of the vehicle
+            string_direction = list(direction.keys())[0]
+            #Gets the amount of moves to make
+            amount_to_move = direction[string_direction] 
+            #Makes the move value negative if left or up
+            if string_direction == 'left' or string_direction == 'up':
+                amount_to_move = -amount_to_move
+            if string_direction == 'left' or string_direction == 'right':
+                axis = 'x'
+            if string_direction == 'up' or string_direction == 'down':
+                axis = 'y'
+            self.slider(board, vehicle, string_direction, axis, amount_to_move)
+            self.update_board(board, vehicle, prev_vehicle)
+        unseen = self.solution(board, curr)
 
+
+    def previous_boards(self, board, prev_board):
+        if prev_board is not None:
+            prev_board = hash(prev_board.tostring())
+            if not hash(board.tostring()) in self.previous_board:
+                self.previous_board[hash(board.tostring())] = prev_board
+                self.seen[hash(board.tostring())] = copy.copy(board)
+                self.queue.append(copy.copy(board))
+                return True
+            return False
 
     
     def update_board(self, board, vehicle, prev_pos):
