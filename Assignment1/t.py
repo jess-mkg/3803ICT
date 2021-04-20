@@ -5,7 +5,7 @@ tr = "OPRQ"
 red = "X"
 
 b = 'G'
-
+ 
 for letter in b:
     if letter in st:
         print(True)

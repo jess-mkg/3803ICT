@@ -1,12 +1,12 @@
 import find_vehicles
 from tools_rh import Tools
-
+ 
 
 #main
 #Open the text file and read lines 8 - 48 which are the 40 problems
 if __name__ == "__main__":
     goal_state_bfs = Tools()
-    file = open("Assignment1/rh.txt", "r")
+    file = open("rh.txt", "r")
     lines = file.readlines()
     solutions = goal_state_bfs.get_sols(lines)
     lines = lines[8:48]

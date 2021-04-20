@@ -2,7 +2,7 @@
 #Jessica McGRahan 
 #S5164013
 import find_vehicles
-
+ 
 N = 6
 EMPTY = '.'
 #This function helps aim the visual display of the board

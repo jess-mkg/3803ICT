@@ -6,7 +6,7 @@ import collections
 from collections import deque
 import numpy
 import copy
-
+ 
 N = 6
 EMPTY = '.'
 
@@ -131,18 +131,18 @@ class Tools:
     def search(self, board, automobiles):
         goal_state = False
         for car_truck in automobiles:
-            if car_truck.Vehicle().self.handle == 1:
+            if car_truck.handle == 1:
                 goal_state = True
-            if (vehicle.direction == 'h'):
+            if (car_truck.direction == 'h'):
                 move_L = {'left': empty_spots(board, car_truck, 'left')}
                 move_R = {'right': empty_spots(board, car_truck, 'right')}
-                self.move_automobile(board, vehicle, move_L)
-                self.move_automobile(board, vehicle, move_R)
+                self.move_automobile(board, car_truck, move_L)
+                self.move_automobile(board, car_truck, move_R)
             else:   # going in a direction and knowing how mant empty spots are in front of it 
                 move_U = {'up': empty_spots(board, car_truck, 'up')}
                 move_D = {'down': empty_spots(board, car_truck, 'down')}
-                self.move_automobile(board, vehicle, move_U)
-                self.move_automobile(board, vehicle, move_D)
+                self.move_automobile(board, car_truck, move_U)
+                self.move_automobile(board, car_truck, move_D)
             vehicle.reset_moved()
         return goal_state
 
