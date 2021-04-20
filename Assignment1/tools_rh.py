@@ -24,7 +24,6 @@ class Tools:
         self.count = 0
         self.seen = []
 
-
     #This function helps aim the visual display of the board
     def visual_board(self, board):
         print(" 1 2 3 4 5 6")
@@ -45,6 +44,7 @@ class Tools:
                 board.append(row)
                 row = []
         self.visual_board(board)
+        print(board)
         board = self.fix_board(line, board)
         return board
 
@@ -61,6 +61,7 @@ class Tools:
         final_board = numpy.zeros(shape=(6, 6))
         for position in index:
             final_board[position['y'], position['x']] = position['char']
+        print(final_board)
         return final_board
 
 
@@ -77,10 +78,11 @@ class Tools:
         nodes = 0
         goat_state = None
         solved = False
+        self.previous_boards(board, None)
         print("BFS: ")
         carsntrucks = self.vehicles(board)
         while self.queue:
-            #if queue: 
+            print("h")
             other_board = self.queue.popleft()
             carsntrucks = vehicles(other_board)
             if (goal_state_achived(goat_state)):
@@ -93,7 +95,7 @@ class Tools:
                     break
             goal_state = self.search(other_board, carsntrucks)
             node += 1
-            print("h")
+            print(node)
         return self.seen_boards
 
 
@@ -200,14 +202,14 @@ class Tools:
 
 
     def previous_boards(self, board, prev_board):
-        if prev_board is not None:
-            prev_board = hash(prev_board.tostring())
-            if not hash(board.tostring()) in self.previous_board:
-                self.previous_board[hash(board.tostring())] = prev_board
-                self.seen[hash(board.tostring())] = copy.copy(board)
-                self.queue.append(copy.copy(board))
-                return True
-            return False
+        if not hash(board.tostring()) in self.previous_board:
+            if prev_board is not None:
+                prev_board = hash(prev_board.tostring())
+            self.previous_board[hash(board.tostring())] = prev_board
+            self.seen[hash(board.tostring())] = copy.copy(board)
+            self.queue.append(copy.copy(board))
+            return True
+        return False
 
     
     def update_board(self, board, vehicle, prev_pos):
@@ -246,7 +248,7 @@ class Tools:
            is_allowed = False
 
         # check allowed or we are already out of bounds
-        if allowed and not helper.is_board_position_empty_in_direction(board, vehicle, direction):
+        if is_allowed and not helper.is_board_position_empty_in_direction(board, vehicle, direction):
             is_allowed = False
 
         return is_allowed

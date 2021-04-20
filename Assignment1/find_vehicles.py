@@ -54,7 +54,7 @@ class Vehicle:
     def reset_moved(self):
         self.moved = False
 
-    def moving_vehicle(self, axis, stepsize) #edit this
+    def moving_vehicle(self, axis, stepsize): #edit this
         current_hash =  hash(str(self.location))
         self.location[0][axis] += stepsize
         self.location[1][axis] += stepsize
