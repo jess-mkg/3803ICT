@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "include.h"
 
 /*print first 40 lines of a file if it exits*/
 

@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <time.h> 
-
+#include "include.h"
 /*this function produces the local time and date of that moment*/
 
 void TimeDate() 

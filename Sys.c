@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/utsname.h>
-
+#include "include.h"
 void Sys()
 {
 	struct utsname uts;

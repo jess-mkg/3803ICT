@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <limits.h>
+#include "include.h"
 
 void Path()
 {
