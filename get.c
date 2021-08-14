@@ -2,8 +2,11 @@
 
 /*print first 40 lines of a file if it exits*/
 
-void getFile(const char *filename)
+void getFile(char *filename)
 {
+	printf("%s\n", filename);
+	filename = "test.txt";
+	printf("%s\n", filename);
 	FILE *file = fopen(filename, "r");
 	if (file != NULL)
 	{

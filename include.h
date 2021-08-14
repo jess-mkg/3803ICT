@@ -13,6 +13,6 @@
 void TimeDate();
 void Path();
 void Sys();
-void getFile(const char *filename);
+void getFile(char *filename);
 void putFiles(const char *dirname, char *array[]);
 void calc(int a, int b, char op);

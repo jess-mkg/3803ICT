@@ -19,7 +19,7 @@ void putFiles(const char *dirname, char *array[])
 		printf("Error ...\n");
 	}
 
-	for (int i = 0; array[i] != NULL; i++)
+	for (int i = 2; array[i] != NULL; i++)
 	{	
 		char *fulldir = malloc(SIZE*sizeof(char));
 		FILE *source, *target; 
