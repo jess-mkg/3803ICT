@@ -1,6 +1,8 @@
 #include "include.h"
 #define SIZE 25
 
+/*This file contains a function to create a dir and copy files to it*/
+
 void putFiles(const char *dirname, char *array[])
 {
 	DIR *dir = opendir(dirname);

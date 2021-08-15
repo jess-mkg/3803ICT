@@ -1,13 +1,14 @@
 #include "include.h"
 
-/*print first 40 lines of a file if it exits*/
+/*this file contains a function to retrive the content from a 
+file and print first 40 lines of a file if it exits*/
 
 void getFile(char *filename)
 {
 	printf("%s\n", filename);
 	filename = "test.txt";
 	printf("%s\n", filename);
-	FILE *file = fopen(filename, "r");
+	FILE *file = fopen(filename, "r");		/*opens wanted file*/
 	if (file != NULL)
 	{
 		printf("File opened...\n");
@@ -22,7 +23,7 @@ void getFile(char *filename)
 	{
 		n++;
 		printf("%s", line);
-		if (n % 40 == 0)
+		if (n % 40 == 0)		/*controlls the printing od each set of 40 lines*/
 		{
 			printf("Continue printing (Y/N) ... ");
 			char enter;

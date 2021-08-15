@@ -1,5 +1,7 @@
 #include "include.h"
 
+/* this file contains a function to display the current cwd path*/
+
 void Path()
 {
 	char cwd[PATH_MAX];

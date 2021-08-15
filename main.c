@@ -8,6 +8,16 @@ int main()
 	printf("  / ___// __  // _  // // / \n");
 	printf(" (__  )/ / / //  __// // / \n");
 	printf("/____//_/ /_//____//_//_/ \n\n\n");
+	
+
+	printf("Accepted commands:\n\n");
+	printf(" calc  expr\n");
+	printf(" time\n");
+	printf(" path\n");
+	printf(" sys\n");
+	printf(" put   dir   file(s)\n");
+	printf(" get   file\n");
+	printf(" quit\n\n");
 
 	int end = 0;
 	while (end != 1)
@@ -16,13 +26,13 @@ int main()
 		printf("> ");
 		fgets(command,100,stdin);
 		char *pch;
-		pch = strtok(command," ,-");
+		pch = strtok(command," ");
 		int i = 0;
 		char *arg[100];
 		while(pch != NULL)
 		{
 			arg[i++] = pch;
-			pch = strtok(NULL, " ,-");
+			pch = strtok(NULL, " ");
 		}
 		char *cmp = arg[0];
 		if ((strcmp(cmp, "quit\n") == 0) || (strcmp(cmp, "quit") == 0))
@@ -57,6 +67,10 @@ int main()
 			int b = atoi(arg[3]);
 			char *op = arg[2];
 			calc(a,b,*op);
+		}
+		else
+		{
+			printf("Command not accepted ... \n");
 		}
 	}
 	return 0;
