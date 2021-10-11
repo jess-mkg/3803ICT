@@ -2,24 +2,6 @@
 #include <semaphore.h>
 #include "shared_memory.h"
 
-char *decimal_to_binary(int n) {
-  int c, d, t;
-  char *p;
-  t = 0;
-  p = (char*)malloc(32+1);
-  if (p == NULL)
-    exit(EXIT_FAILURE);
-  for (c = 31 ; c >= 0 ; c--) {
-    d = n >> c;
-    if (d & 1)
-      *(p+t) = 1 + '0';
-    else
-      *(p+t) = 0 + '0';
-    t++;
-  }
-  *(p+t) = '\0';
-  return  p;
-}
 
 void* create_user_thread() {
     char           command[4];
@@ -27,20 +9,8 @@ void* create_user_thread() {
     int            ShmID;
     struct Memory  *ShmPTR;
 
-    /*sem_t *sem_reader = sem_open(SEM_READER_FNAME, 0);
-    if (sem_reader == SEM_FAILED) {
-        perror("sem_open/reader");
-        exit(1);
-    }
-
-    sem_t *sem_writer = sem_open(SEM_WRITER_FNAME, 1);
-    if (sem_writer == SEM_FAILED) {
-        perror("sem_open/writer");
-        exit(1);
-    }*/
     /////////////////////////////////////////////////////
 
-    /* make the key: */
     if ((ShmKEY = ftok(".", 'x')) == -1) {
         perror("ftok");
         exit(1);
@@ -59,37 +29,33 @@ void* create_user_thread() {
          exit(1);
     }
     printf("client has attached the shared memory...\n");
-
+    //ShmPTR->clientflag = 0;
+    printf("%d\n", ShmPTR->clientflag);
     /////////////////////////////////////////////////////
-
     while(1) {
-        printf("Input value or 'q': ");
-        scanf("%s", command);
-        if (strcmp(command, "q") == 0) {
-            ShmPTR->clientflag = 1;
-            ShmPTR->command = "q";
-            shmdt((void *) ShmPTR);
-            printf("client has detached its shared memory...\n");
-            shmctl(ShmID, IPC_RMID, NULL);
-            printf("client has removed its shared memory...\n");
-            printf("client exits...\n");
-            exit(0);
-        }
-        else if (isdigit(command[0]) != 0) {
-            int num = atoi(command);
-            //printf("Input is an int -> %d\n", num);
-            //char* binary = decimal_to_binary(num);
-            //num = atoi(binary);
-            //printf("Input as 32 bit -> %s\n", binary);
-            ShmPTR->clientflag = 1;
-            //printf("%d\n", ShmPTR->clientflag);
-            ShmPTR->number = num;
-            //sem_post(sem_writer);
-            printf("client has filled %d shared memory...\n", ShmPTR->slot[0]);
-            printf("Please start the server in another window...\n");
-        }
-        else {
-            printf("Invalid Input ... \n");
+        if (ShmPTR->clientflag == 0) {
+            printf("Input value or 'q': ");
+            scanf("%s", command);
+            if (strcmp(command, "q") == 0) {
+                ShmPTR->clientflag = 1;
+                ShmPTR->command = 2;
+                shmdt((void *) ShmPTR);
+                printf("client has detached its shared memory...\n");
+                shmctl(ShmID, IPC_RMID, NULL);
+                printf("client has removed its shared memory...\n");
+                printf("client exits...\n");
+                exit(0);
+            }
+            else if (isdigit(command[0]) != 0) {
+                int num = atoi(command);
+                ShmPTR->clientflag = 1;
+                ShmPTR->number = num;
+                printf("client has filled %d shared memory...\n", ShmPTR->slot[0]);
+                printf("Please start the server in another window...\n");
+            }
+            else {
+                printf("Invalid Input ... \n");
+            }
         }
     }
 }

@@ -15,21 +15,6 @@ void  main(void)
      int            ShmID;
      struct Memory  *ShmPTR;
 
-/*
-     sem_unlink(SEM_READER_FNAME);
-     sem_unlink(SEM_WRITER_FNAME);
-
-     sem_t *sem_reader = sem_open(SEM_READER_FNAME, IPC_CREAT, 0666, 0);
-     if (sem_reader == SEM_FAILED) {
-         perror("sem_open/reader");
-         exit(1);
-     }
-
-     sem_t *sem_writer = sem_open(SEM_WRITER_FNAME, IPC_CREAT, 0666, 1);
-     if (sem_writer == SEM_FAILED) {
-         perror("sem_open/writer");
-         exit(1);
-     }*/
      //////////////////////////////////////////////////
      ShmKEY = ftok(".", 'x');
      ShmID = shmget(ShmKEY, sizeof(struct Memory), 0666);
@@ -54,12 +39,12 @@ void  main(void)
              printf("Reading: num %d \n", ShmPTR->number);
              printf("Reading: cf %d \n", ShmPTR->clientflag);
              sleep(1);
-             if (ShmPTR->command == "q") {
-                 printf("   server has informed client data have been taken...\n");
+             if (ShmPTR->command == 2) {
+                 printf("   Client has detacted from memory...\n");
                  ShmPTR->clientflag == 1;
                  shmdt((void *) ShmPTR);
-                 printf("   server has detached its shared memory...\n");
-                 printf("   server exits...\n");
+                 printf("   Server has detached its shared memory...\n");
+                 printf("   Server exits...\n");
                  exit(0);
              }
              else {
@@ -67,15 +52,17 @@ void  main(void)
                  for (int i = 0;i < 32; i++) {
                      uint32_t rotated = rotateRight(i, new);
                      printf("%d\n", rotated);
+                     //pthread_t user;
+                     //pthread_create()
+                     ShmPTR->clientflag = 0;
                  }
 
              }
-             printf("testing value %d\n", ShmPTR->number);
          }
      }
-     printf("   server has informed client data have been taken...\n");
+     printf("   Client has detacted from memory...\n");
      shmdt((void *) ShmPTR);
-     printf("   server has detached its shared memory...\n");
-     printf("   server exits...\n");
+     printf("   Server has detached its shared memory...\n");
+     printf("   Server exits...\n");
      exit(0);
 }
