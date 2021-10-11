@@ -3,7 +3,7 @@
 #include "shared_memory.h"
 
 
-void* create_user_thread() {
+int main() {
     char           command[4];
     key_t          ShmKEY;
     int            ShmID;
@@ -28,6 +28,8 @@ void* create_user_thread() {
          perror("shmat");
          exit(1);
     }
+    ShmPTR->clientflag = 0;
+    //ShmPTR->serverflag[10] = {0};
     printf("client has attached the shared memory...\n");
     //ShmPTR->clientflag = 0;
     printf("%d\n", ShmPTR->clientflag);
@@ -47,28 +49,18 @@ void* create_user_thread() {
                 exit(0);
             }
             else if (isdigit(command[0]) != 0) {
-                int num = atoi(command);
+                uint32_t num = atoi(command);
                 ShmPTR->clientflag = 1;
                 ShmPTR->number = num;
-                printf("client has filled %d shared memory...\n", ShmPTR->slot[0]);
-                printf("Please start the server in another window...\n");
+                printf("client has filled %d into shared memory...\n", ShmPTR->number);
             }
             else {
                 printf("Invalid Input ... \n");
             }
         }
+        if (ShmPTR->serverflag[0] == 1) {
+            printf("%d -- result\n", ShmPTR->slot[0]);
+
+        }
     }
-}
-
-
-int main() {
-    pthread_t   user;
-    int         res;
-
-    res = pthread_create(&user, NULL, create_user_thread, NULL);
-    if (res != 0) {
-        printf("Error creating thread ... ");
-        exit(1);
-    }
-    pthread_join(user, NULL);
 }
