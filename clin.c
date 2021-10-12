@@ -11,10 +11,12 @@ void* nextInp() {
     int i;
     for (i = 0; i < 10; i++) {
         if (ShmPTR->serverflag[i] == 1) {
-            printf("Query%d: %d \n", i, ShmPTR->slot[i]);
+            printf("Query %d: %d \n", i, ShmPTR->slot[i]);
             ShmPTR->serverflag[i] = 0;
+            usleep(1000);
         }
-        sleep(1);
+        //sleep(1);
+
     }
 }
 
@@ -48,6 +50,7 @@ int main() {
     printf("client has attached the shared memory...\n");
     /////////////////////////////////////////////////////
     while(1) {
+        usleep(20000);
         if (ShmPTR->clientflag == 0) {
             printf("Input value or 'q': ");
             scanf("%s", command);

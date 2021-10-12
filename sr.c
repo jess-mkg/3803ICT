@@ -1,32 +1,57 @@
 #include "shared_memory.h"
 #include <semaphore.h>
+#include <limits.h>
+#include <stdbool.h>
 
-int rotateRight(int k) {
-    return (k >> 1)|(k << 32-1);
+#define THREAD_MAX 32
+
+struct QueryData{
+    uint32_t 	qnum;
+    int         slotN;
+};
+
+pthread_t           th[THREAD_MAX];
+key_t               ShmKEY;
+int                 ShmID;
+struct Memory       *ShmPTR;
+bool                queryClosed = false;
+
+static inline uint32_t rotateRight(unsigned int i, uint32_t k) {
+    unsigned int c = i;
+    const uint32_t mask = (CHAR_BIT*sizeof(k) - 1);
+    c &= mask;
+    return (k>>c) | (k<<( (-c)&mask ));
+}
+
+void* factorise(void* ThisQueryData) {
+    struct QueryData* qSlot = (struct QueryData*)ThisQueryData;
+    uint32_t temp = qSlot->qnum;
+    uint32_t pfact = 2;
+    while(temp > 1 && !queryClosed) {
+        if (temp % pfact == 0) {
+            sem_wait(&mutex);
+            while ((ShmPTR->serverflag[qSlot->slotN] != 0) && (!queryClosed)) {
+                usleep(1000); //wait till avalible
+            }
+            //sem_wait(&mutex);
+            ShmPTR->slot[qSlot->slotN] = pfact;
+            ShmPTR->serverflag[qSlot->slotN] = 1;
+            usleep(1000);
+            sem_post(&mutex);
+            printf("%d ", pfact);
+            temp/=pfact;
+        }
+        else {
+            pfact++;
+        }
+    }
+    printf("\n");
+    free(qSlot);
 }
 
 void  main(void)
 {
-     key_t          ShmKEY;
-     int            ShmID;
-     struct Memory  *ShmPTR;
-
-
-     sem_unlink(SEM_READER_FNAME);
-     sem_unlink(SEM_WRITER_FNAME);
-
-     sem_t *sem_reader = sem_open(SEM_READER_FNAME, IPC_CREAT, 0666, 0);
-     if (sem_reader == SEM_FAILED) {
-         perror("sem_open/reader");
-         exit(1);
-     }
-
-     sem_t *sem_writer = sem_open(SEM_WRITER_FNAME, IPC_CREAT, 0666, 1);
-     if (sem_writer == SEM_FAILED) {
-        perror("sem_open/writer");
-        exit(1);
-     }
-     /////////////////////////////////////////////////////////////////
+     //////////////////////////////////////////////////
      ShmKEY = ftok(".", 'x');
      ShmID = shmget(ShmKEY, sizeof(struct Memory), 0666);
      if (ShmID < 0) {
@@ -40,32 +65,60 @@ void  main(void)
           printf("*** shmat error (server) ***\n");
           exit(1);
      }
-     printf("Server has attached the shared memory...\n");
-     /////////////////////////////////////////////////////////////////
-
-     while (ShmPTR->status != FILLED) {
-         printf("Server found the data is ready...\n");
-         printf("Server found %d in shared memory...\n", ShmPTR->data[0]);
-
-         if (ShmPTR->clientflag == "q") {
-             printf("   server has informed client data have been taken...\n");
-             shmdt((void *) ShmPTR);
-             printf("   server has detached its shared memory...\n");
-             printf("   server exits...\n");
-             exit(0);
-         }
-         int k = ShmPTR->data[0];
-         for (int i = 0; i < 32; i++) {
-             int r = (k >> i)|(k << 32-i);
-             printf("%d: %d\n", i+1, r);
-         }
-
+     printf("Server has attached the shared memory ...\n");
+     /////////////////////////////////////////////////////
+     ShmPTR->clientflag = 0;
+     for (int d = 0; d < 10; d++) {
+         ShmPTR->serverflag[d] = 0;
      }
-
-     ShmPTR->status = TAKEN;
-     printf("   server has informed client data have been taken...\n");
+     printf("ready for input ...\n");
+     while (1) {
+         if (ShmPTR->clientflag == 1) {
+             if (ShmPTR->command == 2) {
+                 queryClosed = true;
+                 printf("   Client has detacted from memory...\n");
+                 ShmPTR->clientflag == 1;
+                 shmdt((void *) ShmPTR); //replace with break
+                 sem_destroy(&mutex);
+                 printf("   Server has detached its shared memory...\n");
+                 printf("   Server exits...\n");
+                 exit(0);
+             }
+             else if (ShmPTR->number != 0){
+                 uint32_t new = ShmPTR->number; //reading from number
+                 printf("Input: %d\n", new);
+                 int i;
+                 sem_init(&mutex, 0, 1);
+                 ShmPTR->clientflag = 0;
+                 for (i = 0;i < 32; i++) {
+                     uint32_t *a = malloc(sizeof(uint32_t));
+                     uint32_t rotated = rotateRight(i, new);
+                     *a = rotated;
+                     int j;
+                     for (j = 0; j < 10; j++){
+                     	if (ShmPTR->serverflag[j] == 0) {
+                            struct QueryData* qSlot = (struct QueryData*)malloc(sizeof(struct QueryData));
+                            qSlot->qnum = *a;
+                            qSlot->slotN = j;
+                            if (pthread_create(&th[i], NULL, &factorise, (void*)qSlot) != 0) {
+                                perror("Failed to create thread...");
+                            }
+                     		break;
+                     	}
+                     }
+                 }
+                 for (i = 0;i < 32; i++) {
+                     if (pthread_join(th[i], NULL) != 0) {
+                         perror("Failed to join thread...");
+                     }
+                 }
+                 sem_destroy(&mutex);
+             }
+         }
+     }
+     printf("   Client has detacted from memory...\n");
      shmdt((void *) ShmPTR);
-     printf("   server has detached its shared memory...\n");
-     printf("   server exits...\n");
+     printf("   Server has detached its shared memory...\n");
+     printf("   Server exits...\n");
      exit(0);
 }
