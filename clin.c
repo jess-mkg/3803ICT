@@ -2,12 +2,25 @@
 #include <semaphore.h>
 #include "shared_memory.h"
 
+key_t               ShmKEY;
+int                 ShmID;
+struct Memory       *ShmPTR;
+
+
+void* nextInp() {
+    int i;
+    for (i = 0; i < 10; i++) {
+        if (ShmPTR->serverflag[i] == 1) {
+            printf("Query%d: %d \n", i, ShmPTR->slot[i]);
+            ShmPTR->serverflag[i] = 0;
+        }
+        sleep(1);
+    }
+}
 
 int main() {
     char           command[4];
-    key_t          ShmKEY;
-    int            ShmID;
-    struct Memory  *ShmPTR;
+    pthread_t      response;
 
     /////////////////////////////////////////////////////
 
@@ -29,10 +42,10 @@ int main() {
          exit(1);
     }
     ShmPTR->clientflag = 0;
-    //ShmPTR->serverflag[10] = {0};
+    for (int d = 0; d < 10; d++) {
+        ShmPTR->serverflag[d] = 0;
+    }
     printf("client has attached the shared memory...\n");
-    //ShmPTR->clientflag = 0;
-    printf("%d\n", ShmPTR->clientflag);
     /////////////////////////////////////////////////////
     while(1) {
         if (ShmPTR->clientflag == 0) {
@@ -58,9 +71,13 @@ int main() {
                 printf("Invalid Input ... \n");
             }
         }
-        if (ShmPTR->serverflag[0] == 1) {
-            printf("%d -- result\n", ShmPTR->slot[0]);
+        if (pthread_create(&response, NULL, &nextInp, NULL) != 0) {
+            perror("Failed to create thread ...");
+        }
 
+        if (pthread_detach(response) != 0) {
+            perror("Failed to join thread...");
         }
     }
+    return 0;
 }
