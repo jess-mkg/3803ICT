@@ -1,5 +1,6 @@
 #include <pthread.h>
 #include <semaphore.h>
+#include <time.h>
 #include "shared_memory.h"
 
 key_t               ShmKEY;
@@ -12,17 +13,20 @@ void* nextInp() {
     for (i = 0; i < 10; i++) {
         if (ShmPTR->serverflag[i] == 1) {
             printf("Query %d: %d \n", i, ShmPTR->slot[i]);
+            if (ShmPTR->finished[i] == 1) {
+                printf("Query Finished!\n");
+                ShmPTR->finished[i] = 0;
+                }
             ShmPTR->serverflag[i] = 0;
-            usleep(1000);
+            usleep(10000);
         }
-        //sleep(1);
-
     }
 }
 
 int main() {
     char           command[4];
     pthread_t      response;
+
 
     /////////////////////////////////////////////////////
 
@@ -50,7 +54,7 @@ int main() {
     printf("client has attached the shared memory...\n");
     /////////////////////////////////////////////////////
     while(1) {
-        usleep(20000);
+        usleep(200);
         if (ShmPTR->clientflag == 0) {
             printf("Input value or 'q': ");
             scanf("%s", command);
@@ -65,6 +69,12 @@ int main() {
                 exit(0);
             }
             else if (isdigit(command[0]) != 0) {
+                uint32_t num = atoi(command);
+                ShmPTR->clientflag = 1;
+                ShmPTR->number = num;
+                printf("client has filled %d into shared memory...\n", ShmPTR->number);
+            }
+            else if (isdigit(command[0]) == 0) {
                 uint32_t num = atoi(command);
                 ShmPTR->clientflag = 1;
                 ShmPTR->number = num;

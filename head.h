@@ -11,18 +11,22 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <semaphore.h>
+#include <sys/time.h>
+#include <math.h>
 
 #define  NOT_READY  -1
 #define  FILLED     0
 #define  TAKEN      1
 
 sem_t 		mutex;
-char 		buf[10];
+char 		buf[100] = "";
 
 struct Memory {
 	uint32_t 	number;
-	int  		slot[10]; //uint32_t
+	uint32_t  	slot[10]; //uint32_t
 	int  		clientflag;
 	int 		serverflag[10];
 	int 		command;
+	char 		progress[10];
+	int 		finished[10];
 };
