@@ -5,6 +5,7 @@
 
 #define THREAD_MAX 32
 #define TEST_MAX 10
+/////////////////////////////////////////////////////
 
 struct QueryData{
     uint32_t 	qnum;
@@ -12,13 +13,14 @@ struct QueryData{
     int         threadN;
 };
 
+/////////////////////////////////////////////////////
 pthread_t           th[THREAD_MAX];
 key_t               ShmKEY;
 int                 ShmID;
 struct Memory       *ShmPTR;
-bool
-             queryClosed = false;
-int start = 0;
+bool                queryClosed = false;
+int                 start = 0;
+/////////////////////////////////////////////////////
 
 static inline uint32_t rotateRight(unsigned int i, uint32_t k) {
     unsigned int c = i;
@@ -26,20 +28,24 @@ static inline uint32_t rotateRight(unsigned int i, uint32_t k) {
     c &= mask;
     return (k>>c) | (k<<( (-c)&mask ));
 }
-
+/////////////////////////////////////////////////////
 void* counter(void* arg) {
     int *iptr = (int *)arg;
-    sem_wait(&mutex);
-    while (ShmPTR->serverflag[*iptr] != 0) {
-        usleep(10000); //wait till avalible
+
+    for (int t = 0; t < 10; t++){
+        sem_wait(&mutex);
+        while (ShmPTR->serverflag[*iptr] != 0) {
+            usleep(10000); //wait till avalible
+        }
+        ShmPTR->slot[*iptr] = start;
+        ShmPTR->serverflag[*iptr] = 1;
+        start++;
+        usleep(10000);
+        sem_post(&mutex);
     }
-    ShmPTR->slot[*iptr] = start;
-    ShmPTR->serverflag[*iptr] = 1;
-    start++;
-    usleep(10000);
-    sem_post(&mutex);
     return NULL;
 }
+/////////////////////////////////////////////////////
 
 void* factorise(void* ThisQueryData) {
     struct QueryData* qSlot = (struct QueryData*)ThisQueryData;
@@ -56,19 +62,20 @@ void* factorise(void* ThisQueryData) {
 
             usleep(10000);
             sem_post(&mutex);
-            printf("%d ", pfact);
+            //printf("%d ", pfact);
             temp/=pfact;
         }
         else {
             pfact++;
         }
     }
-    printf("\n");
+    //printf("\n");
     free(qSlot);
 }
+/////////////////////////////////////////////////////
 
 void  main(void) {
-     //////////////////////////////////////////////////
+
      ShmKEY = ftok(".", 'x');
      ShmID = shmget(ShmKEY, sizeof(struct Memory), 0666);
      if (ShmID < 0) {
@@ -83,11 +90,7 @@ void  main(void) {
           exit(1);
      }
      printf("Server has attached the shared memory ...\n");
-     /////////////////////////////////////////////////////
-     ShmPTR->clientflag = 0;
-     for (int d = 0; d < 10; d++) {
-         ShmPTR->serverflag[d] = 0;
-     }
+/////////////////////////////////////////////////////
      printf("ready for input ...\n");
      while (1) {
          if (ShmPTR->clientflag == 1) {
@@ -102,7 +105,6 @@ void  main(void) {
                  exit(0);
              }
              else if (ShmPTR->number != 0){
-                 strncpy(buf, "", 100);
                  uint32_t new = ShmPTR->number; //reading from number
                  printf("Input: %d\n", new);
                  int i, j;
@@ -112,7 +114,6 @@ void  main(void) {
                      uint32_t *a = malloc(sizeof(uint32_t));
                      uint32_t rotated = rotateRight(i, new);
                      *a = rotated;
-                     //int j;
                      for (j = 0; j < 10; j++){
                      	if (ShmPTR->serverflag[j] == 0) {
                             struct QueryData* qSlot = (struct QueryData*)malloc(sizeof(struct QueryData));
@@ -128,19 +129,18 @@ void  main(void) {
                      		break;
                      	}
                      }
-
                  }
                  for (i = 0;i < 32; i++) {
                      if (pthread_join(th[i], NULL) != 0) {
                          perror("Failed to join thread...");
                      }
                  }
-                 strncpy(buf, "All factors found!\n", 100);
                  sem_destroy(&mutex);
              }
              else if (ShmPTR->number == 0){
 
                  printf("test\n" );
+                 usleep(2000);
                  ShmPTR->clientflag = 0;
                  int thnum = 0;
                  sem_init(&mutex, 0, 1);
