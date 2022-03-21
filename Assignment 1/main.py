@@ -34,6 +34,18 @@ def structure_boards(boards):
         arr = []
     return arrs
 
+def board_format(board):
+    return '\n'.join(''.join(_) for _ in board)
+
+
+def visual_board(board):
+    print(" 1 2 3 4 5 6")
+    print("+-----------+")
+    print(" ", end="")
+    print(*board_format(board))
+    print("+-----------+")
+
+
 
 
 file = open('rh.txt', 'r')
@@ -42,11 +54,12 @@ boards = lines[4:44]
 b_sols = get_solutions(lines)
 s_boards = structure_boards(boards)
 
-for i in range(0,40):
+for i in range(0,1):
     print(i+1)
-    print(boards[i])
+    visual_board(s_boards[i])
     print(s_boards[i])
-    print(b_sols[i])
+    #print('Proposed Solution: ')
+    #print(*b_sols[i], sep = ", ")
     print('\n')
 
 
