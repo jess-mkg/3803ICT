@@ -4,14 +4,6 @@ import pandas as pd
 from collections import deque
 
 
-LOCATIONS = deque()
-for i in range(6):
-        for j in range(6):
-            l = [i,j]
-            LOCATIONS.append(l)
-print(LOCATIONS)
-
-
 def get_solutions(lines):
     sols = []
     phrase = 'Sol:'
@@ -80,15 +72,15 @@ def check_up(board, pos, letter):
 
 
 def find_vehicles(board):
+    print("start... ")
     
-    queue = LOCATIONS
+    queue = deque([[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [4, 0], [4, 1], [4, 2], [4, 3], [4, 4], [4, 5], [5, 0], [5, 1], [5, 2], [5, 3], [5, 4], [5, 5]])
     vehicle_dict = {"Location":[],"Size":[],"Axis":[],"Letter":[]}
     
 
     while queue: 
 
         pos = queue.popleft()
-        
         if board[pos[0]][pos[1]] != '.':
             new_vehicle = []
             letter = board[pos[0]][pos[1]]
@@ -98,7 +90,6 @@ def find_vehicles(board):
                 size2 = check_right(board, pos, letter)
                 if size2:
                     size = 2
-                    index = []
                     pos[1] += 1
                     queue.remove(pos)
                     size3 = check_right(board, pos, letter)
@@ -107,7 +98,6 @@ def find_vehicles(board):
                         pos[1] += 1
                         queue.remove(pos)
                     print(letter + ": vehicle found with size " + str(size))
-                    #vehicle_dict["Location"].append(index)
                     
             if pos[0] != 5:
                 size2 = check_down(board, pos, letter)
@@ -124,7 +114,6 @@ def find_vehicles(board):
 
 
 
-
 goal_pos = [2,4],[2,5]
 EMPTY_SPACE = '.'
 solved = False
@@ -136,7 +125,7 @@ boards = lines[4:44]
 b_sols = get_solutions(lines)
 s_boards = structure_boards(boards)
 
-for i in range(0,1):
+for i in range(0,40):
     print('[' , i+1 , ']') 
     
     start_board = s_boards[i]
@@ -156,8 +145,8 @@ for i in range(0,1):
             solved = True
             print('Solved!')
         else:
+            print("looking for vehicles ... ")
             vehicle_dict = find_vehicles(current)
-
     else:
         print("FAILED")
 
