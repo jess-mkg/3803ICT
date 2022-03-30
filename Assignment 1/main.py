@@ -1,7 +1,13 @@
 
-from pickle import FALSE
+
 import pandas as pd
 from collections import deque
+
+
+goal_pos = [2,4],[2,5]
+EMPTY_SPACE = '.'
+solved = False
+
 
 def welcome():
  print(" _____           _       _    _                     _____                      ")
@@ -35,6 +41,7 @@ def get_solutions(lines):
         lineNum += 1
     return sols
 
+
 def structure_boards(boards):
     arrs = []
     arr = []
@@ -49,6 +56,7 @@ def structure_boards(boards):
         arr = []
     return arrs
 
+
 def board_format(board):
     return '\n'.join(''.join(_) for _ in board)
 
@@ -59,6 +67,7 @@ def visual_board(board):
     print(" ", end="")
     print(*board_format(board))
     print("+-----------+")
+
 
 def check_right(board, pos, letter):
     if pos[1] != 5:
@@ -88,44 +97,43 @@ def find_vehicles(board):
     
     while queue: 
 
-        pos = queue.popleft()
-        if board[pos[0]][pos[1]] != '.':
+        pos = queue.popleft()                                           #pop left from the queue (FIFO)
+        if board[pos[0]][pos[1]] != '.':                                #only look and letters
             letter = board[pos[0]][pos[1]]
             size = 0
             direction= ''
 
             if pos[1] != 5:
                 size2 = check_right(board, pos, letter)
-                if size2:
+                if size2:                                               #Checks for a size 2 vehicles
                     size = 2
                     pos[1] += 1
-                    queue.remove(pos)
+                    queue.remove(pos)                                   #removes pos from queue to search
                     direction = 'h'
-                    index = [[pos[0], pos[1]-1], [pos[0], pos[1]]]
-                    size3 = check_right(board, pos, letter)
+                    index = [[pos[0], pos[1]-1], [pos[0], pos[1]]]      #stores the location of found vehicle
+                    size3 = check_right(board, pos, letter)             #check if its a truck with the size of 3
                     
-                    if size3:
+                    if size3:                                           #Checks for a size 3 vehicle s
                         size = 3
                         pos[1] += 1
-                        queue.remove(pos)
+                        queue.remove(pos)                               #removes from queue
                         index = [[pos[0], pos[1]-2], [pos[0], pos[1]-1], [pos[0], pos[1]]]
-                    vehicle_dict["Location"].append(index)
+                    vehicle_dict["Location"].append(index)              #append locations, size, axis, and letter of the vehicle to a dictionary
                     vehicle_dict["Size"].append(size)
                     vehicle_dict["Axis"].append(direction)
                     vehicle_dict["Letter"].append(letter)
                     #print(letter + ": size " + str(size) + " direction: " + direction)
 
-
             if pos[0] != 5:
                 size2 = check_down(board, pos, letter)
                 
-                if size2:
+                if size2:                                               
                     size = 2
                     pos[0] += 1
-                    queue.remove(pos)
+                    queue.remove(pos)                                  
                     direction = 'v'
-                    index = [[pos[0]-1, pos[1]], [pos[0], pos[1]]]
-                    size3 = check_down(board, pos, letter)
+                    index = [[pos[0]-1, pos[1]], [pos[0], pos[1]]]      
+                    size3 = check_down(board, pos, letter)              
                     
                     if size3:
                         size = 3
@@ -141,14 +149,43 @@ def find_vehicles(board):
     return vehicle_dict
 
 
-#def bfs(start, end, board):
+def bfs(start, end, boards, sols):
+    
+    for i in range(start, end):
+        
+        print('[' , i+1 , ']') 
+        
+        start_board = boards[i]
+        vehicle_dict = dict()
+        explored = deque()
+        queue = deque()
+        queue.append(start_board)
+        
+        visual_board(queue[0])
+        print('Proposed Solution:' , end=' ')
+        print(*sols[i], sep = ", ")
+        print('\n')
+        
+        if queue:
+            current = queue.popleft();
+            if current[2][4] == 'X' and current[2][5] == 'X':
+                solved = True
+                print('Solved!')
+            else:
+                vehicle_dict = find_vehicles(current)
+
+                for i in vehicle_dict:
+            
+                    print(vehicle_dict[i])
+                
+        else:
+            print("FAILED")
+
+        print('\n')
+
     
 
 
-
-goal_pos = [2,4],[2,5]
-EMPTY_SPACE = '.'
-solved = False
 
 def main():
 
@@ -206,38 +243,9 @@ def main():
         else:
             break
     
-
-    for i in range(start, end):
-        
-        print('[' , i+1 , ']') 
-        
-        start_board = s_boards[i]
-        vehicle_dict = dict()
-        explored = deque()
-        queue = deque()
-        queue.append(start_board)
-        
-        visual_board(queue[0])
-        print('Proposed Solution:' , end=' ')
-        print(*b_sols[i], sep = ", ")
-        print('\n')
-        
-        if queue:
-            current = queue.popleft();
-            if current[2][4] == 'X' and current[2][5] == 'X':
-                solved = True
-                print('Solved!')
-            else:
-                vehicle_dict = find_vehicles(current)
-
-                for i in vehicle_dict:
-            
-                    print(vehicle_dict[i])
-                
-        else:
-            print("FAILED")
-
-        print('\n')
+    
+    if op == 'BFS':
+        bfs(start, end, s_boards, b_sols)
 
 
 if __name__ == "__main__":
