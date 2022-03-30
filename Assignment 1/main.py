@@ -44,7 +44,7 @@ def board_format(board):
 
 
 def visual_board(board):
-    print(" 1 2 3 4 5 6")
+    print(" 0 1 2 3 4 5")
     print("+-----------+")
     print(" ", end="")
     print(*board_format(board))
@@ -72,19 +72,17 @@ def check_up(board, pos, letter):
 
 
 def find_vehicles(board):
-    print("start... ")
     
     queue = deque([[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [4, 0], [4, 1], [4, 2], [4, 3], [4, 4], [4, 5], [5, 0], [5, 1], [5, 2], [5, 3], [5, 4], [5, 5]])
     vehicle_dict = {"Location":[],"Size":[],"Axis":[],"Letter":[]}
     
-
     while queue: 
 
         pos = queue.popleft()
         if board[pos[0]][pos[1]] != '.':
-            new_vehicle = []
             letter = board[pos[0]][pos[1]]
             size = 0
+            direction= ''
 
             if pos[1] != 5:
                 size2 = check_right(board, pos, letter)
@@ -92,25 +90,46 @@ def find_vehicles(board):
                     size = 2
                     pos[1] += 1
                     queue.remove(pos)
+                    direction = 'h'
+                    index = [[pos[0], pos[1]-1], [pos[0], pos[1]]]
                     size3 = check_right(board, pos, letter)
+                    
                     if size3:
                         size = 3
                         pos[1] += 1
                         queue.remove(pos)
-                    print(letter + ": vehicle found with size " + str(size))
-                    
+                        index = [[pos[0], pos[1]-2], [pos[0], pos[1]-1], [pos[0], pos[1]]]
+                    vehicle_dict["Location"].append(index)
+                    vehicle_dict["Size"].append(size)
+                    vehicle_dict["Axis"].append(direction)
+                    vehicle_dict["Letter"].append(letter)
+                    #print(letter + ": size " + str(size) + " direction: " + direction)
+
+
             if pos[0] != 5:
                 size2 = check_down(board, pos, letter)
+                
                 if size2:
                     size = 2
                     pos[0] += 1
                     queue.remove(pos)
+                    direction = 'v'
+                    index = [[pos[0]-1, pos[1]], [pos[0], pos[1]]]
                     size3 = check_down(board, pos, letter)
+                    
                     if size3:
+                        size = 3
                         pos[0] += 1
                         queue.remove(pos)
-                        size = 3
-                    print(letter + ": vehicle found with size " + str(size))
+                        index = [[pos[0]-2, pos[1]], [pos[0]-1, pos[1]], [pos[0], pos[1]]]
+                    vehicle_dict["Location"].append(index)
+                    vehicle_dict["Size"].append(size)
+                    vehicle_dict["Axis"].append(direction)
+                    vehicle_dict["Letter"].append(letter)
+                    #print(letter + ": size " + str(size) + " direction: " + direction)
+    
+    return vehicle_dict
+
 
 
 
@@ -126,6 +145,7 @@ b_sols = get_solutions(lines)
 s_boards = structure_boards(boards)
 
 for i in range(0,40):
+    
     print('[' , i+1 , ']') 
     
     start_board = s_boards[i]
@@ -145,8 +165,9 @@ for i in range(0,40):
             solved = True
             print('Solved!')
         else:
-            print("looking for vehicles ... ")
             vehicle_dict = find_vehicles(current)
+            print(vehicle_dict)
+            
     else:
         print("FAILED")
 
