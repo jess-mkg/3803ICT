@@ -89,7 +89,6 @@ def check_up(board, pos, letter):
         if board[pos[0] - 1][pos[1]] == letter:
             return True
 
-
 def find_vehicles(board):
     
     queue = deque([[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [3, 0], [3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [4, 0], [4, 1], [4, 2], [4, 3], [4, 4], [4, 5], [5, 0], [5, 1], [5, 2], [5, 3], [5, 4], [5, 5]])
@@ -148,6 +147,25 @@ def find_vehicles(board):
     
     return vehicle_dict
 
+def possible_moves(board, vehicles):
+    print(board)
+
+    r = len(vehicles['Location'])
+    print(r)
+    
+    for val in vehicles['Location']:
+        print(val)
+            
+
+
+
+
+
+
+    
+
+
+
 
 def bfs(start, end, boards, sols):
     
@@ -166,25 +184,23 @@ def bfs(start, end, boards, sols):
         print(*sols[i], sep = ", ")
         print('\n')
         
+        
         if queue:
             current = queue.popleft();
             if current[2][4] == 'X' and current[2][5] == 'X':
                 solved = True
                 print('Solved!')
             else:
-                vehicle_dict = find_vehicles(current)
-
-                for i in vehicle_dict:
-            
-                    print(vehicle_dict[i])
-                
+                vehicle_dict = find_vehicles(current)               #Find the vehicles on the current board  
+                moves = possible_moves(current, vehicle_dict)       #Find possible moves with board and vehicles
         else:
             print("FAILED")
-
         print('\n')
 
-    
 
+
+
+    
 
 
 def main():
@@ -198,54 +214,56 @@ def main():
 
     welcome()
 
-    while True:
-        try:
-            print("Choose formula by typing it in: ")
-            print("Options:", end=" ")
-            for i in options:
-                print(i, end=" ")
-            op = input("\n$ ")
+    #while True:
+        #try:
+           # print("Choose formula by typing it in: ")
+            #print("Options:", end=" ")
+           # for i in options:
+            #    print(i, end=" ")
+           # op = input("\n$ ")
 
-            if op not in options:
-                print("Sorry, I didn't understand that ... ")
-                continue
+           # if op not in options:
+           #     print("Sorry, I didn't understand that ... ")
+           #     continue
 
-        except ValueError:
-            print("Sorry, I didn't understand that.")
+        #except ValueError:
+        #    print("Sorry, I didn't understand that.")
             # try again, return to the start of loop
-            continue
+         #   continue
     
-        else:
-            break
+        #else:
+        #    break
 
-    while True:
-        try:
-            print("Enter range of problems to analyse: ")
-            start = int(input("Enter first value in range:\n$ "))
-            end = int(input("Enter second value in range:\n$ "))
-
-            if start < 0 or start > 40 or end < 0 or end > 40 or start == 39 or end == 0:
-                print("Sorry, not valid ... ")
-                continue
-
-            if start > end:
-                print("Sorry, value 1 cant be larger than value 2 ... ")
-                continue
+   # while True:
+    #    try:
+    #        print("Enter range of problems to analyse: ")
+     #       start = int(input("Enter first value in range:\n$ "))
+      #      end = int(input("Enter second value in range:\n$ "))
+#
+ #           if start < 0 or start > 40 or end < 0 or end > 40 or start == 39 or end == 0:
+  #              print("Sorry, not valid ... ")
+   #             continue
+#
+ #           if start > end:
+  #              print("Sorry, value 1 cant be larger than value 2 ... ")
+   #             continue
             
-            if not isinstance(start, int) or not isinstance(end, int):
-                print("Sorry, value 1 and/or 2 is not a number ... ")
-                continue
+    #        if not isinstance(start, int) or not isinstance(end, int):
+     #           print("Sorry, value 1 and/or 2 is not a number ... ")
+      #          continue
 
-        except ValueError:
-            print("Sorry, I didn't understand that.")
-            continue
+       # except ValueError:
+        #    print("Sorry, I didn't understand that.")
+         #   continue
     
-        else:
-            break
+       # else:
+       #     break
     
     
-    if op == 'BFS':
-        bfs(start, end, s_boards, b_sols)
+    #if op == 'BFS':
+    start = 0
+    end = 1
+    bfs(start, end, s_boards, b_sols)
 
 
 if __name__ == "__main__":
