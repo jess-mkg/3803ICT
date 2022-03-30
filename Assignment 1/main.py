@@ -3,6 +3,16 @@ from pickle import FALSE
 import pandas as pd
 from collections import deque
 
+def welcome():
+ print(" _____           _       _    _                     _____                      ")
+ print("|  __ \         | |     | |  | |                   / ____|                     ")
+ print("| |__) |   _ ___| |__   | |__| | ___  _   _ _ __  | |  __  __ _ _ __ ___   ___ ")
+ print("|  _  / | | / __| '_  \ |  __  |/ _ \| | | | '__| | | |_ |/ _` | '_ ` _ \ / _ \ ")
+ print("| | \ \ |_| \__ \ | | | | |  | | (_) | |_| | |    | |__| | (_| | | | | | |  __/")
+ print("|_|  \_\__,_|___/_| |_| |_|  |_|\___/ \__,_|_|     \_____|\__,_|_| |_| |_|\___| ")
+ print("\n")
+ print("Welcome!")
+                                                                                
 
 def get_solutions(lines):
     sols = []
@@ -131,48 +141,106 @@ def find_vehicles(board):
     return vehicle_dict
 
 
+#def bfs(start, end, board):
+    
+
 
 
 goal_pos = [2,4],[2,5]
 EMPTY_SPACE = '.'
 solved = False
 
+def main():
 
-file = open('rh.txt', 'r')
-lines = file.readlines()
-boards = lines[4:44]
-b_sols = get_solutions(lines)
-s_boards = structure_boards(boards)
+    file = open('rh.txt', 'r')
+    lines = file.readlines()
+    boards = lines[4:44]
+    b_sols = get_solutions(lines)
+    s_boards = structure_boards(boards)
+    options = ['BFS']
 
-for i in range(0,40):
+    welcome()
+
+    while True:
+        try:
+            print("Choose formula by typing it in: ")
+            print("Options:", end=" ")
+            for i in options:
+                print(i, end=" ")
+            op = input("\n$ ")
+
+            if op not in options:
+                print("Sorry, I didn't understand that ... ")
+                continue
+
+        except ValueError:
+            print("Sorry, I didn't understand that.")
+            # try again, return to the start of loop
+            continue
     
-    print('[' , i+1 , ']') 
-    
-    start_board = s_boards[i]
-    vehicle_dict = dict()
-    explored = deque()
-    queue = deque()
-    queue.append(start_board)
-    
-    visual_board(queue[0])
-    print('Proposed Solution:' , end=' ')
-    print(*b_sols[i], sep = ", ")
-    print('\n')
-    
-    if queue:
-        current = queue.popleft();
-        if current[2][4] == 'X' and current[2][5] == 'X':
-            solved = True
-            print('Solved!')
         else:
-            vehicle_dict = find_vehicles(current)
-            print(vehicle_dict)
+            break
+
+    while True:
+        try:
+            print("Enter range of problems to analyse: ")
+            start = int(input("Enter first value in range:\n$ "))
+            end = int(input("Enter second value in range:\n$ "))
+
+            if start < 0 or start > 40 or end < 0 or end > 40 or start == 39 or end == 0:
+                print("Sorry, not valid ... ")
+                continue
+
+            if start > end:
+                print("Sorry, value 1 cant be larger than value 2 ... ")
+                continue
             
-    else:
-        print("FAILED")
+            if not isinstance(start, int) or not isinstance(end, int):
+                print("Sorry, value 1 and/or 2 is not a number ... ")
+                continue
 
-    print('\n')
+        except ValueError:
+            print("Sorry, I didn't understand that.")
+            continue
+    
+        else:
+            break
+    
+
+    for i in range(start, end):
+        
+        print('[' , i+1 , ']') 
+        
+        start_board = s_boards[i]
+        vehicle_dict = dict()
+        explored = deque()
+        queue = deque()
+        queue.append(start_board)
+        
+        visual_board(queue[0])
+        print('Proposed Solution:' , end=' ')
+        print(*b_sols[i], sep = ", ")
+        print('\n')
+        
+        if queue:
+            current = queue.popleft();
+            if current[2][4] == 'X' and current[2][5] == 'X':
+                solved = True
+                print('Solved!')
+            else:
+                vehicle_dict = find_vehicles(current)
+
+                for i in vehicle_dict:
+            
+                    print(vehicle_dict[i])
+                
+        else:
+            print("FAILED")
+
+        print('\n')
 
 
+if __name__ == "__main__":
+    main()
 
 
