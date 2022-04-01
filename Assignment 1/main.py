@@ -1,5 +1,7 @@
 
 
+from logging import NullHandler
+from numpy import positive
 import pandas as pd
 from collections import deque
 
@@ -69,25 +71,21 @@ def visual_board(board):
     print("+-----------+")
 
 
-def check_right(board, pos, letter):
-    if pos[1] != 5:
-        if board[pos[0]][pos[1] + 1] == letter:
-            return True
+def check_right(board, pos):
+    if pos[1] < 5:
+        return board[pos[0]][pos[1] + 1]
 
-def check_left(board, pos, letter):
-    if pos[1] != 0:
-        if board[pos[0]][pos[1] - 1] == letter:
-            return True
+def check_left(board, pos):
+    if pos[1] > 0:
+        return board[pos[0]][pos[1] - 1] 
 
-def check_down(board, pos, letter):
-    if pos[0] != 5:
-        if board[pos[0] + 1][pos[1]] == letter:
-            return True
+def check_down(board, pos):
+    if pos[0] < 5:
+        return board[pos[0] + 1][pos[1]]
 
-def check_up(board, pos, letter):
-    if pos[0] != 0:
-        if board[pos[0] - 1][pos[1]] == letter:
-            return True
+def check_up(board, pos):
+    if pos[0] > 0:
+        return board[pos[0] - 1][pos[1]] 
 
 def find_vehicles(board):
     
@@ -103,16 +101,16 @@ def find_vehicles(board):
             direction= ''
 
             if pos[1] != 5:
-                size2 = check_right(board, pos, letter)
-                if size2:                                               #Checks for a size 2 vehicles
+                size2 = check_right(board, pos)
+                if size2 == letter:                                               #Checks for a size 2 vehicles
                     size = 2
                     pos[1] += 1
                     queue.remove(pos)                                   #removes pos from queue to search
                     direction = 'h'
                     index = [[pos[0], pos[1]-1], [pos[0], pos[1]]]      #stores the location of found vehicle
-                    size3 = check_right(board, pos, letter)             #check if its a truck with the size of 3
+                    size3 = check_right(board, pos)             #check if its a truck with the size of 3
                     
-                    if size3:                                           #Checks for a size 3 vehicle s
+                    if size3 == letter:                                           #Checks for a size 3 vehicle s
                         size = 3
                         pos[1] += 1
                         queue.remove(pos)                               #removes from queue
@@ -124,17 +122,16 @@ def find_vehicles(board):
                     #print(letter + ": size " + str(size) + " direction: " + direction)
 
             if pos[0] != 5:
-                size2 = check_down(board, pos, letter)
-                
-                if size2:                                               
+                size2 = check_down(board, pos)   
+                if size2 == letter:                                               
                     size = 2
                     pos[0] += 1
                     queue.remove(pos)                                  
                     direction = 'v'
                     index = [[pos[0]-1, pos[1]], [pos[0], pos[1]]]      
-                    size3 = check_down(board, pos, letter)              
+                    size3 = check_down(board, pos)              
                     
-                    if size3:
+                    if size3 == letter:
                         size = 3
                         pos[0] += 1
                         queue.remove(pos)
@@ -147,23 +144,59 @@ def find_vehicles(board):
     
     return vehicle_dict
 
-def possible_moves(board, vehicles):
-    print(board)
 
-    r = len(vehicles['Location'])
-    print(r)
+
+def possible_moves(board, location, size, axis, letter, direction):
     
-    for val in vehicles['Location']:
-        print(val)
+    if axis == 'v':
+        #check up
+        if direction == NullHandler or direction == "up":
+            pos = [location[0][0], location[0][1]]
+            up = check_up(board, pos)
+            if up == ".":
+                print(letter)
+                print("Move up possible")
+                pos = location
+                pos[0][0] -= 1 
+                possible_moves(board, pos, size, axis, letter, "up")
             
+        
+        #check down
+        if direction == NullHandler or direction == "down":
+            pos = [location[-1][0], location[-1][1]]
+            down = check_down(board, pos)
+            if down == '.':
+                print(letter)
+                print("Move down possible")
+                pos = location
+                pos[-1][0] += 1 
+                possible_moves(board, pos, size, axis, letter, "down")
 
+    elif axis == 'h':
+        #check left
+        if direction == NullHandler or direction == "left":
+            pos = [location[0][0], location[0][1]]
+            left = check_left(board, pos)
+            if left == ".":
+                print(letter)
+                print("Move left possible")
+                pos = location
+                #og_pos = pos
+                pos[0][1] -= 1 
+                #print(pos)
+                #print(og_pos)
+                possible_moves(board, pos, size, axis, letter, "left")
 
-
-
-
-
-    
-
+        #check right
+        if direction == NullHandler or direction == "right":
+            pos = [location[-1][0], location[-1][1]]
+            right = check_right(board, pos)
+            if right == '.':
+                print(letter)
+                print("Move right possible")
+                pos = location
+                pos[-1][1] += 1
+                possible_moves(board, pos, size, axis, letter, "right")
 
 
 
@@ -192,15 +225,21 @@ def bfs(start, end, boards, sols):
                 print('Solved!')
             else:
                 vehicle_dict = find_vehicles(current)               #Find the vehicles on the current board  
-                moves = possible_moves(current, vehicle_dict)       #Find possible moves with board and vehicles
+                num_of_veh = len(vehicle_dict['Location']) 
+
+                print(vehicle_dict)
+                
+                for i in range(0,num_of_veh):
+                    loc = vehicle_dict['Location'][i]
+                    size = vehicle_dict['Size'][i]
+                    axis = vehicle_dict['Axis'][i]
+                    letter = vehicle_dict['Letter'][i]
+
+                    moves = possible_moves(current, loc, size, axis, letter, NullHandler)       #Find possible moves with board and vehicles
         else:
             print("FAILED")
         print('\n')
 
-
-
-
-    
 
 
 def main():
@@ -262,7 +301,8 @@ def main():
     
     #if op == 'BFS':
     start = 0
-    end = 1
+    end = 3
+
     bfs(start, end, s_boards, b_sols)
 
 
