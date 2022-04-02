@@ -2,6 +2,7 @@
 
 from copy import copy, deepcopy
 from logging import NullHandler
+from operator import index
 from threading import local
 from numpy import positive
 import pandas as pd
@@ -45,7 +46,6 @@ def get_solutions(lines):
         lineNum += 1
     return sols
 
-
 def structure_boards(boards):
     arrs = []
     arr = []
@@ -60,10 +60,8 @@ def structure_boards(boards):
         arr = []
     return arrs
 
-
 def board_format(board):
     return '\n'.join(''.join(_) for _ in board)
-
 
 def visual_board(board):
     print(" 0 1 2 3 4 5")
@@ -71,7 +69,6 @@ def visual_board(board):
     print(" ", end="")
     print(*board_format(board))
     print("+-----------+")
-
 
 def check_right(board, pos):
     if pos[1] < 5:
@@ -158,9 +155,8 @@ def next_depth_board(board, letter, location, axis, size):
 
         for i in range(size):
             location[i][0] -= 1
-        visual_board(board)
+        #visual_board(board)
         return board, og_board, location, og_location
-
 
     if axis == "down":
         old = location[0]
@@ -170,7 +166,7 @@ def next_depth_board(board, letter, location, axis, size):
 
         for i in range(size):
             location[i][0] += 1
-        visual_board(board)
+        #visual_board(board)
         return board, og_board, location, og_location
 
     if axis == "left":
@@ -181,7 +177,7 @@ def next_depth_board(board, letter, location, axis, size):
         
         for i in range(size):
             location[i][1] -=1 
-        visual_board(board)
+        #visual_board(board)
         return board, og_board, location, og_location
 
     if axis == "right":
@@ -192,16 +188,16 @@ def next_depth_board(board, letter, location, axis, size):
         
         for i in range(size):
             location[i][1] += 1
-        visual_board(board)
+        #visual_board(board)
         return board, og_board, location, og_location
 
-
-next_boards = []
+new_move = {"board":[],"Location":[], "letter":[], "axis":[]}
+items = []
 
 def possible_moves(board, location, size, axis, letter, direction):     #recursion function to find possible moves vehicles can make
     og_board = deepcopy(board)                                          #deep copy of the original board
-    og_location = deepcopy(location)                                    #deep copy of the original location
-    
+    og_location = deepcopy(location)                                  #deep copy of the original location
+
     if axis == 'v':
         #check up
         if direction == NullHandler or direction == "up":               #null as the first time entering the function no direction is specified 
@@ -209,7 +205,11 @@ def possible_moves(board, location, size, axis, letter, direction):     #recursi
             up = check_up(og_board, pos)                                #checks if the pos up one if empty or not
             if up == ".":                                               #if it is empty
                 next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "up", size)         #will find the new board and location and keep the old board and location
-                #next_boards.append(next)                                                                                   #add the board 
+                items.append([[next],location, letter, "U"])
+                new_move["board"].append(next)
+                new_move["Location"].append(location) 
+                new_move["letter"].append(letter)
+                new_move["axis"].append("U")                                                                                 #add the board 
                 possible_moves(next, location, size, axis, letter, "up")                                                    #recusion to see if it can go up again
                                                                                                                             #below is the code for the same process for the other directions, down, left, right
         #check down     
@@ -218,7 +218,11 @@ def possible_moves(board, location, size, axis, letter, direction):     #recursi
             down = check_down(og_board, pos)
             if down == '.':
                 next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "down", size)
-                #next_boards.append(next)
+                items.append([[next],location, letter, "D"])
+                new_move["board"].append(next)
+                new_move["Location"].append(location)
+                new_move["letter"].append(letter) 
+                new_move["axis"].append("D")
                 possible_moves(next, location, size, axis, letter, "down")
 
     elif axis == 'h':
@@ -228,7 +232,13 @@ def possible_moves(board, location, size, axis, letter, direction):     #recursi
             left = check_left(og_board, pos)
             if left == ".":
                 next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "left", size)
+                items.append([[next],location, letter, "L"])
+                new_move["board"].append(next)
+                new_move["Location"].append(location)
+                new_move["letter"].append(letter) 
+                new_move["axis"].append("L")
                 possible_moves(next, location, size, axis, letter, "left")
+            
     
         #check right
         if direction == NullHandler or direction == "right":
@@ -236,12 +246,24 @@ def possible_moves(board, location, size, axis, letter, direction):     #recursi
             right = check_right(og_board, pos)
             if right == '.':
                 next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "right", size)
-                
+                items.append([[next],location, letter, "R"])
+                new_move["board"].append(next)
+                new_move["Location"].append(location)
+                new_move["letter"].append(letter) 
+                new_move["axis"].append("R")
                 possible_moves(next, location, size, axis, letter, "right")
+    
+    return new_move, items
+    
+def form_action(letter, direction, amount):
+    print(letter)
+    print(direction)
+    print(amount)
+
+    
 
 
 def bfs(start, end, boards, sols):
-    
     for i in range(start, end):
         
         print('[' , i+1 , ']') 
@@ -253,7 +275,7 @@ def bfs(start, end, boards, sols):
         visual_board(queue[0])
         print('Proposed Solution:' , end=' ')
         print(*sols[i], sep = ", ")
-        print('\n')
+        print('\n')  
          
         if queue:
             current = queue.popleft();
@@ -263,8 +285,6 @@ def bfs(start, end, boards, sols):
             else:
                 vehicle_dict = find_vehicles(current)               #Find the vehicles on the current board  
                 num_of_veh = len(vehicle_dict['Location']) 
-
-                #print(vehicle_dict)
                 
                 for i in range(0,num_of_veh):
                     loc = vehicle_dict['Location'][i]
@@ -272,7 +292,30 @@ def bfs(start, end, boards, sols):
                     axis = vehicle_dict['Axis'][i]
                     letter = vehicle_dict['Letter'][i]
 
-                    moves = possible_moves(current, loc, size, axis, letter, NullHandler)       #Find possible moves with board and vehicles
+                    moves, items = possible_moves(current, loc, size, axis, letter, NullHandler)       #Find possible moves with board and vehicles
+                
+                n = len(moves['Location']) 
+                
+                for j in range(0, n):
+                    res1 = moves["Location"][j]
+                    moved = moves["letter"][j]
+                    d = moves["axis"][j]
+                    
+                    inx = vehicle_dict["Letter"].index(moved)
+                    res2 = vehicle_dict["Location"][inx]
+                    
+                    if vehicle_dict["Axis"][inx] == "v":
+                        action_move = abs(res1[0][0] - res2[0][0])
+                        
+                    elif vehicle_dict["Axis"][inx] == "h":
+                        action_move = abs(res1[0][1] - res2[0][1])
+
+                    form_action(moved, d, action_move)
+        
+        
+                print("\nCount: ", end="")
+                print(n)
+
         else:       
             print("FAILED")
         print('\n')
