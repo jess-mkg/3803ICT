@@ -156,51 +156,46 @@ def next_depth_board(board, letter, location, axis, size):
         board[old[0]][old[1]] = "."
         new = location[0]
         board[new[0]-1][new[1]] = letter  
-        #visual_board(board) 
-        return board, og_board
 
-    if axis == "down":
-        old = location[0]
-        board[old[0]][old[1]] = "."
-        new = location[-1]
-        board[new[0]+1][new[1]] = letter   
-        #visual_board(board)
-        return board, og_board
-
-
-
-    if axis == "left":
-        print("left shifting")
-
-        old = location[-1]
-        print(old)
-
-        board[old[0]][old[1]] = "."
-        new = location[0]
-        board[new[0]][new[1]-1] = letter   
-        print(location) 
-        
         for i in range(size):
-            location[i][1] -=1
-        print(location)    
+            location[i][0] -= 1
         visual_board(board)
         return board, og_board, location, og_location
 
 
-    if axis == "right":
-        print("right shifting")
-
+    if axis == "down":
+        print("\ndown shifting")
         old = location[0]
-        print(old)
-
         board[old[0]][old[1]] = "."
         new = location[-1]
-        board[new[0]][new[1]+1] = letter   
-        print(location) 
+        board[new[0]+1][new[1]] = letter   
+
+        for i in range(size):
+            location[i][0] += 1
+        visual_board(board)
+        return board, og_board, location, og_location
+
+    if axis == "left":
+        print("\nleft shifting")
+        old = location[-1]
+        board[old[0]][old[1]] = "."
+        new = location[0]
+        board[new[0]][new[1]-1] = letter   
+        
+        for i in range(size):
+            location[i][1] -=1 
+        visual_board(board)
+        return board, og_board, location, og_location
+
+    if axis == "right":
+        print("\nright shifting")
+        old = location[0]
+        board[old[0]][old[1]] = "."
+        new = location[-1]
+        board[new[0]][new[1]+1] = letter
         
         for i in range(size):
             location[i][1] += 1
-        print(location)    
         visual_board(board)
         return board, og_board, location, og_location
 
@@ -215,47 +210,36 @@ def possible_moves(board, location, size, axis, letter, direction):     #recursi
         #check up
         
         if direction == NullHandler or direction == "up":
-            pos = [location[0][0], location[0][1]]
+            pos = [og_location[0][0], og_location[0][1]]
             up = check_up(og_board, pos)
             if up == ".":
-                #print(location)
-                next, og_board = next_depth_board(og_board, letter, og_location, "up", size)
+                next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "up", size)
                 print(letter)
-                next_boards.append(next)
-                #print(next_boards)
-                #visual_board(next)
+                #next_boards.append(next)
                 print("Move up possible")
-                pos = location
-                pos[0][0] -= 1 
-                possible_moves(og_board, pos, size, axis, letter, "up")
-         
+                possible_moves(next, location, size, axis, letter, "up")
+    
                 
         #check down     
         if direction == NullHandler or direction == "down":
-            pos = [location[-1][0], location[-1][1]]
+            pos = [og_location[-1][0], og_location[-1][1]]
             down = check_down(og_board, pos)
             if down == '.':
-                next, og_board = next_depth_board(og_board, letter, og_location, "down", size)
-                next_boards.append(next)
-                #visual_board(next)
-                #visual_board(og_board)
+                next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "down", size)
+                #next_boards.append(next)
                 print(letter)
                 print("Move down possible")
-                pos = location
-                pos[-1][0] += 1 
-                possible_moves(og_board, pos, size, axis, letter, "down")
+                possible_moves(next, location, size, axis, letter, "down")
 
    
     elif axis == 'h':
         
         #check left
         if direction == NullHandler or direction == "left":
-            pos = [location[0][0], location[0][1]]
+            pos = [og_location[0][0], og_location[0][1]]
             left = check_left(og_board, pos)
             if left == ".":
                 next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "left", size)
-                print(location)
-                print(og_location)
                 print(letter)
                 print("Move left possible")
                 possible_moves(next, location, size, axis, letter, "left")
@@ -263,15 +247,13 @@ def possible_moves(board, location, size, axis, letter, direction):     #recursi
         
         #check right
         if direction == NullHandler or direction == "right":
-            pos = [location[-1][0], location[-1][1]]
+            pos = [og_location[-1][0], og_location[-1][1]]
             right = check_right(og_board, pos)
-            print(pos)
             if right == '.':
                 next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "right", size)
                 print(letter)
                 print("Move right possible")
-                pos = location
-                possible_moves(og_board, location, size, axis, letter, "right")
+                possible_moves(next, location, size, axis, letter, "right")
 
 
 
