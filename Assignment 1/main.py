@@ -264,7 +264,7 @@ def form_action(letter, direction, amount):
 def bfs(start, end, boards, sols):
     for i in range(start, end):
         
-        print('[' , i+1 , ']') 
+        print('[' , i+1 , ']') #on screen values start at 1 not 0
         start_board = boards[i]
         vehicle_dict = dict()
         explored = deque()
@@ -275,13 +275,16 @@ def bfs(start, end, boards, sols):
         print(*sols[i], sep = ", ")
         print('\n')  
         depth = 0
+        nodes = 0
         while queue:
             depth += 1
             current = queue.popleft();
+            explored.append(current)
 
             if current[2][4] == 'X' and current[2][5] == 'X':
                 solved = True
                 print('Solved!')
+                print(current)
             else:
                 vehicle_dict = find_vehicles(current)               #Find the vehicles on the current board  
                 num_of_veh = len(vehicle_dict['Location']) 
@@ -294,7 +297,7 @@ def bfs(start, end, boards, sols):
                     moves, items = possible_moves(current, loc, size, axis, letter, NullHandler)       #Find possible moves with board and vehicles
                 
                 n = len(moves['Location']) 
-                
+                nodes += n
 
                 for j in range(0, n):
                     
@@ -312,18 +315,15 @@ def bfs(start, end, boards, sols):
 
                     action = form_action(moved, d, action_move)
                     items[j].append(action)
-                   
-                to_queue = []
-                
 
-                for h in range(0, n):
-                    to_queue.append(moves["board"][h])
-                    queue.append(moves["board"][h])
-
+                    b = moves["board"][j]
+                    if b not in explored:
+                        queue.append(b)
 
         else:       
             print("FAILED")
         print('\n')
+    
     
 def main():
 
