@@ -4,7 +4,7 @@ from copy import copy, deepcopy
 from logging import NullHandler
 from operator import index
 from threading import local
-from numpy import positive
+from numpy import empty, positive
 import pandas as pd
 from collections import deque
 
@@ -205,7 +205,7 @@ def possible_moves(board, location, size, axis, letter, direction):     #recursi
             up = check_up(og_board, pos)                                #checks if the pos up one if empty or not
             if up == ".":                                               #if it is empty
                 next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "up", size)         #will find the new board and location and keep the old board and location
-                items.append([[next],location, letter, "U"])
+                items.append([[next]])
                 new_move["board"].append(next)
                 new_move["Location"].append(location) 
                 new_move["letter"].append(letter)
@@ -218,7 +218,7 @@ def possible_moves(board, location, size, axis, letter, direction):     #recursi
             down = check_down(og_board, pos)
             if down == '.':
                 next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "down", size)
-                items.append([[next],location, letter, "D"])
+                items.append([[next]])
                 new_move["board"].append(next)
                 new_move["Location"].append(location)
                 new_move["letter"].append(letter) 
@@ -232,7 +232,7 @@ def possible_moves(board, location, size, axis, letter, direction):     #recursi
             left = check_left(og_board, pos)
             if left == ".":
                 next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "left", size)
-                items.append([[next],location, letter, "L"])
+                items.append([[next]])
                 new_move["board"].append(next)
                 new_move["Location"].append(location)
                 new_move["letter"].append(letter) 
@@ -246,7 +246,7 @@ def possible_moves(board, location, size, axis, letter, direction):     #recursi
             right = check_right(og_board, pos)
             if right == '.':
                 next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "right", size)
-                items.append([[next],location, letter, "R"])
+                items.append([[next]])
                 new_move["board"].append(next)
                 new_move["Location"].append(location)
                 new_move["letter"].append(letter) 
@@ -256,12 +256,10 @@ def possible_moves(board, location, size, axis, letter, direction):     #recursi
     return new_move, items
     
 def form_action(letter, direction, amount):
-    print(letter)
-    print(direction)
-    print(amount)
-
-    
-
+    a1 = letter + direction
+    a2 = str(amount)
+    a3 = a1+a2
+    return a3
 
 def bfs(start, end, boards, sols):
     for i in range(start, end):
@@ -276,9 +274,11 @@ def bfs(start, end, boards, sols):
         print('Proposed Solution:' , end=' ')
         print(*sols[i], sep = ", ")
         print('\n')  
-         
-        if queue:
+        depth = 0
+        while queue:
+            depth += 1
             current = queue.popleft();
+
             if current[2][4] == 'X' and current[2][5] == 'X':
                 solved = True
                 print('Solved!')
@@ -291,12 +291,13 @@ def bfs(start, end, boards, sols):
                     size = vehicle_dict['Size'][i]
                     axis = vehicle_dict['Axis'][i]
                     letter = vehicle_dict['Letter'][i]
-
                     moves, items = possible_moves(current, loc, size, axis, letter, NullHandler)       #Find possible moves with board and vehicles
                 
                 n = len(moves['Location']) 
                 
+
                 for j in range(0, n):
+                    
                     res1 = moves["Location"][j]
                     moved = moves["letter"][j]
                     d = moves["axis"][j]
@@ -305,23 +306,25 @@ def bfs(start, end, boards, sols):
                     res2 = vehicle_dict["Location"][inx]
                     
                     if vehicle_dict["Axis"][inx] == "v":
-                        action_move = abs(res1[0][0] - res2[0][0])
-                        
+                        action_move = abs(res1[0][0] - res2[0][0])   
                     elif vehicle_dict["Axis"][inx] == "h":
                         action_move = abs(res1[0][1] - res2[0][1])
 
-                    form_action(moved, d, action_move)
-        
-        
-                print("\nCount: ", end="")
-                print(n)
+                    action = form_action(moved, d, action_move)
+                    items[j].append(action)
+                   
+                to_queue = []
+                
+
+                for h in range(0, n):
+                    to_queue.append(moves["board"][h])
+                    queue.append(moves["board"][h])
+
 
         else:       
             print("FAILED")
         print('\n')
-
-
-
+    
 def main():
 
     file = open('rh.txt', 'r')
