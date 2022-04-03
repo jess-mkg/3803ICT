@@ -1,16 +1,9 @@
 
 
-from copy import copy, deepcopy
+from copy import deepcopy
 from logging import NullHandler
-from operator import index
-from threading import local
-from numpy import empty, positive
-import pandas as pd
 from collections import deque
 
-
-goal_pos = [2,4],[2,5]
-EMPTY_SPACE = '.'
 solved = False
 
 
