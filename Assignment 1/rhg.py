@@ -1,6 +1,7 @@
 import cProfile
 
 from copy import deepcopy
+import copy
 from logging import NullHandler
 from collections import deque
 import time
@@ -134,7 +135,6 @@ def find_vehicles(board):
 
 def next_depth_board(board, letter, location, axis, size):
     og_board = board
-    og_location = deepcopy(location)
     
     if axis == "up":
         old = location[-1]
@@ -145,7 +145,7 @@ def next_depth_board(board, letter, location, axis, size):
         for i in range(size):
             location[i][0] -= 1
         #visual_board(board)
-        return board, og_board, location, og_location
+        return board
 
     if axis == "down":
         old = location[0]
@@ -156,7 +156,7 @@ def next_depth_board(board, letter, location, axis, size):
         for i in range(size):
             location[i][0] += 1
         #visual_board(board)
-        return board, og_board, location, og_location
+        return board
 
     if axis == "left":
         old = location[-1]
@@ -167,7 +167,7 @@ def next_depth_board(board, letter, location, axis, size):
         for i in range(size):
             location[i][1] -=1 
         #visual_board(board)
-        return board, og_board, location, og_location
+        return board
 
     if axis == "right":
         old = location[0]
@@ -178,90 +178,49 @@ def next_depth_board(board, letter, location, axis, size):
         for i in range(size):
             location[i][1] += 1
         #visual_board(board)
-        return board, og_board, location, og_location
+        return board
 
-new_move = {"board":[],"Location":[], "letter":[], "axis":[]}           #global var to hold, probably not a good idea
-items = []
+new_move = {"board":[],"action":[]}           #global var to hold, probably not a good idea
 
-def possible_moves(board, location, size, axis, letter, direction):     #recursion function to find possible moves vehicles can make
-    og_board = deepcopy(board)                                          #deep copy of the original board
-    og_location = location.copy()                                #deep copy of the original location
+def possible_moves_left(board, location, size, axis, letter, direction, rec_depth): 
 
-    
-    if axis == 'v':
-        #check up
-        if direction == NullHandler or direction == "up":               #null as the first time entering the function no direction is specified 
-            pos = [og_location[0][0], og_location[0][1]]                #the first pos of the vehicle location to check the up next position
-            up = check_up(og_board, pos)                                #checks if the pos up one if empty or not
-            if up == ".":                                               #if it is empty
-                #print("start")
-                #print(og_location)
-                next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "up", size)         #will find the new board and location and keep the old board and location
-                #print(og_location)
-                #print("end\n")
-                items.append([[next]])
-                new_move["board"].append(next)
-                new_move["Location"].append(location) 
-                new_move["letter"].append(letter)
-                new_move["axis"].append("U")                                                                                 #add the board 
-                possible_moves(next, location, size, axis, letter, "up")                                                    #recusion to see if it can go up again
-                                                                                                                            #below is the code for the same process for the other directions, down, left, right
-        
-        #check down     
-        if direction == NullHandler or direction == "down":
-            pos = [og_location[-1][0], og_location[-1][1]]
-            down = check_down(og_board, pos)
-            if down == '.':
-                #print("start")
-                #print(og_location)
-                next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "down", size)
-                #print(og_location)
-                #print("end\n")
-                items.append([[next]])
-                new_move["board"].append(next)
-                new_move["Location"].append(location)
-                new_move["letter"].append(letter) 
-                new_move["axis"].append("D")
-                possible_moves(next, location, size, axis, letter, "down")
-
-    
-    elif axis == 'h':
-        #check left
-        if direction == NullHandler or direction == "left":
-            pos = [og_location[0][0], og_location[0][1]]
-            left = check_left(og_board, pos)
-            if left == ".":
-                #print("start")
-                #print(og_location)
-                next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "left", size)
-                #print(og_location)
-                #print("end\n")
-                items.append([[next]])
-                new_move["board"].append(next)
-                new_move["Location"].append(location)
-                new_move["letter"].append(letter) 
-                new_move["axis"].append("L")
-                possible_moves(next, location, size, axis, letter, "left")
+    if direction == NullHandler or direction == "left":
+        og_board = [[board[x][y] for y in range(len(board[0]))] for x in range(len(board))]
+        pos = [location[0][0], location[0][1]]
+        left = check_left(og_board, pos)
+        if left == ".":
+            print("\n\nPOSSIBLE MOVE - left")
+            rec_depth += 1
+            next = next_depth_board(og_board, letter, location, "left", size)
+            print("result")
+            visual_board(next)
+            new_move["board"].append(next)
+            #print(rec_depth)
+            possible_moves_left(next, location, size, axis, letter, "left", rec_depth)
             
-    
-        #check right
-        if direction == NullHandler or direction == "right":
-            pos = [og_location[-1][0], og_location[-1][1]]
-            right = check_right(og_board, pos)
-            if right == '.':
-                #print("start")
-                #print(og_location)
-                next, og_board, location, og_location = next_depth_board(og_board, letter, og_location, "right", size)
-                #print(og_location)
-                #print("end\n")
-                items.append([[next]])
-                new_move["board"].append(next)
-                new_move["Location"].append(location)
-                new_move["letter"].append(letter) 
-                new_move["axis"].append("R")
-                possible_moves(next, location, size, axis, letter, "right")
-    
-    return new_move, items
+            
+
+
+def possible_moves_right(board, location, size, axis, letter, direction, rec_depth): 
+
+    if direction == NullHandler or direction == "right":
+        og_board = [[board[x][y] for y in range(len(board[0]))] for x in range(len(board))]
+        pos = [location [-1][0], location[-1][-1]]
+        right = check_right(og_board, pos)
+        if right == ".":
+            
+            print("\n\nPOSSIBLE MOVE - right")
+            
+            rec_depth += 1
+            next = next_depth_board(og_board, letter, location, "right", size)
+            print("result")
+            visual_board(next)
+            new_move["board"].append(next)
+            #print(rec_depth)
+            possible_moves_right(next, location, size, axis, letter, "right", rec_depth)
+            
+            
+
     
 def form_action(letter, direction, amount):
     a1 = letter + direction
@@ -285,56 +244,44 @@ def bfs(start, end, boards, sols):
         depth = 0
         nodes = 0
         while queue:
-            #if depth == 10000:
-             #   break
             depth += 1
+            
             current = queue.popleft();
             explored.append(current)            #add curr board to explored state so it isnt seen twice
-
+            
             if current[2][4] == 'X' and current[2][5] == 'X':
                 print('Solved!')
-                visual_board(current)       #print the board in the goal state
+                #visual_board(current)       #print the board in the goal state
                 break                       #If solution is found it breaks
             else:
                 vehicle_dict = find_vehicles(current)               #Find the vehicles on the current board  
                 num_of_veh = len(vehicle_dict['Location']) 
-                
+                      
                 for i in range(0,num_of_veh):
                     loc = vehicle_dict['Location'][i]
                     size = vehicle_dict['Size'][i]
                     axis = vehicle_dict['Axis'][i]
                     letter = vehicle_dict['Letter'][i]
-                    moves, items = possible_moves(current, loc, size, axis, letter, NullHandler)       #Find possible moves with board and vehicles
-                
-                #print(moves)
-                n = len(moves['Location']) 
-                nodes += n                      #add amount of nodes explored to nodes
 
-                for j in range(0, n):
-                    
-                    res1 = moves["Location"][j]
-                    moved = moves["letter"][j]
-                    d = moves["axis"][j]
-                    
-                    inx = vehicle_dict["Letter"].index(moved)
-                    res2 = vehicle_dict["Location"][inx]
-                    
-                    if vehicle_dict["Axis"][inx] == "v":
-                        action_move = abs(res1[0][0] - res2[0][0])   
-                    elif vehicle_dict["Axis"][inx] == "h":
-                        action_move = abs(res1[0][1] - res2[0][1])
+                    if axis == 'h':
+                        rec_depth = 0
 
-                    action = form_action(moved, d, action_move)
-                    items[j].append(action)
-
-                    b = moves["board"][j]
-                    if b not in explored:
-                        queue.append(b)
-                        #visual_board(b)
-            new_move["Location"].clear()        #clear in hopes to make it faster 
-            new_move["letter"].clear()
-            new_move["axis"].clear()
-            new_move["board"].clear()
+                        possible_moves_left(current, loc, size, axis, letter, NullHandler, rec_depth)
+                        possible_moves_right(current, loc, size, axis, letter, NullHandler, rec_depth)
+                    #elif axis == 'v':
+                        #possible_moves_down(current, loc, size, axis, letter, NullHandler, rec_depth)  
+                    
+                    #print("\n\n CURRENT 2\n")
+                    #visual_board(current)
+                    #print("Depth", end=" ")
+                    #print(depth)
+        
+        
+        
+        
+        
+        
+        
         
         else:       
             print("FAILED")
@@ -411,7 +358,6 @@ def main():
     bfs(start, end, s_boards, b_sols)
 
 
-#if __name__ == "__main__":
- #   main()
+if __name__ == "__main__":
+    main()
 
-cProfile.run('main()')
