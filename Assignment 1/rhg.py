@@ -131,8 +131,6 @@ def find_vehicles(board):
     return vehicle_dict
 
 def next_depth_board(board, letter, location, axis, size):
-    og_board = board
-    #og_board = [[board[x][y] for y in range(len(board[0]))] for x in range(len(board))]   
     c_location = [[location[x][y] for y in range(len(location[0]))] for x in range(len(location))]
     
     if axis == "up":
@@ -178,80 +176,59 @@ def next_depth_board(board, letter, location, axis, size):
 new_move = {"board":[],"action":[]}           #global var to hold, probably not a good idea
 
 def possible_moves_left(board, location, size, axis, letter, direction, rec_depth): 
-
     if direction == NullHandler or direction == "left":
         og_board = [[board[x][y] for y in range(len(board[0]))] for x in range(len(board))]
         c_location = [[location[x][y] for y in range(len(location[0]))] for x in range(len(location))]
-
         pos = [c_location[0][0], c_location[0][1]]
         left = check_left(og_board, pos)
         if left == ".":
-            print("\n\nPOSSIBLE MOVE - left")
             rec_depth += 1
             next, c_location = next_depth_board(og_board, letter, location, "left", size)
-            print("result")
-            visual_board(next)
             new_move["board"].append(next)
-            #print(rec_depth)
-            possible_moves_left(next, c_location, size, axis, letter, "left", rec_depth)
+            action = form_action(letter, "L", rec_depth)
+            new_move["action"].append(action)
+            possible_moves_left(next, c_location, size, axis, letter, "left", rec_depth)         
             
-            
-
 def possible_moves_right(board, location, size, axis, letter, direction, rec_depth): 
-
     if direction == NullHandler or direction == "right":
         og_board = [[board[x][y] for y in range(len(board[0]))] for x in range(len(board))]
-        c_location = [[location[x][y] for y in range(len(location[0]))] for x in range(len(location))]
-        
+        c_location = [[location[x][y] for y in range(len(location[0]))] for x in range(len(location))]    
         pos = [c_location [-1][0], c_location[-1][-1]]
         right = check_right(og_board, pos)
         if right == ".":
-            
-            print("\n\nPOSSIBLE MOVE - right")
-            
             rec_depth += 1
             next, c_location = next_depth_board(og_board, letter, location, "right", size)
-            print("result")
-            visual_board(next)
             new_move["board"].append(next)
-            
-            #print(rec_depth)
+            action = form_action(letter, "R", rec_depth)
+            new_move["action"].append(action)
             possible_moves_right(next, c_location, size, axis, letter, "right", rec_depth)
 
 def possible_moves_down(board, location, size, axis, letter, direction, rec_depth):
     if direction == NullHandler or direction == "down":
         og_board = [[board[x][y] for y in range(len(board[0]))] for x in range(len(board))]
         c_location = [[location[x][y] for y in range(len(location[0]))] for x in range(len(location))]
-    
         pos = [c_location[-1][0], c_location[-1][1]]
         down = check_down(og_board, pos)
         if down == '.':
-            
-            print("\n\nPOSSIBLE MOVE - down")
             rec_depth += 1
             next, c_location = next_depth_board(og_board, letter, location, "down", size)
-            print("result")
-            visual_board(next)
             new_move["board"].append(next)
-            #print(rec_depth)
+            action = form_action(letter, "D", rec_depth)
+            new_move["action"].append(action)
             possible_moves_down(next, c_location, size, axis, letter, "down", rec_depth)
 
 def possible_moves_up(board, location, size, axis, letter, direction, rec_depth):
     if direction == NullHandler or direction == "up":
         og_board = [[board[x][y] for y in range(len(board[0]))] for x in range(len(board))]
         c_location = [[location[x][y] for y in range(len(location[0]))] for x in range(len(location))]
-    
         pos = [c_location[0][0], c_location[0][1]]
         down = check_up(og_board, pos)
         if down == '.':
-            
-            print("\n\nPOSSIBLE MOVE - up")
             rec_depth += 1
             next, c_location = next_depth_board(og_board, letter, location, "up", size)
-            print("result")
-            visual_board(next)
             new_move["board"].append(next)
-            #print(rec_depth)
+            action = form_action(letter, "U", rec_depth)
+            new_move["action"].append(action)
             possible_moves_up(next, c_location, size, axis, letter, "up", rec_depth)
     
 def form_action(letter, direction, amount):
