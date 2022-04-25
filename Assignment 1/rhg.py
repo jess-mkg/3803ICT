@@ -1,4 +1,5 @@
 import cProfile
+from copy import deepcopy
 from logging import NullHandler
 from collections import deque
 import time
@@ -143,7 +144,7 @@ def next_depth_board(board, letter, location, axis, size):
             c_location[i][0] -= 1
         return board, c_location
 
-    if axis == "down":
+    elif axis == "down":
         old = c_location[0]
         board[old[0]][old[1]] = "."
         new = c_location[-1]
@@ -153,7 +154,7 @@ def next_depth_board(board, letter, location, axis, size):
             c_location[i][0] += 1
         return board, c_location
 
-    if axis == "left":
+    elif axis == "left":
         old = c_location[-1]
         board[old[0]][old[1]] = "."
         new = c_location[0]
@@ -163,7 +164,7 @@ def next_depth_board(board, letter, location, axis, size):
             c_location[i][1] -=1 
         return board, c_location
 
-    if axis == "right":
+    elif axis == "right":
         old = c_location[0]
         board[old[0]][old[1]] = "."
         new = c_location[-1]
@@ -177,58 +178,74 @@ new_move = {"board":[],"action":[]}           #global var to hold, probably not 
 
 def possible_moves_left(board, location, size, axis, letter, direction, rec_depth): 
     if direction == NullHandler or direction == "left":
+        
         og_board = [[board[x][y] for y in range(len(board[0]))] for x in range(len(board))]
         c_location = [[location[x][y] for y in range(len(location[0]))] for x in range(len(location))]
+        
         pos = [c_location[0][0], c_location[0][1]]
         left = check_left(og_board, pos)
         if left == ".":
             rec_depth += 1
             next, c_location = next_depth_board(og_board, letter, location, "left", size)
-            new_move["board"].append(next)
-            action = form_action(letter, "L", rec_depth)
-            new_move["action"].append(action)
+            if next not in explored:
+                #queue.extend([next])
+                new_move["board"].append(next)
+                action = form_action(letter, "L", rec_depth)
+                new_move["action"].append(action)
             possible_moves_left(next, c_location, size, axis, letter, "left", rec_depth)         
             
 def possible_moves_right(board, location, size, axis, letter, direction, rec_depth): 
     if direction == NullHandler or direction == "right":
+        
         og_board = [[board[x][y] for y in range(len(board[0]))] for x in range(len(board))]
         c_location = [[location[x][y] for y in range(len(location[0]))] for x in range(len(location))]    
+        
         pos = [c_location [-1][0], c_location[-1][-1]]
         right = check_right(og_board, pos)
         if right == ".":
             rec_depth += 1
             next, c_location = next_depth_board(og_board, letter, location, "right", size)
-            new_move["board"].append(next)
-            action = form_action(letter, "R", rec_depth)
-            new_move["action"].append(action)
+            if next not in explored:
+                #queue.extend([next])
+                new_move["board"].append(next)
+                action = form_action(letter, "R", rec_depth)
+                new_move["action"].append(action)
             possible_moves_right(next, c_location, size, axis, letter, "right", rec_depth)
 
 def possible_moves_down(board, location, size, axis, letter, direction, rec_depth):
     if direction == NullHandler or direction == "down":
+        
         og_board = [[board[x][y] for y in range(len(board[0]))] for x in range(len(board))]
         c_location = [[location[x][y] for y in range(len(location[0]))] for x in range(len(location))]
+        
         pos = [c_location[-1][0], c_location[-1][1]]
         down = check_down(og_board, pos)
         if down == '.':
             rec_depth += 1
             next, c_location = next_depth_board(og_board, letter, location, "down", size)
-            new_move["board"].append(next)
-            action = form_action(letter, "D", rec_depth)
-            new_move["action"].append(action)
+            if next not in explored:
+                #queue.extend([next])
+                new_move["board"].append(next)
+                action = form_action(letter, "D", rec_depth)
+                new_move["action"].append(action)
             possible_moves_down(next, c_location, size, axis, letter, "down", rec_depth)
 
 def possible_moves_up(board, location, size, axis, letter, direction, rec_depth):
     if direction == NullHandler or direction == "up":
+        
         og_board = [[board[x][y] for y in range(len(board[0]))] for x in range(len(board))]
         c_location = [[location[x][y] for y in range(len(location[0]))] for x in range(len(location))]
+        
         pos = [c_location[0][0], c_location[0][1]]
         down = check_up(og_board, pos)
         if down == '.':
             rec_depth += 1
             next, c_location = next_depth_board(og_board, letter, location, "up", size)
-            new_move["board"].append(next)
-            action = form_action(letter, "U", rec_depth)
-            new_move["action"].append(action)
+            if next not in explored:
+                #queue.extend([next])
+                new_move["board"].append(next)
+                action = form_action(letter, "U", rec_depth)
+                new_move["action"].append(action)
             possible_moves_up(next, c_location, size, axis, letter, "up", rec_depth)
     
 def form_action(letter, direction, amount):
@@ -237,15 +254,18 @@ def form_action(letter, direction, amount):
     a3 = a1+a2
     return a3
 
+explored = deque()
+queue = deque()
+
 def bfs(start, end, boards, sols):
     for i in range(start, end):
         s = time.time()
         print('[' , i , ']') 
         start_board = boards[i]
         vehicle_dict = dict()
-        explored = deque()
-        queue = deque()
-        queue.append(start_board)
+        #explored = deque()
+        #queue = deque()
+        queue.extend([start_board])
         visual_board(queue[0])
         print('Proposed Solution:' , end=' ')
         print(*sols[i], sep = ", ")
@@ -253,14 +273,14 @@ def bfs(start, end, boards, sols):
         depth = 0
         nodes = 0
         while queue:
+            #if depth == 3000:
+                #break
             depth += 1
-            
             current = queue.popleft();
-            explored.append(current)            #add curr board to explored state so it isnt seen twice
-            
+            explored.extend(current)            #add curr board to explored state so it isnt seen twice
             if current[2][4] == 'X' and current[2][5] == 'X':
                 print('Solved!')
-                #visual_board(current)       #print the board in the goal state
+                visual_board(current)       #print the board in the goal state
                 break                       #If solution is found it breaks
             else:
                 vehicle_dict = find_vehicles(current)               #Find the vehicles on the current board  
@@ -271,35 +291,38 @@ def bfs(start, end, boards, sols):
                     size = vehicle_dict['Size'][i]
                     axis = vehicle_dict['Axis'][i]
                     letter = vehicle_dict['Letter'][i]
-
+                    rec_depth = 0
                     if axis == 'h':
-                        rec_depth = 0
-
                         possible_moves_left(current, loc, size, axis, letter, NullHandler, rec_depth)
                         possible_moves_right(current, loc, size, axis, letter, NullHandler, rec_depth)
                     elif axis == 'v':
                         possible_moves_down(current, loc, size, axis, letter, NullHandler, rec_depth)  
                         possible_moves_up(current, loc, size, axis, letter, NullHandler, rec_depth) 
                     
-                    
-                    #print("Depth", end=" ")
-                    #print(depth)
+                n = len(new_move["board"])
+                nodes += n
+                
+                for i in range(0, n):
+                    #queue.append(new_move["board"][i])
+                    visual_board(new_move["board"][i])
+                    print(new_move["action"][i])
+                    print("\n")
+                print(n)    
+                #print("Depth", end=" ")
+                #print(depth)
+                #print("Nodes", end=" ")
+                #print(nodes)
+
         
-        
-        
-        
-        
-        
-        
-        
+     
         else:       
             print("FAILED")
         print('\n')
-
+        new_move["board"].clear()
+        new_move["action"].clear()
         e = time.time()
         print("time: ", end="")
         print(e-s)
-    
     
 def main():
 
@@ -311,8 +334,6 @@ def main():
     options = ['BFS']
 
     welcome()
-
-
 
     #while True:
      #   try:
@@ -367,6 +388,7 @@ def main():
     bfs(start, end, s_boards, b_sols)
 
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+#    main()
 
+cProfile.run('main()')
