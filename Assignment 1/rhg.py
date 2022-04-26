@@ -271,7 +271,8 @@ def bfs(start, end, boards, sols):
         
         print('[' , i , ']') 
         start_board = boards[i]
-        
+        chain = (start_board, [])
+        print(chain)
         vehicle_dict = dict()
         queue.append(start_board)
         visual_board(start_board)
@@ -310,17 +311,7 @@ def bfs(start, end, boards, sols):
                     
                 n = len(new_move["board"])
                 nodes += n
-                
-                #for i in range(0, n):
-                    #queue.append(new_move["board"][i])
-                    #visual_board(new_move["board"][i])
-                    #print(new_move["action"][i])
-                    #print("\n")
-                #print(n)    
-                #print("Depth", end=" ")
-                #print(depth)
-                #print("Nodes", end=" ")
-                #print(nodes)
+            
 
         else:       
             print("FAILED")
@@ -396,7 +387,7 @@ def main():
     
     
     start = 0
-    end = 4
+    end = 1
     
     #if op == 'BFS':
     bfs(start, end, s_boards, b_sols)
