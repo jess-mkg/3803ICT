@@ -307,7 +307,6 @@ class Tools:
         vehicle_dict = dict()
         
         queue.append(start)
-        visual_board(start_board)
         explored.add(str(start_board))
         print('Proposed Solution:', end=' ')
         print(*sols[i], sep=", ")
@@ -320,7 +319,7 @@ class Tools:
         while queue:
             depth += 1
             current = queue.popleft()
-            #explored.add(str(current[0]))
+            explored.add(str(current[0]))
             
             if current[0][2][4] == 'X' and current[0][2][5] == 'X':
                 print('Solved!')
@@ -356,10 +355,10 @@ class Tools:
                             current[0], loc, size, letter, NullHandler, rec_depth, current[1])
 
                     for node in self.child_nodes:
+                        nodes += 1
                         if str(node[0]) not in explored:
                             queue.append(node)
                             explored.add(str(node[0]))
-                            nodes += 1
                     self.child_nodes.clear()
         else:
             print("FAILED")
