@@ -32,8 +32,8 @@ if __name__ == "__main__":
     s_boards = structure_boards(boards)
     #op, start, end = welcome()
     
-    start = 0
-    end = 40
+    start = 2
+    end = 20
     
     #if op == 'BFS':
     s = time.time()
@@ -41,7 +41,8 @@ if __name__ == "__main__":
     for i in range(start, end):
         t = Tools()
         #t.BFS(i, s_boards, b_sols)
-        t.ID(i, s_boards, b_sols)
+        #t.ID(i, s_boards, b_sols, limit = 1)
+        t.A(i, s_boards, b_sols)
 
     e = time.time()
     print("Total Time: " + (str(e-s)))

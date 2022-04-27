@@ -14,7 +14,6 @@ def welcome():
         "| | \ \ |_| \__ \ | | | | |  | | (_) | |_| | |    | |__| | (_| | | | | | |  __/")
     print("|_|  \_\__,_|___/_| |_| |_|  |_|\___/ \__,_|_|     \_____|\__,_|_| |_| |_|\___| ")
     print("\n")
-    print("Welcome!")
 
     options = ['BFS', 'ID']
 
@@ -57,16 +56,18 @@ def welcome():
             continue
         else:
             break
+    
     return op, start, end
 
 def get_solutions(lines):
+    
     sols = []
     phrase = 'Sol:'
     end = '.'
     lineNum = 0
-    for line in lines:  # reads each line
-        if phrase in line:  # if 'Sol:' appears in a line the algo will preform some steps to append the solution to a list
-            sol = line
+    for line in lines:              # reads each line
+        if phrase in line:          # if 'Sol:' appears in a line the algo will preform 
+            sol = line              # steps to append the solution to a list
             loopCount = 1
             while end not in sol:
                 nex = lines[lineNum + loopCount]
@@ -300,7 +301,7 @@ class Tools:
         
         if current[0][2][4] == 'X' and current[0][2][5] == 'X':
                 print('Solved!')
-                visual_board(current[0])
+                #visual_board(current[0])
                 print("Found Solution: ", end="")
                 for i in current[1]:
                     if i == current[1][-1]:
@@ -330,6 +331,17 @@ class Tools:
                 self.possible_moves_down(node[0], loc, size, letter, NullHandler, rec_depth, node[1])
                 self.possible_moves_up(node[0], loc, size, letter, NullHandler, rec_depth, node[1])
 
+    def cars_in_path(self, node):
+        val = 0
+        cars = []
+        for i in range(5, 1, -1):
+            pos = node[2][i]
+            if pos != "." and pos != "X":
+                val += 1
+                cars.append(pos)
+
+        return val, cars
+
     def BFS(self, i, board, sols):
         
         print('[', i, ']')
@@ -342,9 +354,11 @@ class Tools:
         start = (start_board, chain) 
         queue.append(start)
         explored.add(str(start_board))
-        
         print('Proposed Solution:', end=' ')
         print(*sols[i], sep=", ")
+        #sol_len = len(sols[i])
+        #print(sol_len)
+
         depth = 0
         nodes = 0
         s = time.time()
@@ -371,10 +385,10 @@ class Tools:
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes) + "\n")
 
-    def DFS(self, node, limit):
+    def DFS(self, node, limit, sol_length):
         stack = deque()
         explored = set()
-        depth = 0
+        depth = limit
         nodes = 0
         stack.append(node)
         while stack:
@@ -396,17 +410,16 @@ class Tools:
             if depth >= limit:
                 return None
 
-    def ID(self, i, board, sols):
+    def ID(self, i, board, sols, limit):
         print('[', i, ']')
         print("ID")
         print('Proposed Solution:', end=' ')
         print(*sols[i], sep=", ")
-        
+        sol_len = len(sols[i])
         current = (board[i], [])
-        limit = 1
         s = time.time()
         while True:
-            goal = self.DFS(current, limit)
+            goal = self.DFS(current, limit, sol_len)
             if goal:
                 nodes = goal[1]
                 depth = goal[2]
@@ -416,3 +429,64 @@ class Tools:
         e = time.time()
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes) + "\n")
+
+    def MyStrip(self, action):
+        print(action)
+        a = action.strip()
+        print(a)
+    
+    def A(self, i, board, sols):
+        print('[', i, ']')
+        print("A*")
+        start_board = board[i]
+        visual_board(start_board)
+        chain = []     
+        explored = set()
+        queue = deque()
+        
+        start = (start_board, chain) 
+        queue.append(start)
+        explored.add(str(start_board))
+        print('Proposed Solution:', end=' ')
+        print(*sols[i], sep=", ")
+        #sol_len = len(sols[i])
+        #print(sol_len)
+        depth = 0
+        nodes = 0
+        f = 0
+
+        s = time.time()
+        
+        heuristic = True
+        
+        amount, blocking_veh = self.cars_in_path(start_board)
+        
+        print(amount)
+        print(blocking_veh)
+        while queue:
+            current = queue.popleft()
+            explored.add(str(current[0]))     
+            if self.goal_test(current):
+                break
+            else:
+                self.get_children(current)
+                for node in self.child_nodes:
+                        nodes += 1 
+                        if str(node[0]) not in explored:
+                            ##calculate the heuristic then append node with smallest cost
+                            queue.append(node)
+                            explored.add(str(node[0]))
+                self.child_nodes.clear()      
+                depth += 1        
+        else:
+            print("FAILED")
+
+        queue.clear()
+        e = time.time()
+        print("Time: " + (str(e-s)) + "\nDepth:" +
+            str(depth) + "\nNodes:" + str(nodes) + "\n")
+
+
+
+
+
