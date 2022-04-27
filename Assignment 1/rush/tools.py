@@ -296,16 +296,27 @@ class Tools:
         a3 = a1+a2
         return a3
 
+    def goal_test(self, current):
+        
+        if current[0][2][4] == 'X' and current[0][2][5] == 'X':
+                print('Solved!')
+                visual_board(current[0])
+                print("Found Solution: ", end="")
+                for i in current[1]:
+                    if i == current[1][-1]:
+                        print(i, end=" ")
+                    else:
+                        print (i, end=", ")
+                print("\n")
+                return True
+    
     def get_children(self, node):
         
-        queue = deque()
-     
         vehicle_dict = dict()
-        
         vehicle_dict = self.find_vehicles(node[0])
         num_of_veh = len(vehicle_dict['Location'])
         rec_depth = 0
-    
+        
         for i in range(0, num_of_veh):
             loc = vehicle_dict['Location'][i]
             size = vehicle_dict['Size'][i]
@@ -318,55 +329,39 @@ class Tools:
             elif axis == 'v':
                 self.possible_moves_down(node[0], loc, size, letter, NullHandler, rec_depth, node[1])
                 self.possible_moves_up(node[0], loc, size, letter, NullHandler, rec_depth, node[1])
-        
-            for node in self.child_nodes:
-                queue.append(node)
-            self.child_nodes.clear()
-        return queue
-
 
     def BFS(self, i, board, sols):
+        
         print('[', i, ']')
         print("BFS")
         start_board = board[i]
-        chain = []
-        start = (start_board, chain)       
+        chain = []     
         explored = set()
         queue = deque()
         
+        start = (start_board, chain) 
         queue.append(start)
         explored.add(str(start_board))
+        
         print('Proposed Solution:', end=' ')
         print(*sols[i], sep=", ")
-
         depth = 0
         nodes = 0
-
         s = time.time()
 
         while queue:
             current = queue.popleft()
-            explored.add(str(current[0]))
-            
-            if current[0][2][4] == 'X' and current[0][2][5] == 'X':
-                print('Solved!')
-                visual_board(current[0])
-                print("Found Solution: ", end="")
-                for i in current[1]:
-                    if i == current[1][-1]:
-                        print(i, end=" ")
-                    else:
-                        print (i, end=", ")
-                print("\n")
+            explored.add(str(current[0]))     
+            if self.goal_test(current):
                 break
             else:
-                get_children = self.get_children(current)
-
-                for node in get_children:
+                self.get_children(current)
+                for node in self.child_nodes:
                         nodes += 1
                         if str(node[0]) not in explored:
                             queue.append(node)
                             explored.add(str(node[0]))
+                self.child_nodes.clear()      
                 depth += 1        
         else:
             print("FAILED")
@@ -376,48 +371,48 @@ class Tools:
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes) + "\n")
 
+    def DFS(self, node, limit):
+        stack = deque()
+        explored = set()
+        depth = 0
+        nodes = 0
+        stack.append(node)
+        while stack:
+            depth += 1
+            current = stack.popleft()
+            explored.add(str(current[0]))
+            
+            if self.goal_test(current):
+                return (current, nodes, depth)
+            
+            else:
+                self.get_children(current)
+                for node in self.child_nodes:
+                    nodes += 1
+                    if str(node[0]) not in explored:
+                        stack.appendleft(node)
+                        explored.add(str(node[0]))
+                self.child_nodes.clear() 
+            if depth >= limit:
+                return None
 
-    
-
-
-    
     def ID(self, i, board, sols):
         print('[', i, ']')
         print("ID")
-        start_board = board[i]
-        chain = []
-        start = (start_board, chain)       
-        explored = set()
-        queue = deque()
-        vehicle_dict = dict()
-        
-        queue.append(start)
-        explored.add(str(start_board))
         print('Proposed Solution:', end=' ')
         print(*sols[i], sep=", ")
         
-        depth = 0
-        nodes = 0
-        depth_limit = 1
-
+        current = (board[i], [])
+        limit = 1
         s = time.time()
-        while queue:    
-            current = queue.popleft()
-            explored.add(str(current[0]))
-
-            if current[0][2][4] == 'X' and current[0][2][5] == 'X':
-                
-                print('Solved!')
-                visual_board(current[0])
-                print("Found Solution: " + str(current[1]))
+        while True:
+            goal = self.DFS(current, limit)
+            if goal:
+                nodes = goal[1]
+                depth = goal[2]
                 break
-            else:
-              
-                depth += 1
-        else:
-            print("FAILED")
+            limit += 1
 
-        queue.clear()
         e = time.time()
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes) + "\n")

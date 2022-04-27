@@ -33,15 +33,15 @@ if __name__ == "__main__":
     #op, start, end = welcome()
     
     start = 0
-    end = 10
+    end = 40
     
     #if op == 'BFS':
     s = time.time()
     
     for i in range(start, end):
         t = Tools()
-        t.BFS(i, s_boards, b_sols)
-        #t.ID(i, s_boards, b_sols)
+        #t.BFS(i, s_boards, b_sols)
+        t.ID(i, s_boards, b_sols)
 
     e = time.time()
     print("Total Time: " + (str(e-s)))
