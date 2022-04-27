@@ -1,13 +1,7 @@
+from inspect import stack
 from logging import NullHandler
 from collections import deque
 import time
-
-class Boards:
-    
-    def __init__(self, board, moves):
-        self.moves = moves
-        self.board = board
-
 
 
 def welcome():
@@ -22,7 +16,7 @@ def welcome():
     print("\n")
     print("Welcome!")
 
-    options = ['BFS']
+    options = ['BFS', 'ID']
 
     while True:
         try:
@@ -110,11 +104,10 @@ def visual_board(board):
     print(*board_format(board))
     print("+-----------+")
 
-
 class Tools:
 
     def __init__(self):
-        self.myqueue = deque()
+        self.child_nodes = deque()
 
     def check_right(self, board, pos):
         if pos[1] < 5:
@@ -249,7 +242,7 @@ class Tools:
                 action = self.form_action(letter, "L", rec_depth)
                 new = chain[:]
                 new.append(action)
-                self.myqueue.append((next, new))
+                self.child_nodes.append((next, new))
                 self.possible_moves_left(next, c_location, size, letter, "left", rec_depth, chain)
 
     def possible_moves_right(self, board, location, size, letter, direction, rec_depth, chain):
@@ -264,7 +257,7 @@ class Tools:
                 action = self.form_action(letter, "R", rec_depth)
                 new = chain[:]
                 new.append(action)
-                self.myqueue.append((next, new))
+                self.child_nodes.append((next, new))
                 self.possible_moves_right(next, c_location, size, letter, "right", rec_depth, chain)
 
     def possible_moves_down(self, board, location, size, letter, direction, rec_depth, chain):
@@ -279,7 +272,7 @@ class Tools:
                 action = self.form_action(letter, "D", rec_depth)
                 new = chain[:]
                 new.append(action)
-                self.myqueue.append((next, new))
+                self.child_nodes.append((next, new))
                 self.possible_moves_down(next, c_location, size, letter, "down", rec_depth, chain)
 
     def possible_moves_up(self, board, location, size, letter, direction, rec_depth, chain):
@@ -294,7 +287,7 @@ class Tools:
                 action = self.form_action(letter, "U", rec_depth)
                 new = chain[:]
                 new.append(action)
-                self.myqueue.append((next, new))
+                self.child_nodes.append((next, new))
                 self.possible_moves_up(next, c_location, size, letter, "up", rec_depth, chain)
 
     def form_action(self, letter, direction, amount):
@@ -304,18 +297,16 @@ class Tools:
         return a3
 
 
-    def bfs(self, i, board, sols):
-
+    def BFS(self, i, board, sols):
         print('[', i, ']')
         start_board = board[i]
         chain = []
-        start = (start_board, chain)
-        
+        start = (start_board, chain)       
         explored = set()
         queue = deque()
         vehicle_dict = dict()
+        
         queue.append(start)
-
         visual_board(start_board)
         explored.add(str(start_board))
         print('Proposed Solution:', end=' ')
@@ -328,18 +319,24 @@ class Tools:
 
         while queue:
             depth += 1
-            current = queue.pop()
-            explored.add(str(current[0]))
+            current = queue.popleft()
+            #explored.add(str(current[0]))
+            
             if current[0][2][4] == 'X' and current[0][2][5] == 'X':
                 print('Solved!')
                 visual_board(current[0])
-                print("Found Solution: " + str(current[1]))
+                
+                print("Found Solution: ", end="")
+                for i in current[1]:
+                    if i == current[1][-1]:
+                        print(i, end=" ")
+                    else:
+                        print (i, end=", ")
                 print("\n")
                 break
             else:
                 vehicle_dict = self.find_vehicles(current[0])
                 num_of_veh = len(vehicle_dict['Location'])
-                
                 rec_depth = 0
 
                 for i in range(0, num_of_veh):
@@ -358,11 +355,81 @@ class Tools:
                         self.possible_moves_up(
                             current[0], loc, size, letter, NullHandler, rec_depth, current[1])
 
-                    for i in self.myqueue:
-                        if str(i[0]) not in explored:
-                            queue.append(i)
+                    for node in self.child_nodes:
+                        if str(node[0]) not in explored:
+                            queue.append(node)
+                            explored.add(str(node[0]))
                             nodes += 1
-                    self.myqueue.clear()
+                    self.child_nodes.clear()
+        else:
+            print("FAILED")
+
+        queue.clear()
+        e = time.time()
+        print("Time: " + (str(e-s)) + "\nDepth:" +
+            str(depth) + "\nNodes:" + str(nodes) + "\n")
+
+    
+    def ID(self, i, board, sols):
+        print('[', i, ']')
+        start_board = board[i]
+        chain = []
+        start = (start_board, chain)       
+        explored = set()
+        queue = deque()
+        vehicle_dict = dict()
+        
+        queue.append(start)
+        visual_board(start_board)
+        explored.add(str(start_board))
+        
+        depth = 0
+        nodes = 0
+        depth_limit = 1
+
+        s = time.time()
+
+        while queue:
+            depth += 1
+            current = queue.popleft()
+            
+            add = current[0]
+            explored.add(str(current[0]))
+            
+            if current[0][2][4] == 'X' and current[0][2][5] == 'X':
+                print('Solved!')
+                visual_board(current[0])
+                print("Found Solution: " + str(current[1]))
+                print("Depth found at: " + str(depth_limit))
+                print("\n")
+                break
+            else:
+                vehicle_dict = self.find_vehicles(current[0])
+                num_of_veh = len(vehicle_dict['Location'])
+                rec_depth = 0
+
+                for d in range(1,depth_limit+1):
+                    for i in range(0, num_of_veh):
+                        loc = vehicle_dict['Location'][i]
+                        size = vehicle_dict['Size'][i]
+                        axis = vehicle_dict['Axis'][i]
+                        letter = vehicle_dict['Letter'][i]
+                        if axis == 'h':
+                            self.possible_moves_left(
+                                current[0], loc, size, letter, NullHandler, rec_depth, current[1])
+                            self.possible_moves_right(
+                                current[0], loc, size, letter, NullHandler, rec_depth, current[1])
+                        elif axis == 'v':
+                            self.possible_moves_down(
+                                current[0], loc, size, letter, NullHandler, rec_depth, current[1])
+                            self.possible_moves_up(
+                                current[0], loc, size, letter, NullHandler, rec_depth, current[1])
+
+                        for node in self.child_nodes:
+                            if str(node[0]) not in explored:
+                                queue.appendleft(node)
+                                nodes += 1
+                        self.child_nodes.clear()
         else:
             print("FAILED")
 
