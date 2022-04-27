@@ -299,6 +299,7 @@ class Tools:
 
     def BFS(self, i, board, sols):
         print('[', i, ']')
+        print("BFS")
         start_board = board[i]
         chain = []
         start = (start_board, chain)       
@@ -371,6 +372,7 @@ class Tools:
     
     def ID(self, i, board, sols):
         print('[', i, ']')
+        print("ID")
         start_board = board[i]
         chain = []
         start = (start_board, chain)       
@@ -379,56 +381,59 @@ class Tools:
         vehicle_dict = dict()
         
         queue.append(start)
-        visual_board(start_board)
         explored.add(str(start_board))
+        print('Proposed Solution:', end=' ')
+        print(*sols[i], sep=", ")
         
         depth = 0
         nodes = 0
         depth_limit = 1
 
         s = time.time()
-
-        while queue:
-            depth += 1
+        while queue:    
             current = queue.popleft()
-            
-            add = current[0]
             explored.add(str(current[0]))
-            
+
             if current[0][2][4] == 'X' and current[0][2][5] == 'X':
+                
                 print('Solved!')
                 visual_board(current[0])
                 print("Found Solution: " + str(current[1]))
-                print("Depth found at: " + str(depth_limit))
-                print("\n")
                 break
             else:
+            
                 vehicle_dict = self.find_vehicles(current[0])
                 num_of_veh = len(vehicle_dict['Location'])
                 rec_depth = 0
-
-                for d in range(1,depth_limit+1):
-                    for i in range(0, num_of_veh):
-                        loc = vehicle_dict['Location'][i]
-                        size = vehicle_dict['Size'][i]
-                        axis = vehicle_dict['Axis'][i]
-                        letter = vehicle_dict['Letter'][i]
-                        if axis == 'h':
-                            self.possible_moves_left(
+    
+                for i in range(0, num_of_veh):
+                    loc = vehicle_dict['Location'][i]
+                    size = vehicle_dict['Size'][i]
+                    axis = vehicle_dict['Axis'][i]
+                    letter = vehicle_dict['Letter'][i]
+    
+                    if axis == 'h':
+                        self.possible_moves_left(
                                 current[0], loc, size, letter, NullHandler, rec_depth, current[1])
-                            self.possible_moves_right(
+                        self.possible_moves_right(
                                 current[0], loc, size, letter, NullHandler, rec_depth, current[1])
-                        elif axis == 'v':
-                            self.possible_moves_down(
+                    elif axis == 'v':
+                        self.possible_moves_down(
                                 current[0], loc, size, letter, NullHandler, rec_depth, current[1])
-                            self.possible_moves_up(
+                        self.possible_moves_up(
                                 current[0], loc, size, letter, NullHandler, rec_depth, current[1])
-
-                        for node in self.child_nodes:
-                            if str(node[0]) not in explored:
-                                queue.appendleft(node)
-                                nodes += 1
-                        self.child_nodes.clear()
+        
+                    for node in self.child_nodes:
+                        nodes += 1
+                        if str(node[0]) not in explored:
+                            queue.appendleft(node)
+                            explored.add(str(node[0]))
+                    self.child_nodes.clear()
+            
+            depth += 1
+            #if depth == 5:
+                #print(current[1])
+                #break
         else:
             print("FAILED")
 
