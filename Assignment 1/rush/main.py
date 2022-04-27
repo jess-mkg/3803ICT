@@ -40,8 +40,8 @@ if __name__ == "__main__":
     
     for i in range(start, end):
         t = Tools()
-        #t.BFS(i, s_boards, b_sols)
-        t.ID(i, s_boards, b_sols)
+        t.BFS(i, s_boards, b_sols)
+        #t.ID(i, s_boards, b_sols)
 
     e = time.time()
     print("Total Time: " + (str(e-s)))
