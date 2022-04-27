@@ -318,7 +318,6 @@ class Tools:
         s = time.time()
 
         while queue:
-            depth += 1
             current = queue.popleft()
             explored.add(str(current[0]))
             
@@ -361,6 +360,7 @@ class Tools:
                             queue.append(node)
                             explored.add(str(node[0]))
                     self.child_nodes.clear()
+            depth += 1
         else:
             print("FAILED")
 
@@ -391,7 +391,7 @@ class Tools:
 
         s = time.time()
         while queue:    
-            current = queue.popleft()
+            current = queue.pop()
             explored.add(str(current[0]))
 
             if current[0][2][4] == 'X' and current[0][2][5] == 'X':
@@ -431,9 +431,6 @@ class Tools:
                     self.child_nodes.clear()
             
             depth += 1
-            #if depth == 5:
-                #print(current[1])
-                #break
         else:
             print("FAILED")
 
