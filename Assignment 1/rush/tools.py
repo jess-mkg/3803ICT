@@ -342,6 +342,17 @@ class Tools:
 
         return val, cars
 
+    def cars_blocking_cars(self, node):
+        cars = set()
+        for y in range(5, 1, -1):
+            pos = node[2][y]
+            if pos != "." and pos != "X":
+                for x in range(0,6):
+                    p = node[x][y]
+                    if p != "." and p != "X":
+                        cars.add(p)
+        return cars
+
     def BFS(self, i, board, sols):
         
         print('[', i, ']')
@@ -385,10 +396,10 @@ class Tools:
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes) + "\n")
 
-    def DFS(self, node, limit, sol_length):
+    def DFS(self, node, limit):
         stack = deque()
         explored = set()
-        depth = limit
+        depth = 0
         nodes = 0
         stack.append(node)
         while stack:
@@ -415,11 +426,12 @@ class Tools:
         print("ID")
         print('Proposed Solution:', end=' ')
         print(*sols[i], sep=", ")
-        sol_len = len(sols[i])
         current = (board[i], [])
         s = time.time()
+        loops = 0
         while True:
-            goal = self.DFS(current, limit, sol_len)
+            loops += 1
+            goal = self.DFS(current, limit)
             if goal:
                 nodes = goal[1]
                 depth = goal[2]
@@ -428,63 +440,109 @@ class Tools:
 
         e = time.time()
         print("Time: " + (str(e-s)) + "\nDepth:" +
-            str(depth) + "\nNodes:" + str(nodes) + "\n")
+            str(depth) + "\nNodes:" + str(nodes))
+        print("Loops: " + str(loops) + "\n")
 
     def MyStrip(self, action):
         print(action)
         a = action.strip()
         print(a)
     
-    def A(self, i, board, sols):
+    def IDA1(self, i, board, sols):
         print('[', i, ']')
-        print("A*")
-        start_board = board[i]
-        visual_board(start_board)
-        chain = []     
+        print("IDA1")
+        start_board = board[i]    
         explored = set()
         queue = deque()
-        
-        start = (start_board, chain) 
+        start = (start_board, []) 
         queue.append(start)
         explored.add(str(start_board))
         print('Proposed Solution:', end=' ')
         print(*sols[i], sep=", ")
-        #sol_len = len(sols[i])
-        #print(sol_len)
         depth = 0
         nodes = 0
-        f = 0
-
         s = time.time()
-        
-        heuristic = True
-        
         amount, blocking_veh = self.cars_in_path(start_board)
-        
-        print(amount)
-        print(blocking_veh)
-        while queue:
-            current = queue.popleft()
-            explored.add(str(current[0]))     
-            if self.goal_test(current):
+        loops = 0
+        while True:
+            loops += 1
+            goal = self.DFS(start, amount)
+            if goal:
+                nodes = goal[1]
+                depth = goal[2]
                 break
-            else:
-                self.get_children(current)
-                for node in self.child_nodes:
-                        nodes += 1 
-                        if str(node[0]) not in explored:
-                            ##calculate the heuristic then append node with smallest cost
-                            queue.append(node)
-                            explored.add(str(node[0]))
-                self.child_nodes.clear()      
-                depth += 1        
-        else:
-            print("FAILED")
+            amount += 1
 
         queue.clear()
         e = time.time()
         print("Time: " + (str(e-s)) + "\nDepth:" +
-            str(depth) + "\nNodes:" + str(nodes) + "\n")
+            str(depth) + "\nNodes:" + str(nodes))
+        print("Loops: " + str(loops) + "\n")
+
+    def IDA2(self, i, board, sols):
+        print('[', i, ']')
+        print("IDA2")
+        start_board = board[i]    
+        explored = set()
+        queue = deque()
+        start = (start_board, []) 
+        queue.append(start)
+        explored.add(str(start_board))
+        print('Proposed Solution:', end=' ')
+        print(*sols[i], sep=", ")
+        depth = 0
+        nodes = 0
+        s = time.time()
+        b = self.cars_blocking_cars(start_board)
+        loops = 0
+        amount = len(b)
+        while True:
+            loops += 1
+            goal = self.DFS(start, amount)
+            if goal:
+                nodes = goal[1]
+                depth = goal[2]
+                break
+            amount += 1
+        queue.clear()
+        e = time.time()
+        print("Time: " + (str(e-s)) + "\nDepth:" +
+            str(depth) + "\nNodes:" + str(nodes))
+        print("Loops: " + str(loops) + "\n")
+
+    def IDA3(self, i, board, sols):
+        print('[', i, ']')
+        print("IDA3")
+        start_board = board[i]    
+        explored = set()
+        queue = deque()
+        start = (start_board, []) 
+        queue.append(start)
+        explored.add(str(start_board))
+        print('Proposed Solution:', end=' ')
+        print(*sols[i], sep=", ")
+        sol_len = len(sols[i])
+        depth = 0
+        nodes = 0
+        s = time.time()
+        b = self.cars_blocking_cars(start_board)
+        loops = 0
+        amount = sol_len
+        while True:
+            loops += 1
+            goal = self.DFS(start, amount)
+            if goal:
+                nodes = goal[1]
+                depth = goal[2]
+                break
+            amount += 1
+        queue.clear()
+        e = time.time()
+        print("Time: " + (str(e-s)) + "\nDepth:" +
+            str(depth) + "\nNodes:" + str(nodes))
+        print("Loops: " + str(loops) + "\n")
+
+
 
 
 
