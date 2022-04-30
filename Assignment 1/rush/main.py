@@ -32,20 +32,21 @@ if __name__ == "__main__":
     s_boards = structure_boards(boards)
     #op, start, end = welcome()
     
-    start = 1
-    end = 2
+    start = 0
+    end = 40
     
     #if op == 'BFS':
     s = time.time()
     
     for i in range(start, end):
         t = Tools()
-        t.BFS(i, s_boards, b_sols)     #Breath First Search
+        #t.BFS(i, s_boards, b_sols)     #Breath First Search
         #t.ID(i, s_boards, b_sols, limit = 1)   #depth limited DFS
         #t.IDA1(i, s_boards, b_sols)    #blocking exit amount 
         #t.IDA2(i, s_boards, b_sols)    #cars blocking cars amount 
         #t.IDA3(i, s_boards, b_sols)    #sols length known
-        t.AStar(i, s_boards, b_sols)
+        t.H1AStar(i, s_boards, b_sols)
+        t.H2AStar(i, s_boards, b_sols)
         #t.HillClimb(i, s_boards, b_sols)
         #t.SimAnn(i, s_boards, b_sols)
 

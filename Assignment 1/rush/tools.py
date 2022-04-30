@@ -339,7 +339,7 @@ class Tools:
                 val += 1
                 cars.append(pos)
 
-        return val, cars
+        return cars
 
     def cars_blocking_cars(self, node):
         cars = set()
@@ -453,7 +453,7 @@ class Tools:
         depth = 0
         nodes = 0
         loops = 0
-        amount, blocking_veh = self.cars_in_path(board[i])
+        amount = len(self.cars_in_path(board[i]))
         
         s = time.time()
         while True:
@@ -521,7 +521,50 @@ class Tools:
             str(depth) + "\nNodes:" + str(nodes))
         print("Loops: " + str(loops) + "\n")
 
-    def AStar(self, i, board, sols):
+    def H1AStar(self, i, board, sols):
+        print('[', i, ']')
+        print("A Star") 
+        
+        explored = set()
+        queue = deque()
+        
+        queue.append((board[i], []))
+        explored.add(str(board[i]))
+        print('Proposed Solution:', end=' ')
+        print(*sols[i], sep=", ")
+        depth = 0
+        nodes = 0
+        s = time.time()
+        
+        while queue:
+            current = queue.popleft()
+            explored.add(str(current[0]))     
+            if self.goal_test(current):
+                break
+            
+            else:
+                Score = len(self.cars_in_path(current[0])) + depth
+                self.get_children(current)
+                hValues = [(node, self.cars_in_path(node[0])) for node in self.child_nodes]
+                hValues.sort(key = lambda x: x[1])
+                hValues.sort(reverse=True)
+        
+                for node, val in hValues:
+                    nodes += 1
+                    if str(node[0]) not in explored:
+                        queue.append(node)
+                        explored.add(str(node[0]))
+                self.child_nodes.clear()      
+                depth += 1        
+        else:
+            print("FAILED")
+
+        queue.clear()
+        e = time.time()
+        print("Time: " + (str(e-s)) + "\nDepth:" +
+            str(depth) + "\nNodes:" + str(nodes) + "\n")
+       
+    def H2AStar(self, i, board, sols):
         print('[', i, ']')
         print("A Star") 
         
