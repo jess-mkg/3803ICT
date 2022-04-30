@@ -32,20 +32,27 @@ if __name__ == "__main__":
     s_boards = structure_boards(boards)
     #op, start, end = welcome()
     
-    start = 2
-    end = 3
+    start = 1
+    end = 2
     
     #if op == 'BFS':
     s = time.time()
     
     for i in range(start, end):
         t = Tools()
-        #t.BFS(i, s_boards, b_sols)
-        t.ID(i, s_boards, b_sols, limit = 1)
-        t.IDA1(i, s_boards, b_sols)
-        t.IDA2(i, s_boards, b_sols)
-        t.IDA3(i, s_boards, b_sols)
+        t.BFS(i, s_boards, b_sols)     #Breath First Search
+        #t.ID(i, s_boards, b_sols, limit = 1)   #depth limited DFS
+        #t.IDA1(i, s_boards, b_sols)    #blocking exit amount 
+        #t.IDA2(i, s_boards, b_sols)    #cars blocking cars amount 
+        #t.IDA3(i, s_boards, b_sols)    #sols length known
+        t.AStar(i, s_boards, b_sols)
+        #t.HillClimb(i, s_boards, b_sols)
+        #t.SimAnn(i, s_boards, b_sols)
 
     e = time.time()
     print("Total Time: " + (str(e-s)))
 
+
+#Heuristics
+#Checks if the last move made increases the number of vehicles free to move
+#Did the last move place a car in a position to which no other car can move

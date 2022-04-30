@@ -10,8 +10,7 @@ def welcome():
     print("|  __ \         | |     | |  | |                   / ____|                     ")
     print("| |__) |   _ ___| |__   | |__| | ___  _   _ _ __  | |  __  __ _ _ __ ___   ___ ")
     print("|  _  / | | / __| '_  \ |  __  |/ _ \| | | | '__| | | |_ |/ _` | '_ ` _ \ / _ \ ")
-    print(
-        "| | \ \ |_| \__ \ | | | | |  | | (_) | |_| | |    | |__| | (_| | | | | | |  __/")
+    print("| | \ \ |_| \__ \ | | | | |  | | (_) | |_| | |    | |__| | (_| | | | | | |  __/")
     print("|_|  \_\__,_|___/_| |_| |_|  |_|\___/ \__,_|_|     \_____|\__,_|_| |_| |_|\___| ")
     print("\n")
 
@@ -353,10 +352,16 @@ class Tools:
                         cars.add(p)
         return cars
 
+    def MyStrip(self, action):
+            print(action)
+            a = action.strip()
+            print(a)
+
     def BFS(self, i, board, sols):
         
-        print('[', i, ']')
-        print("BFS")
+        print('[', i, ']\nBFS\nProposed Solution:', end=' ')
+        print(*sols[i], sep=", ")
+        
         start_board = board[i]
         chain = []     
         explored = set()
@@ -365,15 +370,11 @@ class Tools:
         start = (start_board, chain) 
         queue.append(start)
         explored.add(str(start_board))
-        print('Proposed Solution:', end=' ')
-        print(*sols[i], sep=", ")
-        #sol_len = len(sols[i])
-        #print(sol_len)
 
         depth = 0
         nodes = 0
+        
         s = time.time()
-
         while queue:
             current = queue.popleft()
             explored.add(str(current[0]))     
@@ -390,26 +391,28 @@ class Tools:
                 depth += 1        
         else:
             print("FAILED")
-
         queue.clear()
         e = time.time()
+        
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes) + "\n")
 
     def DFS(self, node, limit):
+        
         stack = deque()
         explored = set()
         depth = 0
         nodes = 0
         stack.append(node)
+        
         while stack:
+            
             depth += 1
             current = stack.popleft()
             explored.add(str(current[0]))
             
             if self.goal_test(current):
-                return (current, nodes, depth)
-            
+                return (current, nodes, depth) 
             else:
                 self.get_children(current)
                 for node in self.child_nodes:
@@ -422,10 +425,9 @@ class Tools:
                 return None
 
     def ID(self, i, board, sols, limit):
-        print('[', i, ']')
-        print("ID")
-        print('Proposed Solution:', end=' ')
+        print('[', i, ']\nID\nProposed Solution:', end=' ')
         print(*sols[i], sep=", ")
+
         current = (board[i], [])
         s = time.time()
         loops = 0
@@ -437,114 +439,133 @@ class Tools:
                 depth = goal[2]
                 break
             limit += 1
-
         e = time.time()
+        
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes))
         print("Loops: " + str(loops) + "\n")
-
-    def MyStrip(self, action):
-        print(action)
-        a = action.strip()
-        print(a)
-    
+  
     def IDA1(self, i, board, sols):
-        print('[', i, ']')
-        print("IDA1")
-        start_board = board[i]    
-        explored = set()
-        queue = deque()
-        start = (start_board, []) 
-        queue.append(start)
-        explored.add(str(start_board))
-        print('Proposed Solution:', end=' ')
+        
+        print('[', i, ']\nIDA1\nProposed Solution:', end=' ')
         print(*sols[i], sep=", ")
+
         depth = 0
         nodes = 0
-        s = time.time()
-        amount, blocking_veh = self.cars_in_path(start_board)
         loops = 0
+        amount, blocking_veh = self.cars_in_path(board[i])
+        
+        s = time.time()
         while True:
             loops += 1
-            goal = self.DFS(start, amount)
+            goal = self.DFS((board[i], []), amount)
             if goal:
                 nodes = goal[1]
                 depth = goal[2]
                 break
             amount += 1
-
-        queue.clear()
         e = time.time()
+        
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes))
         print("Loops: " + str(loops) + "\n")
 
     def IDA2(self, i, board, sols):
-        print('[', i, ']')
-        print("IDA2")
-        start_board = board[i]    
-        explored = set()
-        queue = deque()
-        start = (start_board, []) 
-        queue.append(start)
-        explored.add(str(start_board))
-        print('Proposed Solution:', end=' ')
+        
+        print('[', i, ']\nIDA2\nProposed Solution:', end=' ')
         print(*sols[i], sep=", ")
+           
         depth = 0
         nodes = 0
-        s = time.time()
-        b = self.cars_blocking_cars(start_board)
         loops = 0
-        amount = len(b)
+        amount = len(self.cars_blocking_cars(board[i]))
+        
+        s = time.time()
         while True:
             loops += 1
-            goal = self.DFS(start, amount)
+            goal = self.DFS((board[i], []), amount)
             if goal:
                 nodes = goal[1]
                 depth = goal[2]
                 break
             amount += 1
-        queue.clear()
         e = time.time()
+        
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes))
         print("Loops: " + str(loops) + "\n")
 
     def IDA3(self, i, board, sols):
-        print('[', i, ']')
-        print("IDA3")
-        start_board = board[i]    
-        explored = set()
-        queue = deque()
-        start = (start_board, []) 
-        queue.append(start)
-        explored.add(str(start_board))
-        print('Proposed Solution:', end=' ')
+        
+        print('[', i, ']\nIDA3\nProposed Solution:', end=' ')
         print(*sols[i], sep=", ")
+        
         sol_len = len(sols[i])
         depth = 0
         nodes = 0
-        s = time.time()
-        b = self.cars_blocking_cars(start_board)
         loops = 0
         amount = sol_len
+        
+        s = time.time()
         while True:
             loops += 1
-            goal = self.DFS(start, amount)
+            goal = self.DFS((board[i], []), amount)
             if goal:
                 nodes = goal[1]
                 depth = goal[2]
                 break
             amount += 1
-        queue.clear()
         e = time.time()
+        
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes))
         print("Loops: " + str(loops) + "\n")
 
+    def AStar(self, i, board, sols):
+        print('[', i, ']')
+        print("A Star") 
+        
+        explored = set()
+        queue = deque()
+        
+        queue.append((board[i], []))
+        explored.add(str(board[i]))
+        print('Proposed Solution:', end=' ')
+        print(*sols[i], sep=", ")
+        depth = 0
+        nodes = 0
+        s = time.time()
+        
+        while queue:
+            current = queue.popleft()
+            explored.add(str(current[0]))     
+            if self.goal_test(current):
+                break
+            
+            else:
+                Score = len(self.cars_blocking_cars(current[0])) + depth
+                self.get_children(current)
+                hValues = [(node, self.cars_blocking_cars(node[0])) for node in self.child_nodes]
+                hValues.sort(key = lambda x: x[1])
+                hValues.sort(reverse=True)
+        
+                for node, val in hValues:
+                    nodes += 1
+                    if str(node[0]) not in explored:
+                        queue.append(node)
+                        explored.add(str(node[0]))
+                self.child_nodes.clear()      
+                depth += 1        
+        else:
+            print("FAILED")
 
+        queue.clear()
+        e = time.time()
+        print("Time: " + (str(e-s)) + "\nDepth:" +
+            str(depth) + "\nNodes:" + str(nodes) + "\n")
 
+    def HillClimb(self, i, board, sols):
+        pass
 
-
-
-
+    def SimAnn(self, i, board, sols):
+        pass
