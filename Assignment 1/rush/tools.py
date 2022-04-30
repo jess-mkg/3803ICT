@@ -296,6 +296,10 @@ class Tools:
         a3 = a1+a2
         return a3
 
+    def finished(self, current):
+        if current[0][2][4] == 'X' and current[0][2][5] == 'X':
+            return True
+    
     def goal_test(self, current):
         
         if current[0][2][4] == 'X' and current[0][2][5] == 'X':
@@ -340,23 +344,25 @@ class Tools:
                 cars.append(pos)
 
         return cars
-
-    def cars_blocking_cars(self, node):
+  
+    def cars_blocking_cars(self, board, action):
         cars = set()
+        letter = "X"
+        if action != []:
+           letter = self.MyStrip(action)
         for y in range(5, 1, -1):
-            pos = node[2][y]
+            pos = board[2][y] 
             if pos != "." and pos != "X":
                 for x in range(0,6):
-                    p = node[x][y]
-                    if p != "." and p != "X":
-                        cars.add(p)
+                    p = board[x][y]             
+                    if p != "." and p != "X" and p != letter:
+                        cars.add(p)    
         return cars
 
     def MyStrip(self, action):
-            print(action)
-            a = action.strip()
-            print(a)
-
+        veh = action[0][0]
+        return veh
+    
     def BFS(self, i, board, sols):
         
         print('[', i, ']\nBFS\nProposed Solution:', end=' ')
@@ -478,8 +484,7 @@ class Tools:
         depth = 0
         nodes = 0
         loops = 0
-        amount = len(self.cars_blocking_cars(board[i]))
-        
+        amount = len(self.cars_blocking_cars(board[i], []))
         s = time.time()
         while True:
             loops += 1
@@ -522,20 +527,18 @@ class Tools:
         print("Loops: " + str(loops) + "\n")
 
     def H1AStar(self, i, board, sols):
-        print('[', i, ']')
-        print("A Star") 
+        
+        print('[', i, ']\nA Star 1\nProposed Solution:', end=' ')
+        print(*sols[i], sep=", ")
         
         explored = set()
         queue = deque()
-        
         queue.append((board[i], []))
         explored.add(str(board[i]))
-        print('Proposed Solution:', end=' ')
-        print(*sols[i], sep=", ")
         depth = 0
         nodes = 0
-        s = time.time()
         
+        s = time.time()
         while queue:
             current = queue.popleft()
             explored.add(str(current[0]))     
@@ -565,20 +568,18 @@ class Tools:
             str(depth) + "\nNodes:" + str(nodes) + "\n")
        
     def H2AStar(self, i, board, sols):
-        print('[', i, ']')
-        print("A Star") 
         
+        print('[', i, ']\nA Star 2\nProposed Solution:', end=' ')
+        print(*sols[i], sep=", ")
+
         explored = set()
         queue = deque()
-        
         queue.append((board[i], []))
         explored.add(str(board[i]))
-        print('Proposed Solution:', end=' ')
-        print(*sols[i], sep=", ")
         depth = 0
         nodes = 0
-        s = time.time()
         
+        s = time.time()
         while queue:
             current = queue.popleft()
             explored.add(str(current[0]))     
@@ -586,9 +587,9 @@ class Tools:
                 break
             
             else:
-                Score = len(self.cars_blocking_cars(current[0])) + depth
+                Score = len(self.cars_blocking_cars(current[0], current[1])) + depth
                 self.get_children(current)
-                hValues = [(node, self.cars_blocking_cars(node[0])) for node in self.child_nodes]
+                hValues = [(node, self.cars_blocking_cars(node[0], node[1])) for node in self.child_nodes]
                 hValues.sort(key = lambda x: x[1])
                 hValues.sort(reverse=True)
         
@@ -606,9 +607,115 @@ class Tools:
         e = time.time()
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes) + "\n")
-
+    #local optimum
     def HillClimb(self, i, board, sols):
-        pass
+        
+        print('[', i, ']\nHill Climbing??\nProposed Solution:', end=' ')
+        print(*sols[i], sep=", ")
+        reset = deque()
+        hold = list()
+        explored = set()
+        queue = deque()
+        queue.append((board[i], []))
+        explored.add(str(board[i]))
+        depth = 0
+        nodes = 0
+        
+        s = time.time()
+        while queue:
+            
+            current = queue.popleft()
+            explored.add(str(current[0]))     
+            
+            if self.finished(current): 
+                hold.append((current, nodes))
+                current = reset.popleft()         
+            else:
+                depth += 1
+                amountBlocking = self.cars_blocking_cars(current[0], [])
+                self.get_children(current)
+                hValues = [(node, len(self.cars_blocking_cars(node[0], node[1]))) for node in self.child_nodes]
+                hValues.sort(key = lambda x: x[1])
+                hValues.sort(reverse=True)
+                nodes += len(hValues)
+                               
+                for node, carsBlocking in hValues:
+                    if str(node[0]) not in explored:
+                        if carsBlocking <= len(amountBlocking):    #checks if the next nodes amount of bloxking cars is less than the current boards
+                            queue.append(node)
+                            explored.add(str(node[0]))
+                        reset.append(node)
+                self.child_nodes.clear()        
+        hold.sort(key=lambda x: x[1]) 
+        lowest_state = hold[0]
+        self.goal_test(lowest_state[0])
+        visual_board(lowest_state[0][0])
+        queue.clear()
+        e = time.time()
+        print("Time: " + (str(e-s)) + "\nDepth:" +
+            str(depth) + "\nNodes:" + str(nodes) + "\n")
+  
+    def IDHC(self, node, limit, max_depth):
+        
+        stack = deque()
+        explored = set()
+        depth = 0
+        nodes = 0
+        stack.append(node)
+        
+        while stack:
+            
+            depth += 1
+            current = stack.popleft()
+            explored.add(str(current[0]))
+            
+            if self.goal_test(current):
+                return (current, nodes, depth) 
+            else:
+                self.get_children(current)
+                hValues = [(node, self.cars_blocking_cars(node[0], node[1])) for node in self.child_nodes]
+                self.child_nodes.clear()
+                hValues.sort(key = lambda x: x[1])
+                hValues.sort(reverse=True)
+                local_max = hValues[0][0]
+                #print(local_max)
+                
+                for node in hValues:
+                    nodes += 1
+                    if str(node[0]) not in explored:
+                        stack.appendleft(node[0])
+                        explored.add(str(node[0][0]))
+            if depth >= limit:
+                return None
 
+    def HC(self, i, board, sols):
+        print('[', i, ']\nHC\nProposed Solution:', end=' ')
+        print(*sols[i], sep=", ")
+        reset_board = []
+        max_depth = len(sols[i]) + 5
+        current = (board[i], [])
+        limit = 1
+        s = time.time()
+        loops = 0
+        depth = 0
+        nodes = 0
+        a = 0
+        while True:
+            loops += 1
+            goal = self.IDHC(current, limit, max_depth)
+            
+            if goal:
+                nodes = goal[1]
+                depth = goal[2]
+                break
+            limit += 1
+
+        e = time.time()
+        
+        print("Time: " + (str(e-s)) + "\nDepth:" +
+            str(depth) + "\nNodes:" + str(nodes))
+        print("Loops: " + str(loops) + "\n")
+
+    
     def SimAnn(self, i, board, sols):
         pass
