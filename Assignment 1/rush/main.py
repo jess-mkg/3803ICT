@@ -33,7 +33,7 @@ if __name__ == "__main__":
     #op, start, end = welcome()
     
     start = 0
-    end = 15
+    end = 20
     
     #if op == 'BFS':
     s = time.time()
@@ -41,15 +41,18 @@ if __name__ == "__main__":
     for i in range(start, end):
         t = Tools()
         #t.BFS(i, s_boards, b_sols)     #Breath First Search
+        
         #t.ID(i, s_boards, b_sols, limit = 1)   #depth limited DFS
+        
         #t.IDA1(i, s_boards, b_sols)    #blocking exit amount 
         #t.IDA2(i, s_boards, b_sols)    #cars blocking cars amount 
         #t.IDA3(i, s_boards, b_sols)    #sols length known
+        
         #t.H1AStar(i, s_boards, b_sols)
         #t.H2AStar(i, s_boards, b_sols)
-        #t.HillClimbGreedy(i, s_boards, b_sols)
-        #t.HillClimbRandom(i, s_boards, b_sols)
-        t.HCR(i, s_boards, b_sols)
+        
+        t.HCStart(i, s_boards, b_sols)
+        
         #t.SimAnn(i, s_boards, b_sols)
 
     e = time.time()
