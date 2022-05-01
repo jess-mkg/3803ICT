@@ -1,5 +1,6 @@
 from logging import NullHandler
 from collections import deque
+import math
 import random
 import time
 
@@ -108,6 +109,9 @@ class Tools:
 
     def __init__(self):
         self.child_nodes = deque()
+        self.limit = 1000
+        self.k = 20         #(Boltzmann constant)
+        self.lam = 0.04
 
     def check_right(self, board, pos):
         if pos[1] < 5:
@@ -362,7 +366,24 @@ class Tools:
     def MyStrip(self, action):
         veh = action[0][0]
         return veh
+
+    def get_temp(self, step):
+        n = 0.0
+        if step < self.limit:
+            res = self.k * math.exp((-1) * self.lam * step)
+            return res
+        else: 
+            return n
+
+    def evaluate(self,node):
+        return -1 * len(self.cars_blocking_cars(node[0], node[1]))
+
+    def probability_acceptance(self, deltaE, temp):
+        return math.exp(deltaE / temp)
     
+    def acceptance(self, deltaE, temp):
+        return (deltaE > 0.0) or self.probability_acceptance(deltaE, temp)
+
     def BFS(self, i, board, sols):
         
         print('[', i, ']\nBFS\nProposed Solution:', end=' ')
@@ -610,7 +631,6 @@ class Tools:
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes) + "\n")
     #local optimum
-
     def HC(self, board, type):
         
         explored = set()
@@ -688,7 +708,6 @@ class Tools:
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes) + "\n")
 
-
     def SimAnn(self, i, board, sols):
         print('[', i, ']\nSimulated Annealing\nProposed Solution:', end=' ')
         print(*sols[i], sep=", ")
@@ -747,19 +766,28 @@ class Tools:
             if self.finished(current): 
                 return current, depth, nodes       
             else:
-                step += 1
+    
                 depth += 1
-                
+                temp = self.get_temp(step)
+                step += 1
+
+                if temp == 0.0:
+                    if self.finished(current): 
+                        return current, depth, nodes
+                    else:
+                        break
+
                 self.get_children(current)
                 random.shuffle(self.child_nodes)
                                
                 for node in self.child_nodes:
+                    deltaE = self.evaluate(node) - self.evaluate(current)
                     if str(node[0]) not in explored:
-                        res = self.evaluate()
-                        nodes += 1
-                        queue.appendleft(node)
-                        explored.add(str(node[0]))
+                        if (self.acceptance(deltaE, temp)):
+                            nodes += 1
+                            queue.appendleft(node)
+                            explored.add(str(node[0]))
                 self.child_nodes.clear()          
         else:
             return False, depth, nodes
-    
+        return False, depth, nodes

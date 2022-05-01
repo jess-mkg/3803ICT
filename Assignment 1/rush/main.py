@@ -51,9 +51,9 @@ if __name__ == "__main__":
         #t.H1AStar(i, s_boards, b_sols)
         #t.H2AStar(i, s_boards, b_sols)
         
-        t.HCStart(i, s_boards, b_sols)
+        #t.HCStart(i, s_boards, b_sols)
         
-        #t.SimAnn(i, s_boards, b_sols)
+        t.SimAnn(i, s_boards, b_sols)
 
     e = time.time()
     print("Total Time: " + (str(e-s)))
