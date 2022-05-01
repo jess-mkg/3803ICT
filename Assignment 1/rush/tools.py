@@ -610,7 +610,7 @@ class Tools:
     #local optimum
     def HillClimbGreedy(self, i, board, sols):
         
-        print('[', i, ']\nHill Climbing??\nProposed Solution:', end=' ')
+        print('[', i, ']\nGreedy Hill Climbing\nProposed Solution:', end=' ')
         print(*sols[i], sep=", ")
         reset = deque()
         hold = list()
@@ -642,14 +642,15 @@ class Tools:
                 for node, carsBlocking in hValues:
                     if str(node[0]) not in explored:
                         if carsBlocking <= len(amountBlocking):    #checks if the next nodes amount of bloxking cars is less than the current boards
-                            queue.append(node)
+                            queue.appendleft(node)
                             explored.add(str(node[0]))
                         reset.append(node)
                 self.child_nodes.clear()        
         hold.sort(key=lambda x: x[1]) 
-        lowest_state = hold[0]
-        self.goal_test(lowest_state[0])
-        visual_board(lowest_state[0][0])
+        lowest = hold[0]
+        if self.finished(lowest[0]):
+            print('Solved!')
+            visual_board(lowest[0][0])
         queue.clear()
         e = time.time()
         print("Time: " + (str(e-s)) + "\nDepth:" +
@@ -657,7 +658,7 @@ class Tools:
   
     def HillClimbRandom(self, i, board, sols):
         
-        print('[', i, ']\nHill Climbing??\nProposed Solution:', end=' ')
+        print('[', i, ']\nRandom Hill Climbing\nProposed Solution:', end=' ')
         print(*sols[i], sep=", ")
         reset = deque()
         hold = list()
@@ -687,82 +688,98 @@ class Tools:
                                
                 for node, carsBlocking in hValues:
                     if str(node[0]) not in explored:
-                        queue.append(node)
+                        queue.appendleft(node)
                         explored.add(str(node[0]))
                         reset.append(node)
                 self.child_nodes.clear()        
         hold.sort(key=lambda x: x[1]) 
-        lowest_state = hold[0]
-        self.goal_test(lowest_state[0])
-        visual_board(lowest_state[0][0])
+        lowest = hold[0]
+        if self.finished(lowest[0]):
+            print('Solved!')
+            visual_board(lowest[0][0])
         queue.clear()
         e = time.time()
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes) + "\n")
     
-    
-    
-    def IDHC(self, node, limit, max_depth):
+    def HC(self, board):
         
-        stack = deque()
         explored = set()
-        depth = 0
+        queue = deque()
+        queue.append((board))
+        depth = 1
         nodes = 0
-        stack.append(node)
         
-        while stack:
+        while queue:
             
-            depth += 1
-            current = stack.popleft()
-            explored.add(str(current[0]))
+            current = queue.popleft()
+            explored.add(str(current))     
             
-            if self.goal_test(current):
-                return (current, nodes, depth) 
+            if self.finished(current): 
+                return current, depth, nodes       
             else:
+                depth += 1
+                amountBlocking = self.cars_blocking_cars(current[0], [])
                 self.get_children(current)
-                hValues = [(node, self.cars_blocking_cars(node[0], node[1])) for node in self.child_nodes]
-                self.child_nodes.clear()
+                hValues = [(node, len(self.cars_blocking_cars(node[0], node[1]))) for node in self.child_nodes]
                 hValues.sort(key = lambda x: x[1])
-                hValues.sort(reverse=True)
-                local_max = hValues[0][0]
-                #print(local_max)
-                
-                for node in hValues:
-                    nodes += 1
+    
+                nodes += len(hValues)
+                               
+                for node, carsBlocking in hValues:
                     if str(node[0]) not in explored:
-                        stack.appendleft(node[0])
-                        explored.add(str(node[0][0]))
-            if depth >= limit:
-                return None
+                        if carsBlocking <= len(amountBlocking):    #checks if the next nodes amount of bloxking cars is less than the current boards
+                            queue.appendleft(node)
+                            explored.add(str(node[0]))
+                self.child_nodes.clear()          
+        else:
+            return False
+        
 
-    def HC(self, i, board, sols):
-        print('[', i, ']\nHC\nProposed Solution:', end=' ')
+
+    def HCG(self, i, board, sols):
+        print('[', i, ']\nGreedy Hill Climbing\nProposed Solution:', end=' ')
         print(*sols[i], sep=", ")
-        reset_board = []
-        max_depth = len(sols[i]) + 5
-        current = (board[i], [])
-        limit = 1
-        s = time.time()
-        loops = 0
+        
+        hold = list()
+        queue = deque()
+        queue.append((board[i], []))
         depth = 0
         nodes = 0
-        a = 0
-        while True:
-            loops += 1
-            goal = self.IDHC(current, limit, max_depth)
-            
-            if goal:
-                nodes = goal[1]
-                depth = goal[2]
-                break
-            limit += 1
+        j = 0
+        
+        s = time.time()
+        while len(queue) < 10:              #Random restart choices
+            self.get_children(queue[j])     
+            for child in self.child_nodes:
+                queue.append(child)
+            self.child_nodes.clear() 
+            j += 1
+
+        while len(queue) > 0:
+            current = queue.pop()
+            h = self.HC(current)
+            if h:
+                hold.append(self.HC(current))
+        
+        if len(hold):
+            hold.sort(key=lambda x: len(x[0][1]))
+            lowest = hold[0]   
+            depth = lowest[1]
+            nodes = lowest[2]
+            visual_board(lowest[0][0])
+        else:
+            print("FAILED")
 
         e = time.time()
-        
         print("Time: " + (str(e-s)) + "\nDepth:" +
-            str(depth) + "\nNodes:" + str(nodes))
-        print("Loops: " + str(loops) + "\n")
+            str(depth) + "\nNodes:" + str(nodes) + "\n")
 
-    
+
+
+
+
+
     def SimAnn(self, i, board, sols):
-        pass
+        print('[', i, ']\nSimulated Annealing\nProposed Solution:', end=' ')
+        print(*sols[i], sep=", ")
