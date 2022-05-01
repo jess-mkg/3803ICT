@@ -15,7 +15,7 @@ def welcome():
     print("|_|  \_\__,_|___/_| |_| |_|  |_|\___/ \__,_|_|     \_____|\__,_|_| |_| |_|\___| ")
     print("\n")
 
-    options = ['BFS', 'ID', 'H1AStar', 'H2AStar', 'HC', 'SA']
+    options = ['BFS', 'ID', 'AStar1', 'AStar2', 'HC', 'SA']
 
     while True:
         try:
@@ -446,15 +446,15 @@ class Tools:
 
     def DFS(self, node, limit):
         
-        stack = deque()
+        queue = deque()
         explored = set()
         depth = 0
         nodes = 0
-        stack.append(node)
+        queue.append(node)
         
-        while stack:
+        while queue:
             depth += 1
-            current = stack.popleft()
+            current = queue.popleft()
             explored.add(str(current[0]))
             
             if self.finished(current):
@@ -464,7 +464,7 @@ class Tools:
                 for node in self.child_nodes:
                     nodes += 1
                     if str(node[0]) not in explored:
-                        stack.appendleft(node)
+                        queue.appendleft(node)
                         explored.add(str(node[0]))
                 self.child_nodes.clear() 
             if depth >= limit:
@@ -506,6 +506,7 @@ class Tools:
         found = 0
         s = time.time()
         res = "FAILED"
+        
         while queue:
             current = queue.popleft()
             explored.add(str(current[0]))     
@@ -517,15 +518,15 @@ class Tools:
             else:
                 amount = len(self.cars_in_path(current[0])) + depth
                 self.get_children(current)
-                hValues = [(node, len(self.cars_in_path(node[0]))) for node in self.child_nodes]
+                hValues = [(node, len(self.cars_in_path(node[0]))+depth) for node in self.child_nodes]
                 hValues.sort(key = lambda x: x[1])
                 hValues.sort(reverse=True)
         
                 for node, val in hValues:
-                    nodes += 1
                     if str(node[0]) not in explored:
+                        nodes += 1
                         if val <= amount:
-                            queue.appendleft(node)
+                            queue.append(node)
                             explored.add(str(node[0]))
                 self.child_nodes.clear()      
                 depth += 1        
@@ -558,7 +559,7 @@ class Tools:
             else:
                 amount = len(self.cars_blocking_cars(current[0], current[1])) + depth
                 self.get_children(current)
-                hValues = [(node, len(self.cars_blocking_cars(node[0], node[1]))) for node in self.child_nodes]
+                hValues = [(node, len(self.cars_blocking_cars(node[0], node[1]))+depth) for node in self.child_nodes]
                 self.child_nodes.clear()
                 hValues.sort(key = lambda x: x[1])
                 hValues.sort(reverse=True)
@@ -567,7 +568,7 @@ class Tools:
                     nodes += 1
                     if str(node[0]) not in explored:
                         if val <= amount:
-                            queue.appendleft(node)
+                            queue.append(node)
                             explored.add(str(node[0]))      
                 depth += 1        
         else:
@@ -579,7 +580,7 @@ class Tools:
         return algo, i, res, board[i], pro, current[0], found, depth, nodes, (abs(len(sols[i])-len(current[1]))), t
 
     #local optimum
-    def HC(self, board, type):
+    def HC(self, board):
         
         explored = set()
         queue = deque()
@@ -624,7 +625,9 @@ class Tools:
         j = 0
         fsol = []
         s = time.time()
+        
         while len(queue) < 10:              #Random restart choices
+            
             self.get_children(queue[j])     
             for child in self.child_nodes:
                 queue.append(child)
@@ -636,13 +639,13 @@ class Tools:
         
         while len(queue) > 0:
             current = queue.pop()
-            h = self.HC(current, type)
-            if h[0]:
+            result = self.HC(current)
+            if result[0]:
                 res = "SOLVED"
-                hold.append(h)
+                hold.append(result)
             else:
-                depth += h[2]
-                nodes += h[3]
+                depth += result[2]
+                nodes += result[3]
         
         if len(hold) > 0:
             hold.sort(key=lambda x: len(x[1][1]))

@@ -33,11 +33,7 @@ def print_res(res):
         visual_board(res[3])
         print(res[4])
         visual_board(res[5])
-        if res[0] != 'Greedy Hill Climbing' or res[0] != 'Simulated Annealing':
-            i = 0
-        else:
-            print(res[6])
-        
+        print(res[6])
         print("Depth: " + str(res[7]))
         print("Nodes: " + str(res[8]))
         print("Different in Sol Lenth: " + str(res[9]))
@@ -77,10 +73,10 @@ if __name__ == "__main__":
         if op == "ID":
             res = t.ID(i, s_boards, b_sols, limit = 1)   #depth limited DFS
             print_res(res)
-        if op == "H1AStar":
+        if op == "AStar1":
             res = t.H1AStar(i, s_boards, b_sols)
             print_res(res)
-        if op == "H2AStar":
+        if op == "AStar2":
             res = t.H2AStar(i, s_boards, b_sols)
             print_res(res)
         if op == "HC": 
