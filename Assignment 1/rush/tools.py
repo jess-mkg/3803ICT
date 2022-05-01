@@ -392,8 +392,6 @@ class Tools:
         else: 
             return n
 
-    
-
     def evaluate(self,node):
         return -1 * len(self.cars_blocking_cars(node[0], node[1]))
 
