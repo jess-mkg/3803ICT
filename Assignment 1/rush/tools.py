@@ -304,9 +304,26 @@ class Tools:
         if current[0][2][4] == 'X' and current[0][2][5] == 'X':
             return True
     
+    def found_sol(self, actions):
+        con = "Found Solution: "
+        for i in actions:
+            if i == actions[-1]:
+                con = con + str(i)
+            else:
+                con = con + str(i) + ", "
+        return con
+
+    def pro_sol(self, sol):
+        con = "Propsed Solution: "
+        for i in sol:
+            if i == sol[-1]:
+                con = con + str(i)
+            else:
+                con = con + str(i) + ", "
+        return con
+    
     def goal_test(self, current):
-        
-        if current[0][2][4] == 'X' and current[0][2][5] == 'X':
+         if current[0][2][4] == 'X' and current[0][2][5] == 'X':
                 print('Solved!')
                 #visual_board(current[0])
                 print("Found Solution: ", end="")
@@ -385,9 +402,8 @@ class Tools:
         return (deltaE > 0.0) or self.probability_acceptance(deltaE, temp)
 
     def BFS(self, i, board, sols):
-        
-        print('[', i, ']\nBFS\nProposed Solution:', end=' ')
-        print(*sols[i], sep=", ")
+        algo = "BFS"
+        pro = self.pro_sol(sols[i])
         
         start_board = board[i]
         chain = []     
@@ -405,7 +421,9 @@ class Tools:
         while queue:
             current = queue.popleft()
             explored.add(str(current[0]))     
-            if self.goal_test(current):
+            if self.finished(current):
+                res = "SOLVED"
+                found = self.found_sol(current[1])
                 break
             else:
                 self.get_children(current)
@@ -417,12 +435,12 @@ class Tools:
                 self.child_nodes.clear()      
                 depth += 1        
         else:
-            print("FAILED")
+            res = "FAILED"
         queue.clear()
         e = time.time()
+        t = (e-s)
         
-        print("Time: " + (str(e-s)) + "\nDepth:" +
-            str(depth) + "\nNodes:" + str(nodes) + "\n")
+        return algo, i, res, start_board, pro, current[0], found, depth, nodes, (abs(len(sols[i])-len(current[1]))), t
 
     def DFS(self, node, limit):
         
@@ -433,13 +451,13 @@ class Tools:
         stack.append(node)
         
         while stack:
-            
             depth += 1
             current = stack.popleft()
             explored.add(str(current[0]))
             
-            if self.goal_test(current):
-                return (current, nodes, depth) 
+            if self.finished(current):
+                res = "SOLVED"
+                return res, current[0], current[1], depth, nodes
             else:
                 self.get_children(current)
                 for node in self.child_nodes:
@@ -452,9 +470,8 @@ class Tools:
                 return None
 
     def ID(self, i, board, sols, limit):
-        print('[', i, ']\nID\nProposed Solution:', end=' ')
-        print(*sols[i], sep=", ")
-
+        algo = "IDDFS"
+        pro = self.pro_sol(sols[i])
         current = (board[i], [])
         s = time.time()
         loops = 0
@@ -462,21 +479,18 @@ class Tools:
             loops += 1
             goal = self.DFS(current, limit)
             if goal:
-                nodes = goal[1]
-                depth = goal[2]
+                nodes = goal[4]
+                depth = goal[3]
+                found = self.found_sol(goal[2])
                 break
             limit += 1
         e = time.time()
-        
-        print("Time: " + (str(e-s)) + "\nDepth:" +
-            str(depth) + "\nNodes:" + str(nodes))
-        print("Loops: " + str(loops) + "\n")
+        t = e - s
+        return algo, i, goal[0], current[0], pro, goal[1], found, depth, nodes, (abs(len(sols[i])-len(goal[2]))), t
   
     def IDA1(self, i, board, sols):
-        
-        print('[', i, ']\nIDA1\nProposed Solution:', end=' ')
-        print(*sols[i], sep=", ")
-
+        algo = "IDA1"
+        pro = self.pro_sol(sols[i])
         depth = 0
         nodes = 0
         loops = 0
@@ -487,21 +501,18 @@ class Tools:
             loops += 1
             goal = self.DFS((board[i], []), amount)
             if goal:
-                nodes = goal[1]
-                depth = goal[2]
+                nodes = goal[4]
+                depth = goal[3]
+                found = self.found_sol(goal[2])
                 break
             amount += 1
         e = time.time()
-        
-        print("Time: " + (str(e-s)) + "\nDepth:" +
-            str(depth) + "\nNodes:" + str(nodes))
-        print("Loops: " + str(loops) + "\n")
+        t = e - s
+        return algo, i, goal[0], board[i], pro, goal[1], found, depth, nodes, (abs(len(sols[i])-len(goal[2]))), t
 
     def IDA2(self, i, board, sols):
-        
-        print('[', i, ']\nIDA2\nProposed Solution:', end=' ')
-        print(*sols[i], sep=", ")
-           
+        algo = "IDA2"
+        pro = self.pro_sol(sols[i]) 
         depth = 0
         nodes = 0
         loops = 0
@@ -511,46 +522,45 @@ class Tools:
             loops += 1
             goal = self.DFS((board[i], []), amount)
             if goal:
-                nodes = goal[1]
-                depth = goal[2]
+                nodes = goal[4]
+                depth = goal[3]
+                found = self.found_sol(goal[2])
                 break
             amount += 1
         e = time.time()
-        
-        print("Time: " + (str(e-s)) + "\nDepth:" +
-            str(depth) + "\nNodes:" + str(nodes))
-        print("Loops: " + str(loops) + "\n")
+        t = e - s
+        return algo, i, goal[0], board[i], pro, goal[1], found, depth, nodes, (abs(len(sols[i])-len(goal[2]))), t
 
     def IDA3(self, i, board, sols):
-        
-        print('[', i, ']\nIDA3\nProposed Solution:', end=' ')
-        print(*sols[i], sep=", ")
-        
+        algo = "IDA3"
+        pro = self.pro_sol(sols[i])
         sol_len = len(sols[i])
+        amount = sol_len
         depth = 0
         nodes = 0
-        loops = 0
-        amount = sol_len
-        
+        found = 0
+        found_b = 0
+        fsol = 0
+        res = "FAILED"
         s = time.time()
         while True:
-            loops += 1
             goal = self.DFS((board[i], []), amount)
             if goal:
-                nodes = goal[1]
-                depth = goal[2]
+                res = "SOLVED"
+                nodes = goal[4]
+                depth = goal[3]
+                fsol = goal[2]
+                found_b = goal[1]
+                found = self.found_sol(goal[2])
                 break
             amount += 1
         e = time.time()
-        
-        print("Time: " + (str(e-s)) + "\nDepth:" +
-            str(depth) + "\nNodes:" + str(nodes))
-        print("Loops: " + str(loops) + "\n")
+        t = e - s
+        return algo, i, res, board[i], pro, found_b, found, depth, nodes, (abs(len(sols[i])-len(fsol))), t
 
     def H1AStar(self, i, board, sols):
-        
-        print('[', i, ']\nA Star - cars blocking exit\nProposed Solution:', end=' ')
-        print(*sols[i], sep=", ")
+        algo = "A Star - cars blocking exit"
+        pro = self.pro_sol(sols[i])
         
         explored = set()
         queue = deque()
@@ -558,12 +568,14 @@ class Tools:
         explored.add(str(board[i]))
         depth = 0
         nodes = 0
-        
+        found = 0
         s = time.time()
         while queue:
             current = queue.popleft()
             explored.add(str(current[0]))     
-            if self.goal_test(current):
+            if self.finished(current):
+                res = "SOLVED"
+                found = self.found_sol(current[1])
                 break
             
             else:
@@ -582,17 +594,16 @@ class Tools:
                 self.child_nodes.clear()      
                 depth += 1        
         else:
-            print("FAILED")
+            res = "FAILED"
 
         queue.clear()
         e = time.time()
-        print("Time: " + (str(e-s)) + "\nDepth:" +
-            str(depth) + "\nNodes:" + str(nodes) + "\n")
+        t = e - s
+        return algo, i, res, board[i], pro, current[0], found, depth, nodes, (abs(len(sols[i])-len(current[1]))), t
        
     def H2AStar(self, i, board, sols):
-        
-        print('[', i, ']\nA Star - cars blocking cars\nProposed Solution:', end=' ')
-        print(*sols[i], sep=", ")
+        algo = "A Star - cars blocking cars"
+        pro = self.pro_sol(sols[i])
 
         explored = set()
         queue = deque()
@@ -600,12 +611,14 @@ class Tools:
         explored.add(str(board[i]))
         depth = 0
         nodes = 0
-        
+        found = 0
         s = time.time()
         while queue:
             current = queue.popleft()
             explored.add(str(current[0]))     
-            if self.goal_test(current):
+            if self.finished(current):
+                res = "SOLVED"
+                found = self.found_sol(current[1])
                 break
             
             else:
@@ -628,8 +641,9 @@ class Tools:
 
         queue.clear()
         e = time.time()
-        print("Time: " + (str(e-s)) + "\nDepth:" +
-            str(depth) + "\nNodes:" + str(nodes) + "\n")
+        t = e - s
+        return algo, i, res, board[i], pro, current[0], found, depth, nodes, (abs(len(sols[i])-len(current[1]))), t
+
     #local optimum
     def HC(self, board, type):
         
@@ -643,8 +657,9 @@ class Tools:
             current = queue.popleft()
             explored.add(str(current))     
             
-            if self.finished(current): 
-                return current, depth, nodes       
+            if self.finished(current):
+                res = "SOLVED"
+                return res, current, depth, nodes       
             else:
                 depth += 1
                 amountBlocking = self.cars_blocking_cars(current[0], [])
@@ -665,8 +680,8 @@ class Tools:
             return False, depth, nodes
         
     def HCStart(self, i, board, sols):
-        print('[', i, ']\nGreedy Hill Climbing\nProposed Solution:', end=' ')
-        print(*sols[i], sep=", ")
+        algo = "Greedy Hill Climbing"
+        pro = self.pro_sol(sols[i])
         
         hold = list()
         queue = deque()
@@ -674,9 +689,9 @@ class Tools:
         depth = 0
         nodes = 0
         j = 0
-        
+        fsol = []
         s = time.time()
-        while len(queue) < 15:              #Random restart choices
+        while len(queue) < 10:              #Random restart choices
             self.get_children(queue[j])     
             for child in self.child_nodes:
                 queue.append(child)
@@ -689,29 +704,36 @@ class Tools:
         while len(queue) > 0:
             current = queue.pop()
             h = self.HC(current, type)
-            if h[0]:
+            if h[1]:
+                res = h[0]
                 hold.append(h)
             else:
-                depth += h[1]
-                nodes += h[2]
+                depth += h[2]
+                nodes += h[3]
         
         if len(hold):
-            hold.sort(key=lambda x: len(x[0][1]))
+            hold.sort(key=lambda x: len(x[1][1]))
             lowest = hold[0]   
-            depth = lowest[1]
-            nodes = lowest[2]
-            visual_board(lowest[0][0])
+            depth = lowest[2]
+            nodes = lowest[3]
+            fsol = lowest[1][1]
+            found = self.found_sol(lowest[1][1])
+            found_board = lowest[1][0]
         else:
-            print("FAILED")
+            res = "FAILED"
+            found = "NA"
+            found_board = "NONE"
 
         e = time.time()
-        print("Time: " + (str(e-s)) + "\nDepth:" +
-            str(depth) + "\nNodes:" + str(nodes) + "\n")
+        t = e - s
+        return algo, i, res, board[i], pro, found_board, found, depth, nodes, (abs(len(sols[i])-len(fsol))), t
 
     def SimAnn(self, i, board, sols):
-        print('[', i, ']\nSimulated Annealing\nProposed Solution:', end=' ')
-        print(*sols[i], sep=", ")
-        
+        algo = "Simulated Annealing"
+        pro = self.pro_sol(sols[i])
+        am = []
+        found = 0
+        found_b = 0
         hold = list()
         queue = deque()
         queue.append((board[i], []))
@@ -733,23 +755,29 @@ class Tools:
             current = queue.pop()
             h = self.SA(current)
             if h[0]:
+                print(h)
                 hold.append(h)
             else:
                 depth += h[1]
                 nodes += h[2]
 
         if len(hold):
-            hold.sort(key=lambda x: len(x[0][1]))
-            lowest = hold[0]   
-            depth = lowest[1]
-            nodes = lowest[2]
-            visual_board(lowest[0][0])
+            hold.sort(key=lambda x: len(x[1][1]))
+            print(hold[1])
+            lowest = hold[1]   
+            depth = lowest[2]
+            nodes = lowest[3]
+            am = lowest[1][1]
+            found = self.found_sol(lowest[1][1])
+            found_b = lowest[1][0]
+            res = "SOLVED"
+
         else:
-            print("FAILED")
+            res = "FAILED"
 
         e = time.time()
-        print("Time: " + (str(e-s)) + "\nDepth:" +
-            str(depth) + "\nNodes:" + str(nodes) + "\n")
+        t = e - s
+        return algo, i, res, board[i], pro, found_b, found, depth, nodes, (abs(len(sols[i])-len(am))), t
 
     def SA(self, board):
         explored = set()
@@ -764,7 +792,8 @@ class Tools:
             explored.add(str(current))     
             
             if self.finished(current): 
-                return current, depth, nodes       
+                res = "SOLVED"
+                return res, current, depth, nodes       
             else:
     
                 depth += 1
@@ -773,7 +802,8 @@ class Tools:
 
                 if temp == 0.0:
                     if self.finished(current): 
-                        return current, depth, nodes
+                        res = "SOLVED"
+                        return res, current, depth, nodes
                     else:
                         break
 
