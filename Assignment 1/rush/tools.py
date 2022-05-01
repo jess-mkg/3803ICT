@@ -15,7 +15,7 @@ def welcome():
     print("|_|  \_\__,_|___/_| |_| |_|  |_|\___/ \__,_|_|     \_____|\__,_|_| |_| |_|\___| ")
     print("\n")
 
-    options = ['BFS', 'ID']
+    options = ['BFS', 'ID', 'H1AStar', 'H2AStar', 'HC', 'SA']
 
     while True:
         try:
@@ -315,11 +315,11 @@ class Tools:
 
     def pro_sol(self, sol):
         con = "Propsed Solution: "
-        for i in sol:
-            if i == sol[-1]:
-                con = con + str(i)
-            else:
-                con = con + str(i) + ", "
+        l = len(sol) - 1
+        for i in range(0, l):
+            con = con + str(sol[i]) + ", "
+        con = con + str(sol[-1])
+        
         return con
     
     def goal_test(self, current):
@@ -392,6 +392,8 @@ class Tools:
         else: 
             return n
 
+    
+
     def evaluate(self,node):
         return -1 * len(self.cars_blocking_cars(node[0], node[1]))
 
@@ -456,8 +458,7 @@ class Tools:
             explored.add(str(current[0]))
             
             if self.finished(current):
-                res = "SOLVED"
-                return res, current[0], current[1], depth, nodes
+                return True, current[0], current[1], depth, nodes
             else:
                 self.get_children(current)
                 for node in self.child_nodes:
@@ -467,97 +468,31 @@ class Tools:
                         explored.add(str(node[0]))
                 self.child_nodes.clear() 
             if depth >= limit:
-                return None
+                return None, nodes
 
     def ID(self, i, board, sols, limit):
+        
         algo = "IDDFS"
         pro = self.pro_sol(sols[i])
         current = (board[i], [])
         s = time.time()
         loops = 0
+        
         while True:
             loops += 1
             goal = self.DFS(current, limit)
-            if goal:
+            if goal[0] == True:
+                res = "SOLVED"
                 nodes = goal[4]
                 depth = goal[3]
                 found = self.found_sol(goal[2])
                 break
             limit += 1
-        e = time.time()
-        t = e - s
-        return algo, i, goal[0], current[0], pro, goal[1], found, depth, nodes, (abs(len(sols[i])-len(goal[2]))), t
   
-    def IDA1(self, i, board, sols):
-        algo = "IDA1"
-        pro = self.pro_sol(sols[i])
-        depth = 0
-        nodes = 0
-        loops = 0
-        amount = len(self.cars_in_path(board[i]))
-        
-        s = time.time()
-        while True:
-            loops += 1
-            goal = self.DFS((board[i], []), amount)
-            if goal:
-                nodes = goal[4]
-                depth = goal[3]
-                found = self.found_sol(goal[2])
-                break
-            amount += 1
         e = time.time()
         t = e - s
-        return algo, i, goal[0], board[i], pro, goal[1], found, depth, nodes, (abs(len(sols[i])-len(goal[2]))), t
-
-    def IDA2(self, i, board, sols):
-        algo = "IDA2"
-        pro = self.pro_sol(sols[i]) 
-        depth = 0
-        nodes = 0
-        loops = 0
-        amount = len(self.cars_blocking_cars(board[i], []))
-        s = time.time()
-        while True:
-            loops += 1
-            goal = self.DFS((board[i], []), amount)
-            if goal:
-                nodes = goal[4]
-                depth = goal[3]
-                found = self.found_sol(goal[2])
-                break
-            amount += 1
-        e = time.time()
-        t = e - s
-        return algo, i, goal[0], board[i], pro, goal[1], found, depth, nodes, (abs(len(sols[i])-len(goal[2]))), t
-
-    def IDA3(self, i, board, sols):
-        algo = "IDA3"
-        pro = self.pro_sol(sols[i])
-        sol_len = len(sols[i])
-        amount = sol_len
-        depth = 0
-        nodes = 0
-        found = 0
-        found_b = 0
-        fsol = 0
-        res = "FAILED"
-        s = time.time()
-        while True:
-            goal = self.DFS((board[i], []), amount)
-            if goal:
-                res = "SOLVED"
-                nodes = goal[4]
-                depth = goal[3]
-                fsol = goal[2]
-                found_b = goal[1]
-                found = self.found_sol(goal[2])
-                break
-            amount += 1
-        e = time.time()
-        t = e - s
-        return algo, i, res, board[i], pro, found_b, found, depth, nodes, (abs(len(sols[i])-len(fsol))), t
-
+        return algo, i, res, current[0], pro, goal[1], found, depth, nodes, (abs(len(sols[i])-len(goal[2]))), t
+  
     def H1AStar(self, i, board, sols):
         algo = "A Star - cars blocking exit"
         pro = self.pro_sol(sols[i])
@@ -570,6 +505,7 @@ class Tools:
         nodes = 0
         found = 0
         s = time.time()
+        res = "FAILED"
         while queue:
             current = queue.popleft()
             explored.add(str(current[0]))     
@@ -579,7 +515,7 @@ class Tools:
                 break
             
             else:
-                amount = len(self.cars_in_path(current[0]))
+                amount = len(self.cars_in_path(current[0])) + depth
                 self.get_children(current)
                 hValues = [(node, len(self.cars_in_path(node[0]))) for node in self.child_nodes]
                 hValues.sort(key = lambda x: x[1])
@@ -589,12 +525,10 @@ class Tools:
                     nodes += 1
                     if str(node[0]) not in explored:
                         if val <= amount:
-                            queue.append(node)
+                            queue.appendleft(node)
                             explored.add(str(node[0]))
                 self.child_nodes.clear()      
                 depth += 1        
-        else:
-            res = "FAILED"
 
         queue.clear()
         e = time.time()
@@ -622,9 +556,10 @@ class Tools:
                 break
             
             else:
-                amount = len(self.cars_blocking_cars(current[0], current[1]))
+                amount = len(self.cars_blocking_cars(current[0], current[1])) + depth
                 self.get_children(current)
                 hValues = [(node, len(self.cars_blocking_cars(node[0], node[1]))) for node in self.child_nodes]
+                self.child_nodes.clear()
                 hValues.sort(key = lambda x: x[1])
                 hValues.sort(reverse=True)
         
@@ -632,12 +567,11 @@ class Tools:
                     nodes += 1
                     if str(node[0]) not in explored:
                         if val <= amount:
-                            queue.append(node)
-                            explored.add(str(node[0]))
-                self.child_nodes.clear()      
+                            queue.appendleft(node)
+                            explored.add(str(node[0]))      
                 depth += 1        
         else:
-            print("FAILED")
+            res = "FAILED"
 
         queue.clear()
         e = time.time()
@@ -658,8 +592,7 @@ class Tools:
             explored.add(str(current))     
             
             if self.finished(current):
-                res = "SOLVED"
-                return res, current, depth, nodes       
+                return True, current, depth, nodes       
             else:
                 depth += 1
                 amountBlocking = self.cars_blocking_cars(current[0], [])
@@ -677,7 +610,7 @@ class Tools:
                             break
                 self.child_nodes.clear()          
         else:
-            return False, depth, nodes
+            return False, current, depth, nodes
         
     def HCStart(self, i, board, sols):
         algo = "Greedy Hill Climbing"
@@ -704,14 +637,14 @@ class Tools:
         while len(queue) > 0:
             current = queue.pop()
             h = self.HC(current, type)
-            if h[1]:
-                res = h[0]
+            if h[0]:
+                res = "SOLVED"
                 hold.append(h)
             else:
                 depth += h[2]
                 nodes += h[3]
         
-        if len(hold):
+        if len(hold) > 0:
             hold.sort(key=lambda x: len(x[1][1]))
             lowest = hold[0]   
             depth = lowest[2]
@@ -734,7 +667,7 @@ class Tools:
         am = []
         found = 0
         found_b = 0
-        hold = list()
+        results = list()
         queue = deque()
         queue.append((board[i], []))
         depth = 0
@@ -754,24 +687,21 @@ class Tools:
         while len(queue) > 0:
             current = queue.pop()
             h = self.SA(current)
-            if h[0]:
-                print(h)
-                hold.append(h)
+            if h[0] == True:
+                results.append(h)
             else:
-                depth += h[1]
-                nodes += h[2]
+                depth += h[2]
+                nodes += h[3]
 
-        if len(hold):
-            hold.sort(key=lambda x: len(x[1][1]))
-            print(hold[1])
-            lowest = hold[1]   
+        if len(results) > 0:
+            results.sort(key=lambda x: len(x[1][1]))
+            lowest = results[0]   
             depth = lowest[2]
             nodes = lowest[3]
             am = lowest[1][1]
             found = self.found_sol(lowest[1][1])
             found_b = lowest[1][0]
             res = "SOLVED"
-
         else:
             res = "FAILED"
 
@@ -792,8 +722,7 @@ class Tools:
             explored.add(str(current))     
             
             if self.finished(current): 
-                res = "SOLVED"
-                return res, current, depth, nodes       
+                return True, current, depth, nodes       
             else:
     
                 depth += 1
@@ -802,8 +731,7 @@ class Tools:
 
                 if temp == 0.0:
                     if self.finished(current): 
-                        res = "SOLVED"
-                        return res, current, depth, nodes
+                        return True, current, depth, nodes
                     else:
                         break
 
@@ -819,5 +747,5 @@ class Tools:
                             explored.add(str(node[0]))
                 self.child_nodes.clear()          
         else:
-            return False, depth, nodes
-        return False, depth, nodes
+            return False, current, depth, nodes
+        return False, current, depth, nodes
