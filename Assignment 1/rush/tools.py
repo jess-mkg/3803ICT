@@ -1,6 +1,6 @@
-from inspect import stack
 from logging import NullHandler
 from collections import deque
+import random
 import time
 
 
@@ -608,7 +608,7 @@ class Tools:
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes) + "\n")
     #local optimum
-    def HillClimb(self, i, board, sols):
+    def HillClimbGreedy(self, i, board, sols):
         
         print('[', i, ']\nHill Climbing??\nProposed Solution:', end=' ')
         print(*sols[i], sep=", ")
@@ -655,6 +655,53 @@ class Tools:
         print("Time: " + (str(e-s)) + "\nDepth:" +
             str(depth) + "\nNodes:" + str(nodes) + "\n")
   
+    def HillClimbRandom(self, i, board, sols):
+        
+        print('[', i, ']\nHill Climbing??\nProposed Solution:', end=' ')
+        print(*sols[i], sep=", ")
+        reset = deque()
+        hold = list()
+        explored = set()
+        queue = deque()
+        queue.append((board[i], []))
+        explored.add(str(board[i]))
+        depth = 0
+        nodes = 0
+        
+        s = time.time()
+        while queue:
+            
+            current = queue.popleft()
+            explored.add(str(current[0]))     
+            
+            if self.finished(current): 
+                hold.append((current, nodes))
+                current = reset.popleft()         
+            else:
+                depth += 1
+                amountBlocking = self.cars_blocking_cars(current[0], [])
+                self.get_children(current)
+                hValues = [(node, len(self.cars_blocking_cars(node[0], node[1]))) for node in self.child_nodes]
+                random.shuffle(hValues)
+                nodes += len(hValues)
+                               
+                for node, carsBlocking in hValues:
+                    if str(node[0]) not in explored:
+                        queue.append(node)
+                        explored.add(str(node[0]))
+                        reset.append(node)
+                self.child_nodes.clear()        
+        hold.sort(key=lambda x: x[1]) 
+        lowest_state = hold[0]
+        self.goal_test(lowest_state[0])
+        visual_board(lowest_state[0][0])
+        queue.clear()
+        e = time.time()
+        print("Time: " + (str(e-s)) + "\nDepth:" +
+            str(depth) + "\nNodes:" + str(nodes) + "\n")
+    
+    
+    
     def IDHC(self, node, limit, max_depth):
         
         stack = deque()

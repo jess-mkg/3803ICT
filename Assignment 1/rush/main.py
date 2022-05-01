@@ -47,7 +47,8 @@ if __name__ == "__main__":
         #t.IDA3(i, s_boards, b_sols)    #sols length known
         #t.H1AStar(i, s_boards, b_sols)
         #t.H2AStar(i, s_boards, b_sols)
-        t.HillClimb(i, s_boards, b_sols)
+        t.HillClimbGreedy(i, s_boards, b_sols)
+        t.HillClimbRandom(i, s_boards, b_sols)
         #t.HC(i, s_boards, b_sols)
         #t.SimAnn(i, s_boards, b_sols)
 
