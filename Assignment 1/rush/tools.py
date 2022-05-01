@@ -597,7 +597,7 @@ class Tools:
             else:
                 depth += 1
                 amountBlocking = self.cars_blocking_cars(current[0], [])
-                self.get_children(current)
+                self.get_children(current) 
                 hValues = [(node, len(self.cars_blocking_cars(node[0], node[1]))) for node in self.child_nodes]
 
                 hValues.sort(key = lambda x: x[1])
@@ -609,6 +609,7 @@ class Tools:
                             queue.appendleft(node)
                             explored.add(str(node[0]))
                             break
+                        
                 self.child_nodes.clear()          
         else:
             return False, current, depth, nodes
@@ -664,13 +665,13 @@ class Tools:
         t = e - s
         return algo, i, res, board[i], pro, found_board, found, depth, nodes, (abs(len(sols[i])-len(fsol))), t
 
-    def SimAnn(self, i, board, sols):
+    def SAStart(self, i, board, sols):
         algo = "Simulated Annealing"
         pro = self.pro_sol(sols[i])
         am = []
         found = 0
         found_b = 0
-        results = list()
+        hold = list()
         queue = deque()
         queue.append((board[i], []))
         depth = 0
@@ -689,16 +690,16 @@ class Tools:
         
         while len(queue) > 0:
             current = queue.pop()
-            h = self.SA(current)
-            if h[0] == True:
-                results.append(h)
+            result = self.SA(current)
+            if result[0] == True:
+                hold.append(result)
             else:
-                depth += h[2]
-                nodes += h[3]
+                depth += result[2]
+                nodes += result[3]
 
-        if len(results) > 0:
-            results.sort(key=lambda x: len(x[1][1]))
-            lowest = results[0]   
+        if len(hold) > 0:
+            hold.sort(key=lambda x: len(x[1][1]))
+            lowest = hold[0]   
             depth = lowest[2]
             nodes = lowest[3]
             am = lowest[1][1]

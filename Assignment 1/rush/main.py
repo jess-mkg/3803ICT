@@ -83,7 +83,7 @@ if __name__ == "__main__":
             res = t.HCStart(i, s_boards, b_sols)
             print_res(res)
         if op == "SA":
-            res = t.SimAnn(i, s_boards, b_sols)
+            res = t.SAStart(i, s_boards, b_sols)
             print_res(res)
     e = time.time()
     
