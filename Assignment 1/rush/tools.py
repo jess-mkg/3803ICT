@@ -59,28 +59,6 @@ def welcome():
     
     return op, start, end
 
-def get_solutions(lines):
-    
-    sols = []
-    phrase = 'Sol:'
-    end = '.'
-    lineNum = 0
-    for line in lines:              # reads each line
-        if phrase in line:          # if 'Sol:' appears in a line the algo will preform 
-            sol = line              # steps to append the solution to a list
-            loopCount = 1
-            while end not in sol:
-                nex = lines[lineNum + loopCount]
-                new = sol + nex
-                sol = new
-                loopCount += 1
-            arrsol = sol.split()
-            del arrsol[0]
-            del arrsol[(len(arrsol)-1)]
-            sols.append(arrsol)
-        lineNum += 1
-    return sols
-
 def structure_boards(boards):
     arrs = []
     arr = []
@@ -136,7 +114,7 @@ class Tools:
         vehicle_dict = {"Location": [], "Size": [], "Axis": [], "Letter": []}
 
         while queue:
-            pos = queue.popleft()  # pop left from the queue (FIFO)
+            pos = queue.popleft() 
             if board[pos[0]][pos[1]] != '.':  # only look and letters
                 letter = board[pos[0]][pos[1]]
                 size = 0
@@ -321,32 +299,19 @@ class Tools:
         con = con + str(sol[-1])
         
         return con
-    
-    def goal_test(self, current):
-         if current[0][2][4] == 'X' and current[0][2][5] == 'X':
-                print('Solved!')
-                #visual_board(current[0])
-                print("Found Solution: ", end="")
-                for i in current[1]:
-                    if i == current[1][-1]:
-                        print(i, end=" ")
-                    else:
-                        print (i, end=", ")
-                print("\n")
-                return True
-    
+
     def get_children(self, node):
         
-        vehicle_dict = dict()
-        vehicle_dict = self.find_vehicles(node[0])
-        num_of_veh = len(vehicle_dict['Location'])
+        vehicles = dict()
+        vehicles = self.find_vehicles(node[0])
+        num_of_veh = len(vehicles['Location'])
         rec_depth = 0
         
         for i in range(0, num_of_veh):
-            loc = vehicle_dict['Location'][i]
-            size = vehicle_dict['Size'][i]
-            axis = vehicle_dict['Axis'][i]
-            letter = vehicle_dict['Letter'][i]
+            loc = vehicles['Location'][i]
+            size = vehicles['Size'][i]
+            axis = vehicles['Axis'][i]
+            letter = vehicles['Letter'][i]
     
             if axis == 'h':
                 self.possible_moves_left(node[0], loc, size, letter, NullHandler, rec_depth, node[1])
