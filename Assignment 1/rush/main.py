@@ -62,29 +62,33 @@ if __name__ == "__main__":
     boards = lines[4:44]
     b_sols = get_solutions(lines)
     s_boards = structure_boards(boards)
-    op, start, end = welcome()
+    #op, start, end = welcome()
+
+    start = 0
+    end = 1
+
 
     s = time.time()
     for i in range(start, end):
         t = Tools()
-        if op == "BFS":
-            res = t.BFS(i, s_boards, b_sols)     #Breath First Search
-            print_res(res)
-        if op == "ID":
-            res = t.ID(i, s_boards, b_sols, limit = 1)   #depth limited DFS
-            print_res(res)
-        if op == "AStar1":
-            res = t.H1AStar(i, s_boards, b_sols)
-            print_res(res)
-        if op == "AStar2":
-            res = t.H2AStar(i, s_boards, b_sols)
-            print_res(res)
-        if op == "HC": 
-            res = t.HCStart(i, s_boards, b_sols)
-            print_res(res)
-        if op == "SA":
-            res = t.SAStart(i, s_boards, b_sols)
-            print_res(res)
+        #if op == "BFS":
+        #res = t.BFS(i, s_boards, b_sols)     #Breath First Search
+        #print_res(res)
+        #if op == "ID":
+        #res = t.ID(i, s_boards, b_sols, limit = 1)   #depth limited DFS
+        #print_res(res)
+        #if op == "AStar1":
+        res = t.H1AStar(i, s_boards, b_sols)
+        print_res(res)
+        #if op == "AStar2":
+        res = t.H2AStar(i, s_boards, b_sols)
+        print_res(res)
+        #if op == "HC": 
+        #res = t.HCStart(i, s_boards, b_sols)
+        #print_res(res)
+        #if op == "SA":
+        #res = t.SAStart(i, s_boards, b_sols)
+        #print_res(res)
     e = time.time()
     
     print("Total Time: " + (str(e-s)))

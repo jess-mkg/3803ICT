@@ -1,4 +1,4 @@
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 0
 Status: SOLVED
  0 1 2 3 4 5
@@ -13,21 +13,21 @@ Status: SOLVED
 Propsed Solution: CL3, OD3, AR1, PU1, BU1, RL2, QD2, XR5
  0 1 2 3 4 5
 +-----------+
- P . . . A A 
+ P A A . . . 
  P . . . . . 
  P . . . X X 
  B . . Q . O 
  B C C Q . O 
  R R R Q . O
 +-----------+
-Found Solution: AR3, CL3, OD3, AL1, AL1, AL1, AR4, PU1, AL1, AL1, AL1, QD1, PD1, AL1, AR2, AR1, AR1, PU1, AL1, AL1, BU1, RL2, QD1, AL1, AR2, AR1, XR1AL1, AL1, AL1, XR1AR1, AR1, AR1, XR1
-Depth: 35
-Nodes: 361
-Different in Sol Lenth: 27
-Time: 0.08306002616882324
+Found Solution: AR1, PU1, BU1, CL3, OD3, RL2, QD2, XR3
+Depth: 1057
+Nodes: 11570
+Different in Sol Lenth: 0
+Time: 0.19708013534545898
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 1
 Status: SOLVED
  0 1 2 3 4 5
@@ -49,16 +49,16 @@ Propsed Solution: EL1, PD2, XR1, AD1, OL3, CU2, BU1, XR5
  . . D E E P 
  F F D G G P
 +-----------+
-Found Solution: EL1, PD2, OL1, OL1, CU2, BD1, XR1AD1, OL1, BU2, XR1XR1XR1
-Depth: 13
-Nodes: 107
-Different in Sol Lenth: 5
-Time: 0.05161881446838379
+Found Solution: EL1, PD2, XR1, AD1, OL3, BU1, CU2, XR3
+Depth: 2841
+Nodes: 31257
+Different in Sol Lenth: 0
+Time: 0.5935959815979004
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 2
-Status: FAILED
+Status: SOLVED
  0 1 2 3 4 5
 +-----------+
  . . . . . . 
@@ -69,12 +69,23 @@ Status: FAILED
  . B C C . P
 +-----------+
 Propsed Solution: PU3, OU2, CR2, AR3, OD3, XR1, BU4, XL1, OU3, CL3, AL3, PD3, OD3, XR5
-Depth: 1294
-Nodes: 11073
-Time: 0.1540846824645996
+ 0 1 2 3 4 5
++-----------+
+ . B . . . . 
+ . B . . . . 
+ . . . . X X 
+ A A . O . P 
+ . . . O . P 
+ C C . O . P
++-----------+
+Found Solution: OU2, PU3, AR3, BU1, CL2, OD3, XR1, BU3, XL1, OU3, AL4, OD3, PD3, XR3
+Depth: 772
+Nodes: 7778
+Different in Sol Lenth: 0
+Time: 0.11940217018127441
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 3
 Status: SOLVED
  0 1 2 3 4 5
@@ -92,18 +103,18 @@ Propsed Solution: OD3, XL1, AU3, XR1, OU3, RL2, QL3, PD3, XR5
  O . A . . . 
  O . A . . . 
  O . . . X X 
- Q Q Q P . B 
+ Q Q Q P . . 
  . . . P . B 
- R R R P . .
+ R R R P . B
 +-----------+
-Found Solution: RL1, OD1, OD1, OD1, XL1, AU3, XR1OU1, OU1, OU1, QL3, PD1, PD1, BU1, PU1, PU1, BU3, PD1, PD1, RL1, PD1, BD3, XR1XR1XR1
-Depth: 25
-Nodes: 192
-Different in Sol Lenth: 16
-Time: 0.012830257415771484
+Found Solution: OD3, XL1, AU3, XR1, OU3, QL3, RL2, PD3, XR3
+Depth: 366
+Nodes: 3476
+Different in Sol Lenth: 0
+Time: 0.05860400199890137
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 4
 Status: SOLVED
  0 1 2 3 4 5
@@ -118,23 +129,23 @@ Status: SOLVED
 Propsed Solution: EL3, GD1, FL3, QD2, AR1, PU1, RL1, OD3, XR5
  0 1 2 3 4 5
 +-----------+
- P . . A A B 
+ P A A . . B 
  P . . . . B 
  P . . . X X 
  R R R O Q G 
  D E E O Q G 
  D F F O Q .
 +-----------+
-Found Solution: FL3, EL3, GD1, QD2, AR1, PU1, RL1, OD3, AR1, AR1, XR1AL1, AL1, XR1AR1, AR1, XR1
-Depth: 17
-Nodes: 169
-Different in Sol Lenth: 8
-Time: 0.061070919036865234
+Found Solution: AR1, PU1, RL1, EL3, GD1, FL3, OD3, QD2, XR3
+Depth: 2237
+Nodes: 24622
+Different in Sol Lenth: 0
+Time: 0.4612879753112793
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 5
-Status: SOLVED
+Status: FAILED
  0 1 2 3 4 5
 +-----------+
  A A . B . . 
@@ -145,25 +156,14 @@ Status: SOLVED
  F . . R R R
 +-----------+
 Propsed Solution: XL1, EU3, DR1, FU1, RL3, PD2, OD2, QD1, XR6
- 0 1 2 3 4 5
-+-----------+
- A A E B . . 
- C C E B . . 
- . . . . X X 
- F D D Q O P 
- F . . Q O P 
- R R R Q O P
-+-----------+
-Found Solution: RL2, OD2, PD2, AR1, CR1, AL1, XL1, AR1, CL1, AL1, EU3, XR1DR1, XL1, FU1, XR1FU1, RL1, QD1, FD1, XL1, XR2, XR1XR1
-Depth: 24
-Nodes: 234
-Different in Sol Lenth: 15
-Time: 0.45212697982788086
+Depth: 535
+Nodes: 5848
+Time: 0.11044502258300781
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 6
-Status: FAILED
+Status: SOLVED
  0 1 2 3 4 5
 +-----------+
  . A B B C D 
@@ -174,14 +174,25 @@ Status: FAILED
  . . . H . .
 +-----------+
 Propsed Solution: FD1, DD1, CD3, BR2, EU1, XR1, AD3, XL1, ED1, BL3, DU1, EU1, XR5
-Depth: 745
-Nodes: 8066
-Time: 0.11252498626708984
+ 0 1 2 3 4 5
++-----------+
+ B B . E . D 
+ . . . E . D 
+ . . . . X X 
+ . A I I C F 
+ . A . H C F 
+ . . . H . .
++-----------+
+Found Solution: CD3, FD1, DD1, BR2, EU1, XR1, AD3, XL1, ED1, BL4, EU1, DU1, XR3
+Depth: 4943
+Nodes: 60951
+Different in Sol Lenth: 0
+Time: 0.9911530017852783
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 7
-Status: FAILED
+Status: SOLVED
  0 1 2 3 4 5
 +-----------+
  . . . A A O 
@@ -192,12 +203,23 @@ Status: FAILED
  K K I Q Q Q
 +-----------+
 Propsed Solution: AL3, CU1, BL2, EU2, DU2, XR3, IU2, QL1, PL1, GL1, OD3, XR3
-Depth: 318
-Nodes: 2324
-Time: 0.05254101753234863
+ 0 1 2 3 4 5
++-----------+
+ A A D E C . 
+ B B D E C . 
+ . . I . X X 
+ F F I G G O 
+ H H P P P O 
+ K K Q Q Q O
++-----------+
+Found Solution: AL3, BL2, CU1, DU2, EU2, XR3, GL1, IU2, PL1, QL1, OD3, XR1
+Depth: 599
+Nodes: 4377
+Different in Sol Lenth: 0
+Time: 0.11228013038635254
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 8
 Status: SOLVED
  0 1 2 3 4 5
@@ -213,20 +235,20 @@ Propsed Solution: OD1, XR1, PU3, QL1, DD2, XR2, AD1, EL1, BL1, CL1, FU2, XR3
  0 1 2 3 4 5
 +-----------+
  P B B C C F 
- P A E E . F 
+ P A . E E F 
  P A . . X X 
  Q Q Q D O . 
  . . G D O H 
  . . G . O H
 +-----------+
-Found Solution: XR1PU3, OD1, QL1, DD2, EL1, EL1, XR1AD1, BL1, CL1, FU2, ER1, XR1EL1, XR1
-Depth: 15
-Nodes: 111
-Different in Sol Lenth: 4
-Time: 0.020322084426879883
+Found Solution: OD1, XR1, PU3, QL1, DD2, EL1, XR1, AD1, BL1, CL1, FU2, XR2
+Depth: 680
+Nodes: 5897
+Different in Sol Lenth: 0
+Time: 0.1305239200592041
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 9
 Status: FAILED
  0 1 2 3 4 5
@@ -239,14 +261,14 @@ Status: FAILED
  G G . E H H
 +-----------+
 Propsed Solution: CL1, OU1, QR2, XR2, BD4, DR1, AR1, PU2, QL3, XL2, EU3, HL1, FL1, OD3, CR1, EU1, XR5
-Depth: 664
-Nodes: 4390
-Time: 0.09460711479187012
+Depth: 182
+Nodes: 1379
+Time: 0.032032012939453125
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 10
-Status: FAILED
+Status: SOLVED
  0 1 2 3 4 5
 +-----------+
  O A A P . . 
@@ -257,14 +279,25 @@ Status: FAILED
  . . R R R E
 +-----------+
 Propsed Solution: OD3, XL1, BU2, QL1, EU3, RR1, QR1, BD3, XR1, OU3, QL3, PD1, AR3, PU1, QR3, OD3, XL1, BU4, XR1, OU3, QL3, ED2, RL3, PD3, XR5
-Depth: 172
-Nodes: 925
-Time: 0.018019914627075195
+ 0 1 2 3 4 5
++-----------+
+ O . B . A A 
+ O . B . . . 
+ O . . . X X 
+ Q Q Q P . E 
+ . . . P . E 
+ R R R P . .
++-----------+
+Found Solution: OD3, XL1, BU2, QL1, EU3, QR1, RR1, BD3, XR1, OU3, QL3, PD1, AR3, PU1, QR3, OD3, XL1, BU4, XR1, OU3, QL3, ED2, RL3, PD3, XR3
+Depth: 828
+Nodes: 6879
+Different in Sol Lenth: 0
+Time: 0.12740397453308105
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 11
-Status: FAILED
+Status: SOLVED
  0 1 2 3 4 5
 +-----------+
  A B B . . O 
@@ -275,14 +308,25 @@ Status: FAILED
  R R R . C .
 +-----------+
 Propsed Solution: BR2, PU1, QL2, CU3, RR3, QR2, PD3, BL2, CU1, XR3, AD1, BL1, PU3, RL1, QL1, OD3, XR3
-Depth: 276
-Nodes: 1511
-Time: 0.02988910675048828
+ 0 1 2 3 4 5
++-----------+
+ B B P . C . 
+ A . P . C . 
+ A . P . X X 
+ . . Q Q Q O 
+ . . . . . O 
+ . . R R R O
++-----------+
+Found Solution: BR2, PU1, QL2, CU3, QR2, RR3, PD3, BL1, CU1, XR3, AD1, BL2, PU3, QL1, RL1, OD3, XR1
+Depth: 1267
+Nodes: 11649
+Different in Sol Lenth: 0
+Time: 0.20743298530578613
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 12
-Status: FAILED
+Status: SOLVED
  0 1 2 3 4 5
 +-----------+
  A A B B C . 
@@ -293,12 +337,23 @@ Status: FAILED
  P I I G K K
 +-----------+
 Propsed Solution: OU1, DD2, ED1, FR1, XL3, GU3, DU2, KL1, HL2, FL2, OD3, CD3, BR2, GU1, DU1, XR6
-Depth: 508
-Nodes: 4328
-Time: 0.08402085304260254
+ 0 1 2 3 4 5
++-----------+
+ A A D G B B 
+ . . D G . . 
+ . . . . X X 
+ P E F F C O 
+ P E H H C O 
+ P I I K K O
++-----------+
+Found Solution: DD2, OU1, ED1, XL3, DU2, FR1, GU3, FL2, HL2, CD3, KL1, OD3, BR2, DU1, GU1, XR4
+Depth: 5445
+Nodes: 51750
+Different in Sol Lenth: 0
+Time: 1.1145119667053223
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 13
 Status: FAILED
  0 1 2 3 4 5
@@ -311,14 +366,14 @@ Status: FAILED
  K K I . . .
 +-----------+
 Propsed Solution: ED1, DD1, XL2, BD1, AR3, BU1, XR2, EU3, DU3, HL2, XL2, IU2, JL4, GD1, FD1, ID1, XR6
-Depth: 1983
-Nodes: 15974
-Time: 0.30663609504699707
+Depth: 228
+Nodes: 1868
+Time: 0.041007280349731445
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 14
-Status: FAILED
+Status: SOLVED
  0 1 2 3 4 5
 +-----------+
  . A A B B . 
@@ -329,14 +384,25 @@ Status: FAILED
  . H H I I .
 +-----------+
 Propsed Solution: IR1, HR1, RD1, QD1, XL2, FU1, EU1, GL2, PD1, OD1, DR2, BR1, FU2, AL1, EU2, XR2, RU1, QU1, HL2, IL2, PD1, OD1, XR4
-Depth: 378
-Nodes: 2129
-Time: 0.05703616142272949
+ 0 1 2 3 4 5
++-----------+
+ A A E F B B 
+ C C E F D D 
+ Q R . . X X 
+ Q R . . O P 
+ Q R G G O P 
+ H H I I O P
++-----------+
+Found Solution: AL1, BR1, QD1, IR1, HR1, RD1, XL2, EU1, FU1, GL2, OD1, PD1, DR2, EU2, FU2, XR2QU1, RU1, HL2, IL2, OD1, PD1, XR2
+Depth: 489
+Nodes: 2998
+Different in Sol Lenth: 0
+Time: 0.0866098403930664
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 15
-Status: FAILED
+Status: SOLVED
  0 1 2 3 4 5
 +-----------+
  A A B B C O 
@@ -347,12 +413,23 @@ Status: FAILED
  G G . . . .
 +-----------+
 Propsed Solution: GR3, PD1, FD2, DD2, XL3, CD1, EL2, BR1, PU3, GL1, QL2, CD3, QR2, FU1, GL2, PD3, XR3, PU3, QL1, OD3, XR3
-Depth: 958
-Nodes: 9561
-Time: 0.1620621681213379
+ 0 1 2 3 4 5
++-----------+
+ A A P B B . 
+ E E P . . . 
+ . . P . X X 
+ D F Q Q Q O 
+ D F . . C O 
+ G G . . C O
++-----------+
+Found Solution: GR3, DD2, EL2, FD2, PD1, XL3, CD1, BR1, PU3, QL2, GL1, CD3, QR2, FU1, GL2, PD3, XR3, PU3, QL1, OD3, XR1
+Depth: 1500
+Nodes: 14119
+Different in Sol Lenth: 0
+Time: 0.27936673164367676
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 16
 Status: FAILED
  0 1 2 3 4 5
@@ -365,14 +442,14 @@ Status: FAILED
  R R R P F G
 +-----------+
 Propsed Solution: GU2, FU2, BL1, PU2, RR3, QR3, DD2, ER1, XR1, AD4, EL1, XL1, BL1, OR2, DU4, ER1, XR1, AU2, QL3, GD1, FD1, RL3, PD2, XR5
-Depth: 1787
-Nodes: 16903
-Time: 0.3016660213470459
+Depth: 666
+Nodes: 6444
+Time: 0.13223981857299805
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 17
-Status: SOLVED
+Status: FAILED
  0 1 2 3 4 5
 +-----------+
  A A B O . . 
@@ -383,23 +460,12 @@ Status: SOLVED
  R R R . . .
 +-----------+
 Propsed Solution: RR3, PD1, DR3, QR2, XL1, BD4, XR1, CR1, AR1, PU3, QL3, OD2, CR3, AR3, OU2, QR3, PD3, XL1, BU4, XR1, PU3, RL3, QL3, OD3, XR5
- 0 1 2 3 4 5
-+-----------+
- P . B . A A 
- P . B C C . 
- P . . . X X 
- Q Q Q O . . 
- . . . O D D 
- R R R O . .
-+-----------+
-Found Solution: QR1, QL1, QR2, DR3, QL1, QL1, DL1, QR1, QR1, DL1, QL1, QL1, RR1, DL1, PD1, XL1, QR1, XR1PU1, QR1, PD1, XL1, DR3, BD3, AR1, CR1, AL1, XR1AR1, CL1, AL1, PU1, RL1, AR1, CR1, AL1, PU1, AR1, PU1, DL1, PD1, AL1, PD1, AR1, CL1, AL1, RR1, AR1, DR1, CR1, AL1, PU1, AR1, PU1, RR1, PD1, AL1, PD1, AR1, CL1, AL1, PD1, AR1, CR1, AL1, XL1, AR1, CL1, AL1, BU3, XR1PU1, QL1, PD1, XL1, QL1, XR1PU1, DL3, PD1, XL1, QR1, XR1PU1, QR1, PD1, XL1, RR1, XR1PU1, QL1, PD1, XL1, QL1, XR1PU1, DR3, PD1, XL1, QR1, XR1PU1, QR1, PD1, XL1, BD3, AR1, CR1, AL1, XR1AR1, CL1, AL1, PU1, AR1, CR1, AL1, PU1, AR1, PU1, BD1, PD1, AL1, PD1, AR1, CL1, AL1, PD1, AR1, CR1, AL1, XL1, AR1, CL1, AL1, QL1, AR1, CR1, AL1, XR1AR1, CL1, AL1, PU1, AR1, CR1, AL1, PU1, AR1, PU1, QL1, PD1, AL1, PD1, AR1, CL1, AL1, PD1, AR1, CR1, AL1, XL1, AR1, CL1, AL1, DL1, AR1, CR1, AL1, XR1AR1, CL1, AL1, PU1, AR1, CR1, AL1, PU1, AR1, PU1, QL1, DR1, OD1, AR3, OD1, AL3, CR3, AR3, OU1, AL3, OU1, QR1, PD1, AL1, PD1, AR1, PD1, AL1, XL1, AR1, QR1, AL1, XR1AR1, PU1, AL1, PU1, AR1, PU1, QR1, PD1, AL1, PD1, AR1, PD1, AL1, XL1, AR1, BU1, AL1, XR1AR1, PU1, RL3, AL1, PU1, AR1, PU1, DL1, PD1, AL1, PD1, AR1, RR1, DR1, AL1, PD1, AR1, XL1, AL1, BU3, XR1PU1, RL1, PU1, QL1, PD1, QL1, PU1, DL3, PD1, QR1, PU1, QR1, PD1, DR1, PU1, DL2, QL1, QL1, DR2, PD1, QR1, PU1, DR1, PD1, QL1, PU1, QR2, PD1, RR1, DL2, PD1, XL1, QL1, XR1PU1, PU1, QL1, PD1, PD1, XL1, DR3, XR1PU1, PU1, QR1, PD1, PD1, XL1, RR1, XR1PU1, PU1, QL1, PD1, PD1, XL1, QR2, BD3, AR1, XR1AL1, PU1, AR1, PU1, AL1, RL1, AR1, PU1, RR1, RR1, PD1, AL1, PD1, DL1, AR1, PD1, AL1, XL1, AR1, BD1, AL1, XR1AR1, PU1, AL1, PU1, AR1, PU1, QL1, PD1, AL1, PD1, AR1, PD1, AL1, XL1, AR1, QL1, AL1, XR1AR1, PU1, AL1, PU1, AR1, PU1, QL1, OD1, AR3, OU1, DR1, QR1, PD1, PD1, PD1, XL1, QR1, XR1PU1, PU1, PU1, QR1, PD1, PD1, PD1, XL1, BU1, XR1PU1, RL3, PU1, PU1, DL1, PD1, PD1, RR1, DR1, PD1, XL1, BU3, XR1PU1, RL1, PU1, PU1, QL1, PD1, PD1, QL1, PU1, PU1, QL1, OD3, AL1, CL1, AR1, XR1AL1, CR1, AR1, XR1AL1, CL1, AR1, XR1
-Depth: 408
-Nodes: 3220
-Different in Sol Lenth: 382
-Time: 0.6928360462188721
+Depth: 206
+Nodes: 1830
+Time: 0.03424191474914551
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 18
 Status: FAILED
  0 1 2 3 4 5
@@ -412,14 +478,14 @@ Status: FAILED
  . . . . . .
 +-----------+
 Propsed Solution: DU2, EL2, XL2, AD2, BL1, JU1, FU1, OR2, AD2, ER2, XR2, DD4, EL2, XL2, BL2, AU4, ER2, XR2, DU2, OL2, FD1, XR4
-Depth: 1603
-Nodes: 13268
-Time: 0.20299124717712402
+Depth: 344
+Nodes: 2692
+Time: 0.050581932067871094
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 19
-Status: FAILED
+Status: SOLVED
  0 1 2 3 4 5
 +-----------+
  A . . O O O 
@@ -430,12 +496,23 @@ Status: FAILED
  . . E Q Q Q
 +-----------+
 Propsed Solution: CD1, BR2, DU2, EU2, QL1, PD1, FL3, CD1, ED1, XR6
-Depth: 685
-Nodes: 5408
-Time: 0.09692597389221191
+ 0 1 2 3 4 5
++-----------+
+ A . D O O O 
+ A . D B B . 
+ . . . . X X 
+ . . E C . P 
+ F F E C . P 
+ . . Q Q Q P
++-----------+
+Found Solution: CD1, BR2, DU2, EU2, FL3, ED1, CD1, QL1, PD1, XR4
+Depth: 1659
+Nodes: 14929
+Different in Sol Lenth: 0
+Time: 0.2965202331542969
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 20
 Status: FAILED
  0 1 2 3 4 5
@@ -448,14 +525,14 @@ Status: FAILED
  . . . R R R
 +-----------+
 Propsed Solution: PD2, QR2, XL1, BD4, XR1, AR1, PU3, QL3, OD1, AR3, OU1, QR3, PD3, XL1, BU4, XR1, PU3, RL3, QL3, OD3, XR5
-Depth: 481
-Nodes: 2957
-Time: 0.05027008056640625
+Depth: 80
+Nodes: 522
+Time: 0.01044011116027832
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 21
-Status: FAILED
+Status: SOLVED
  0 1 2 3 4 5
 +-----------+
  . . A O O O 
@@ -466,14 +543,25 @@ Status: FAILED
  F Q Q Q . H
 +-----------+
 Propsed Solution: BU1, GR1, XL1, AD3, XR1, BD1, OL3, PU1, EL1, HU2, QR2, AD1, DD1, GR1, EL2, PD2, CL3, HU2, PU2, ER3, AU1, DU1, FU1, QL3, PD3, XR5
-Depth: 430
-Nodes: 2654
-Time: 0.06016707420349121
+ 0 1 2 3 4 5
++-----------+
+ O O O . . H 
+ B C C . . H 
+ B . . . X X 
+ F D A P E E 
+ F D A P G G 
+ Q Q Q P . .
++-----------+
+Found Solution: GR1, BU1, XL1, AD3, XR1, BD1, OL3, PU1, EL1, FU1, HU2, GR1, QR2, DD1, AD1, EL2, PD2, CL3, PU2, HU2, ER3, DU1, AU1, QL3, PD3, XR3
+Depth: 3350
+Nodes: 30927
+Different in Sol Lenth: 0
+Time: 0.6503250598907471
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 22
-Status: FAILED
+Status: SOLVED
  0 1 2 3 4 5
 +-----------+
  . . O O O P 
@@ -484,12 +572,23 @@ Status: FAILED
  . . Q Q Q .
 +-----------+
 Propsed Solution: QL2, DD1, EL1, PD1, OR1, AU1, XL3, AD1, OL1, PU1, ER1, DU2, QR3, CD1, AD1, BL3, DU1, EL1, PD1, OR1, AU2, EL3, CU2, QL1, FL4, PD2, DD2, CD1, XR6
-Depth: 271
-Nodes: 1217
-Time: 0.031365156173706055
+ 0 1 2 3 4 5
++-----------+
+ . . A O O O 
+ B B A . . . 
+ . . . . X X 
+ E E C D . P 
+ F F C D . P 
+ . . Q Q Q P
++-----------+
+Found Solution: QL2, DD1, EL1, PD1, OR1, AU1, XL3, AD1, OL1, PU1, ER1, DU1, QR3, CD1, AD1, BL3, AU1, DU2, EL4, PD1, OR1, AU1, CU2, FL4, DD2, CD1, QL1, PD2, XR4
+Depth: 1695
+Nodes: 14601
+Different in Sol Lenth: 0
+Time: 0.29533815383911133
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 23
 Status: FAILED
  0 1 2 3 4 5
@@ -502,12 +601,12 @@ Status: FAILED
  H H . . G .
 +-----------+
 Propsed Solution: CU1, DU2, FL1, XL2, AD2, BL1, EU2, GU2, HR3, OR3, AD2, FR2, XR2, CD4, DD4, FL2, XL2, BL2, AU4, FR2, XR2, CU2, OL2, GD1, XR4
-Depth: 11238
-Nodes: 135880
-Time: 2.2482638359069824
+Depth: 3118
+Nodes: 34922
+Time: 0.610245943069458
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 24
 Status: FAILED
  0 1 2 3 4 5
@@ -520,14 +619,14 @@ Status: FAILED
  . F . G I I
 +-----------+
 Propsed Solution: CL1, OU1, EU1, PD1, QR2, XL1, BD4, XR1, DR1, AR1, PU3, QL3, GU3, QR3, PD3, XL1, DL1, AL1, BU4, IL1, HL2, QL2, OD3, ED2, CR1, GU1, XR6
-Depth: 1162
-Nodes: 9952
-Time: 0.19565916061401367
+Depth: 388
+Nodes: 3265
+Time: 0.07500600814819336
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 25
-Status: FAILED
+Status: SOLVED
  0 1 2 3 4 5
 +-----------+
  . A . O O O 
@@ -538,12 +637,23 @@ Status: FAILED
  . . F H H G
 +-----------+
 Propsed Solution: DU1, GU1, ED1, HR1, RL1, CD3, XR1, AD1, OL3, PU1, RR2, AD3, RL2, XL1, CU4, HL1, GD1, DU1, RR3, FU1, XR1, AU3, EU1, HL3, FD1, RL2, PD3, XR4
-Depth: 977
-Nodes: 8069
-Time: 0.15064287185668945
+ 0 1 2 3 4 5
++-----------+
+ O O O C . D 
+ B A . C . D 
+ B A . . X X 
+ E R R R P . 
+ E . F . P G 
+ H H F . P G
++-----------+
+Found Solution: OL1, DU2, ED1, RL1, GU1, HR1, CD3, XR1, AD1, OL2, PU1, RR2, AD3, XL1, RL2, CU4, XR1, HL1, GD1, RR3, EU1, AU3, FU1, HL3, FD1, RL2, PD3, XR2
+Depth: 4699
+Nodes: 40081
+Different in Sol Lenth: 0
+Time: 0.8732149600982666
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 26
 Status: FAILED
  0 1 2 3 4 5
@@ -556,12 +666,12 @@ Status: FAILED
  . . F R R R
 +-----------+
 Propsed Solution: PU2, ER1, OD2, CR2, BR2, DU2, XR1, AD4, XL1, DD2, CL3, BL3, OU2, DU1, EL4, OD2, DD1, CR3, DU2, ER1, XR1, AU3, EL1, FU1, RL3, PD3, OD1, XR5
-Depth: 416
-Nodes: 2204
-Time: 0.05086708068847656
+Depth: 1539
+Nodes: 12187
+Time: 0.2553699016571045
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 27
 Status: FAILED
  0 1 2 3 4 5
@@ -574,12 +684,12 @@ Status: FAILED
  F F G G . Q
 +-----------+
 Propsed Solution: QU1, AD1, OR3, PU1, GR2, FR2, DD1, CD1, EL3, AD1, BL1, QU1, RR1, PD2, BL3, AU1, PU2, ER3, DU1, CU1, FL2, PD3, OL3, AU1, XR3, PU2, GL1, RL1, QD2, XR3
-Depth: 45
-Nodes: 153
-Time: 0.004910945892333984
+Depth: 35
+Nodes: 202
+Time: 0.0057108402252197266
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 28
 Status: FAILED
  0 1 2 3 4 5
@@ -592,12 +702,12 @@ Status: FAILED
  R R R G . H
 +-----------+
 Propsed Solution: BU1, ER1, GU3, EL1, HU1, RR3, CD1, FR2, DL1, AD3, DR1, XR1, OR1, CU4, DL1, XL1, AU3, RL3, HD1, FL2, ER1, GD3, EL2, PD3, OR2, AU1, XR3, AD1, OL1, BU1, XR3
-Depth: 96
-Nodes: 448
-Time: 0.012000083923339844
+Depth: 1940
+Nodes: 17802
+Time: 0.37853384017944336
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 29
 Status: FAILED
  0 1 2 3 4 5
@@ -610,12 +720,12 @@ Status: FAILED
  E E F F . Q
 +-----------+
 Propsed Solution: FR1, ER1, DR1, CR1, OD3, XL1, AD1, PL1, QU3, FR1, DR1, BD3, DL1, QD1, PR1, AU1, XR3, OU3, EL1, CL1, AD4, CR1, OD1, PL3, QU1, DR1, XL2, BU4, FL1, DL1, QD3, XR5
-Depth: 668
-Nodes: 4190
-Time: 0.08682584762573242
+Depth: 16
+Nodes: 94
+Time: 0.002416849136352539
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 30
 Status: FAILED
  0 1 2 3 4 5
@@ -628,12 +738,12 @@ Status: FAILED
  . . Q R R R
 +-----------+
 Propsed Solution: AR1, DU2, XL1, QU2, FR3, QD2, XR1, DD4, XL1, AL1, QU3, EL3, BD1, CL1, PU1, FR1, BD1, QD3, XR3, QU3, ER1, DU3, EL1, QD3, AR1, DU1, XL3, BU1, QU2, FL4, BD1, QD2, XR3, QU1, RL1, PD2, XR3
-Depth: 106
-Nodes: 255
-Time: 0.011178970336914062
+Depth: 22
+Nodes: 107
+Time: 0.0032858848571777344
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 31
 Status: FAILED
  0 1 2 3 4 5
@@ -646,12 +756,12 @@ Status: FAILED
  H H . K . P
 +-----------+
 Propsed Solution: BD1, CL1, PU3, FR1, KU1, HR4, KD1, FL1, PD1, CR1, BU1, DD1, EL1, OD3, XR3, OU3, ER1, DU3, EL1, OD3, AR1, DU1, XL3, BD1, CL1, PU1, FR1, KU1, OU1, HL4, KD1, FL1, PD3, CR1, BU1, OD1, XR6
-Depth: 44
-Nodes: 166
-Time: 0.0047838687896728516
+Depth: 238
+Nodes: 1422
+Time: 0.03677797317504883
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 32
 Status: FAILED
  0 1 2 3 4 5
@@ -664,12 +774,12 @@ Status: FAILED
  Q Q Q G H P
 +-----------+
 Propsed Solution: BL1, PU3, ER1, GU3, QR1, ID1, DL1, EL2, HU3, QR2, FR3, ER2, RD3, BL1, HU1, GD2, XR3, AD1, BL2, RU3, DR1, IU3, DL1, RD3, BR2, AU1, IU1, XL3, GU1, RU2, FL4, GD1, RD2, XR3, RU1, QL3, GD1, EL1, PD3, XR3
-Depth: 49
-Nodes: 135
-Time: 0.005141019821166992
+Depth: 1034
+Nodes: 8806
+Time: 0.19437503814697266
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 33
 Status: FAILED
  0 1 2 3 4 5
@@ -682,14 +792,14 @@ Status: FAILED
  I I E H H .
 +-----------+
 Propsed Solution: RL2, PU1, CU1, HR1, DD1, QR3, XR1, AD3, XL1, EU3, IR1, AD1, QL3, PD1, RL1, BU1, DU2, FL3, DD2, BD1, RR3, EU1, QR2, XR1, AU4, XL1, ED1, RL2, PU1, IL1, FL1, QR1, ED3, QL3, DU1, HL1, PD3, CU1, XR1, AD1, RL1, BU1, XR5
-Depth: 319
-Nodes: 2147
-Time: 0.04652714729309082
+Depth: 777
+Nodes: 5799
+Time: 0.13745880126953125
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 34
-Status: FAILED
+Status: SOLVED
  0 1 2 3 4 5
 +-----------+
  . . O A A P 
@@ -700,12 +810,23 @@ Status: FAILED
  G G . E F .
 +-----------+
 Propsed Solution: PD1, FU3, AR1, BU1, GR1, KD1, QL1, EU2, GR3, DR3, ED2, BD1, AL1, PU1, QR3, OD3, XR1, KU4, XL1, OU3, QL3, PD1, AR1, BU1, EU2, GL4, DL4, ED2, BD1, AL1, PU1, FD3, QR3, OD3, AL2, BU1, XR3, KD1, AL1, OU3, QL1, PD3, XR3
-Depth: 162
-Nodes: 1322
-Time: 0.024112224578857422
+ 0 1 2 3 4 5
++-----------+
+ A A O B . . 
+ K . O B . . 
+ K . O . X X 
+ . . Q Q Q P 
+ D D . E F P 
+ G G . E F P
++-----------+
+Found Solution: GR1, PD1, AR1, BU1, KD1, QL1, EU2, FU3, DR3, ED2, BD1, AL1, PU1, QR3, KU1, GL1, OD3, XR1KU3, XL1, OU3, QL3, PD1, AR1, BU1, EU2, DL4, FD3, ED2, BD1, AL1, PU1, QR3, OD3, AL2, BU1, XR3, KD1, AL1, OU3, QL1, PD3, XR1
+Depth: 3848
+Nodes: 33371
+Different in Sol Lenth: 0
+Time: 0.6917870044708252
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 35
 Status: FAILED
  0 1 2 3 4 5
@@ -718,12 +839,12 @@ Status: FAILED
  G G E . . .
 +-----------+
 Propsed Solution: DD1, RR2, OD1, PL1, AL1, QU1, RR1, XR1, CR1, EU3, RL2, QD1, AR1, PR1, OU1, RL1, DU1, GR4, DD1, RR2, OD1, PL1, AL1, QU1, RR1, ED3, BD3, RL2, QD1, AR1, PR1, OU1, RL1, XL2, CL2, DU3, GL1, FL1, QD2, RR1, OD1, PL1, DU1, XR5
-Depth: 852
-Nodes: 6276
-Time: 0.125809907913208
+Depth: 393
+Nodes: 3010
+Time: 0.06950211524963379
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 36
 Status: FAILED
  0 1 2 3 4 5
@@ -736,12 +857,12 @@ Status: FAILED
  G G . E H H
 +-----------+
 Propsed Solution: GR1, QD1, XL1, BD1, CL2, PU1, OU1, RR2, BD2, XR1, DR1, QU2, GL1, BD1, RL2, OD1, CR1, AR1, QU1, RL1, EU3, RR1, QD2, AL1, CL1, OU1, RR2, BU1, GR1, QD1, XL1, DL1, BU2, HL1, FL2, RL2, PD3, OD2, CR2, EU1, BU1, XR2, QU1, GL1, HL1, OD1, XR4
-Depth: 236
-Nodes: 908
-Time: 0.031065702438354492
+Depth: 59
+Nodes: 288
+Time: 0.009511947631835938
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 37
 Status: FAILED
  0 1 2 3 4 5
@@ -754,12 +875,12 @@ Status: FAILED
  . . F Q Q Q
 +-----------+
 Propsed Solution: OL1, RU2, GR1, ER1, CD2, BR2, DU1, FU1, QL3, CD1, EL1, RD1, OR1, DU1, XR1, AD3, XL1, DD1, OL1, RU1, ER1, CU2, QR3, FD1, DD1, BL3, CU1, DU1, AD1, EL4, RD1, CD1, DD1, BR3, OR1, DU2, ER1, XR1, AU4, EL1, XL1, FU2, QL1, GL4, RD2, CD1, FD1, XR6
-Depth: 710
-Nodes: 3499
-Time: 0.09193015098571777
+Depth: 1799
+Nodes: 14467
+Time: 0.3130190372467041
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 38
 Status: FAILED
  0 1 2 3 4 5
@@ -772,12 +893,12 @@ Status: FAILED
  F G I I . .
 +-----------+
 Propsed Solution: IR2, HR1, CD2, AD1, OL1, RU2, HR1, ER1, BD3, EL1, RD1, OR1, AU1, XR3, AD1, OL1, RU1, ER1, DR2, GU4, FU4, DL2, EL1, RD1, OR1, AU1, XL3, AD1, OL1, RU1, ER1, BU3, EL1, RD1, OR1, AU1, CU2, HL4, CD1, AD1, OL1, RU1, IL3, ER1, BD3, EL1, RD3, OR1, AU1, XR6
-Depth: 561
-Nodes: 3702
-Time: 0.08210611343383789
+Depth: 529
+Nodes: 4021
+Time: 0.09260988235473633
 
 
-Algorithm: Greedy Hill Climbing
+Algorithm: A Star - cars blocking cars
 Card Number: 39
 Status: FAILED
  0 1 2 3 4 5
@@ -790,9 +911,9 @@ Status: FAILED
  H H F I I .
 +-----------+
 Propsed Solution: PU1, IR1, ED1, QR3, FU1, HR1, OD3, AL1, DU1, CD2, XL3, BD1, DD1, AR3, DU1, XR2, OU3, HL1, FD1, CU3, QL3, PD1, XL1, AR1, EU4, QR2, XR1, CD3, XL1, ED1, AL1, PU1, QR1, FU1, HR1, OD3, XL1, DD1, AL3, BU1, EU1, DU1, XR3, OU1, HL1, FD1, IL1, GL1, QL1, PD3, XR3
-Depth: 699
-Nodes: 4227
-Time: 0.10224318504333496
+Depth: 285
+Nodes: 2049
+Time: 0.05180811882019043
 
 
-Total Time: 6.46552586555481
+Total Time: 9.937231063842773

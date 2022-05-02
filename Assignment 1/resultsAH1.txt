@@ -1,0 +1,1159 @@
+Algorithm: A Star - cars blocking exit
+Card Number: 0
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A A . . . O 
+ P . . Q . O 
+ P X X Q . O 
+ P . . Q . . 
+ B . . . C C 
+ B . R R R .
++-----------+
+Propsed Solution: CL3, OD3, AR1, PU1, BU1, RL2, QD2, XR5
+ 0 1 2 3 4 5
++-----------+
+ P A A . . . 
+ P . . . . . 
+ P . . . X X 
+ B . . Q . O 
+ B C C Q . O 
+ R R R Q . O
++-----------+
+Found Solution: CL3, OD3, AR1, PU1, BU1, RL2, QD2, XR3
+Depth: 1069
+Nodes: 1078
+Different in Sol Lenth: 0
+Time: 0.17833995819091797
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 1
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A . . O O O 
+ A . . B . P 
+ X X . B C P 
+ Q Q Q . C P 
+ . . D . E E 
+ F F D G G .
++-----------+
+Propsed Solution: EL1, PD2, XR1, AD1, OL3, CU2, BU1, XR5
+ 0 1 2 3 4 5
++-----------+
+ O O O B C . 
+ A . . B C . 
+ A . . . X X 
+ Q Q Q . . P 
+ . . D E E P 
+ F F D G G P
++-----------+
+Found Solution: EL1, XR1, PD2, AD1, OL3, BU1, CU2, XR3
+Depth: 3054
+Nodes: 4457
+Different in Sol Lenth: 0
+Time: 0.5704970359802246
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 2
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ . . . . . . 
+ . . . . . . 
+ . X X O . . 
+ . A A O . P 
+ . B . O . P 
+ . B C C . P
++-----------+
+Propsed Solution: PU3, OU2, CR2, AR3, OD3, XR1, BU4, XL1, OU3, CL3, AL3, PD3, OD3, XR5
+ 0 1 2 3 4 5
++-----------+
+ . B . . . . 
+ . B . . . . 
+ . . . . X X 
+ A A . O . P 
+ . . . O . P 
+ C C . O . P
++-----------+
+Found Solution: OU2, PU3, CR2, AR3, OD3, XR1, BU4, XL2, OU3, AL4, CL4, PD3, OD3, XR4
+Depth: 772
+Nodes: 818
+Different in Sol Lenth: 0
+Time: 0.10652589797973633
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 3
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ O . . P . . 
+ O . . P . . 
+ O X X P . . 
+ . . A Q Q Q 
+ . . A . . B 
+ . . R R R B
++-----------+
+Propsed Solution: OD3, XL1, AU3, XR1, OU3, RL2, QL3, PD3, XR5
+ 0 1 2 3 4 5
++-----------+
+ O . A . . . 
+ O . A . . . 
+ O . . . X X 
+ Q Q Q P . . 
+ . . . P . B 
+ R R R P . B
++-----------+
+Found Solution: OD3, XL1, AU3, XR1, OU3, QL3, RL2, PD3, XR3
+Depth: 366
+Nodes: 409
+Different in Sol Lenth: 0
+Time: 0.051721811294555664
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 4
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A A . O . B 
+ P . . O Q B 
+ P X X O Q G 
+ P R R R Q G 
+ D . . . E E 
+ D . . . F F
++-----------+
+Propsed Solution: EL3, GD1, FL3, QD2, AR1, PU1, RL1, OD3, XR5
+ 0 1 2 3 4 5
++-----------+
+ P A A . . B 
+ P . . . . B 
+ P . . . X X 
+ R R R O Q G 
+ D E E O Q G 
+ D F F O Q .
++-----------+
+Found Solution: EL3, FL3, GD1, QD2, AR1, PU1, RL1, OD3, XR3
+Depth: 2000
+Nodes: 2330
+Different in Sol Lenth: 0
+Time: 0.3654489517211914
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 5
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A A . B . . 
+ C C . B O P 
+ . X X Q O P 
+ D D E Q O P 
+ F . E Q . . 
+ F . . R R R
++-----------+
+Propsed Solution: XL1, EU3, DR1, FU1, RL3, PD2, OD2, QD1, XR6
+ 0 1 2 3 4 5
++-----------+
+ A A E B . . 
+ C C E B . . 
+ . . . . X X 
+ F D D Q O P 
+ F . . Q O P 
+ R R R Q O P
++-----------+
+Found Solution: XL1, EU3, DR1, FU1, RL3, QD1, PD2, OD2, XR4
+Depth: 1559
+Nodes: 1751
+Different in Sol Lenth: 0
+Time: 0.27532100677490234
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 6
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ . A B B C D 
+ . A . E C D 
+ . X X E . F 
+ . . I I . F 
+ . . . H . . 
+ . . . H . .
++-----------+
+Propsed Solution: FD1, DD1, CD3, BR2, EU1, XR1, AD3, XL1, ED1, BL3, DU1, EU1, XR5
+ 0 1 2 3 4 5
++-----------+
+ B B . E . D 
+ . . . E . D 
+ . . . . X X 
+ . A I I C F 
+ . A . H C F 
+ . . . H . .
++-----------+
+Found Solution: FD1, DD1, CD3, BR2, EU1, XR1, AD3, XL2, ED1, BL4, EU1, DU1, XR4
+Depth: 4616
+Nodes: 5764
+Different in Sol Lenth: 0
+Time: 0.8098931312561035
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 7
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ . . . A A O 
+ . . B B C O 
+ X X D E C O 
+ F F D E G G 
+ H H I P P P 
+ K K I Q Q Q
++-----------+
+Propsed Solution: AL3, CU1, BL2, EU2, DU2, XR3, IU2, QL1, PL1, GL1, OD3, XR3
+ 0 1 2 3 4 5
++-----------+
+ A A D E C . 
+ B B D E C . 
+ . . I . X X 
+ F F I G G O 
+ H H P P P O 
+ K K Q Q Q O
++-----------+
+Found Solution: AL3, CU1, BL2, DU2, EU2, GL1, XR3, IU2, PL1, QL1, OD3, XR1
+Depth: 950
+Nodes: 950
+Different in Sol Lenth: 0
+Time: 0.15604805946350098
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 8
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ . A B B C C 
+ . A . D E E 
+ X X . D O F 
+ P Q Q Q O F 
+ P . G . O H 
+ P . G . . H
++-----------+
+Propsed Solution: OD1, XR1, PU3, QL1, DD2, XR2, AD1, EL1, BL1, CL1, FU2, XR3
+ 0 1 2 3 4 5
++-----------+
+ P B B C C F 
+ P A E E . F 
+ P A . . X X 
+ Q Q Q D O . 
+ . . G D O H 
+ . . G . O H
++-----------+
+Found Solution: OD1, XR1, PU3, QL1, DD2, EL2, XR1, AD1, BL1, CL1, FU2, XR2
+Depth: 683
+Nodes: 875
+Different in Sol Lenth: 0
+Time: 0.11447596549987793
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 9
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A A B . C C 
+ D D B . . O 
+ P X X . . O 
+ P Q Q Q . O 
+ P . . E F F 
+ G G . E H H
++-----------+
+Propsed Solution: CL1, OU1, QR2, XR2, BD4, DR1, AR1, PU2, QL3, XL2, EU3, HL1, FL1, OD3, CR1, EU1, XR5
+ 0 1 2 3 4 5
++-----------+
+ P A A E C C 
+ P D D E . . 
+ P . . . X X 
+ Q Q Q . . O 
+ . . B F F O 
+ G G B H H O
++-----------+
+Found Solution: CL1, OU1, QR2, XR2, BD4, XL2, DR1, AR1, PU2, QL3, EU3, FL1, HL1, OD3, CR1, EU1, XR3
+Depth: 1872
+Nodes: 2130
+Different in Sol Lenth: 0
+Time: 0.3094451427459717
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 10
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ O A A P . . 
+ O . . P . . 
+ O X X P . . 
+ . . B Q Q Q 
+ . . B . . E 
+ . . R R R E
++-----------+
+Propsed Solution: OD3, XL1, BU2, QL1, EU3, RR1, QR1, BD3, XR1, OU3, QL3, PD1, AR3, PU1, QR3, OD3, XL1, BU4, XR1, OU3, QL3, ED2, RL3, PD3, XR5
+ 0 1 2 3 4 5
++-----------+
+ O . B . A A 
+ O . B . . . 
+ O . . . X X 
+ Q Q Q P . E 
+ . . . P . E 
+ R R R P . .
++-----------+
+Found Solution: OD3, XL1, BU2, QL2, EU3, RR1, QR2, BD3, XR1, OU3, QL3, PD1, AR3, PU1, QR3, OD3, XL1, BU4, XR1, OU3, QL3, RL3, ED2, PD3, XR3
+Depth: 824
+Nodes: 846
+Different in Sol Lenth: 0
+Time: 0.11251688003540039
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 11
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A B B . . O 
+ A . P . . O 
+ X X P . . O 
+ . . P Q Q Q 
+ . . . . C . 
+ R R R . C .
++-----------+
+Propsed Solution: BR2, PU1, QL2, CU3, RR3, QR2, PD3, BL2, CU1, XR3, AD1, BL1, PU3, RL1, QL1, OD3, XR3
+ 0 1 2 3 4 5
++-----------+
+ B B P . C . 
+ A . P . C . 
+ A . P . X X 
+ Q Q Q . . O 
+ . . . . . O 
+ R R R . . O
++-----------+
+Found Solution: BR2, PU1, QL3, CU3, RR3, QR3, PD3, BL2, CU1, XR3, AD1, BL1, PU3, QL3, RL3, OD3, XR1
+Depth: 1267
+Nodes: 1329
+Different in Sol Lenth: 0
+Time: 0.18282198905944824
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 12
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A A B B C . 
+ . . D . C O 
+ . E D X X O 
+ P E . F F O 
+ P . . G H H 
+ P I I G K K
++-----------+
+Propsed Solution: OU1, DD2, ED1, FR1, XL3, GU3, DU2, KL1, HL2, FL2, OD3, CD3, BR2, GU1, DU1, XR6
+ 0 1 2 3 4 5
++-----------+
+ A A D G B B 
+ . . D G . . 
+ . . . . X X 
+ P E F F C O 
+ P E H H C O 
+ P I I K K O
++-----------+
+Found Solution: OU1, FR1, ED1, DD2, XL3, DU2, GU3, FL2, HL2, KL1, OD3, CD3, BR2, DU1, GU1, XR4
+Depth: 7909
+Nodes: 8952
+Different in Sol Lenth: 0
+Time: 1.4352819919586182
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 13
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A A B . . . 
+ . . B . C C 
+ D E X X F G 
+ D E H H F G 
+ . . I . J J 
+ K K I . . .
++-----------+
+Propsed Solution: ED1, DD1, XL2, BD1, AR3, BU1, XR2, EU3, DU3, HL2, XL2, IU2, JL4, GD1, FD1, ID1, XR6
+ 0 1 2 3 4 5
++-----------+
+ A A B . F G 
+ C C B . F G 
+ . . . . X X 
+ H H . . . . 
+ D E I . J J 
+ D E I K K .
++-----------+
+Found Solution: DU1, EU1, HL2, IU1, KR3, ID1, HR2, ED3, DD3, XL2, HL2, BD2, CL4, BU2, FU2, GU2, XR4
+Depth: 9292
+Nodes: 13089
+Different in Sol Lenth: 0
+Time: 1.8436188697814941
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 14
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ . A A B B . 
+ C C D D O P 
+ Q R X X O P 
+ Q R E F O P 
+ Q R E F G G 
+ . H H I I .
++-----------+
+Propsed Solution: IR1, HR1, RD1, QD1, XL2, FU1, EU1, GL2, PD1, OD1, DR2, BR1, FU2, AL1, EU2, XR2, RU1, QU1, HL2, IL2, PD1, OD1, XR4
+ 0 1 2 3 4 5
++-----------+
+ A A E F B B 
+ C C E F D D 
+ Q R . . X X 
+ Q R . . O P 
+ Q R G G O P 
+ H H I I O P
++-----------+
+Found Solution: AL1, IR1, HR1, RD1, QD1, XL2, EU1, FU1, GL2, PD1, OD1, DR2, EU2, BR1, FU2, XR2QU1, RU1, HL2, IL2, PD1, OD1, XR2
+Depth: 522
+Nodes: 526
+Different in Sol Lenth: 0
+Time: 0.08342790603637695
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 15
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A A B B C O 
+ D . E E C O 
+ D F P X X O 
+ . F P Q Q Q 
+ . . P . . . 
+ G G . . . .
++-----------+
+Propsed Solution: GR3, PD1, FD2, DD2, XL3, CD1, EL2, BR1, PU3, GL1, QL2, CD3, QR2, FU1, GL2, PD3, XR3, PU3, QL1, OD3, XR3
+ 0 1 2 3 4 5
++-----------+
+ A A P B B . 
+ E E P . . . 
+ . . P . X X 
+ D F Q Q Q O 
+ D F . . C O 
+ G G . . C O
++-----------+
+Found Solution: GR3, PD1, FD2, DD2, EL2, XL3, CD1, BR1, PU3, QL2, GL1, CD3, QR2, FU1, GL2, PD3, XR3, PU3, QL1, OD3, XR1
+Depth: 2344
+Nodes: 2693
+Different in Sol Lenth: 0
+Time: 0.38924312591552734
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 16
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A O O O . . 
+ A . B B C C 
+ X X D . . . 
+ E E D P . . 
+ Q Q Q P F G 
+ R R R P F G
++-----------+
+Propsed Solution: GU2, FU2, BL1, PU2, RR3, QR3, DD2, ER1, XR1, AD4, EL1, XL1, BL1, OR2, DU4, ER1, XR1, AU2, QL3, GD1, FD1, RL3, PD2, XR5
+ 0 1 2 3 4 5
++-----------+
+ . . D O O O 
+ B B D . C C 
+ A . . . X X 
+ A E E P F G 
+ Q Q Q P F G 
+ R R R P . .
++-----------+
+Found Solution: BL1, PU2, FU2, GU2, RR3, QR3, DD2, ER1, XR1, OR2, AD4, BL1, XL1, EL1, DU4, ER1, XR1, AU2, QL3, RL3, GD1, FD1, PD2, XR3
+Depth: 2102
+Nodes: 2154
+Different in Sol Lenth: 0
+Time: 0.3735940456390381
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 17
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A A B O . . 
+ C C B O . . 
+ P X X O . . 
+ P Q Q Q . . 
+ P D D . . . 
+ R R R . . .
++-----------+
+Propsed Solution: RR3, PD1, DR3, QR2, XL1, BD4, XR1, CR1, AR1, PU3, QL3, OD2, CR3, AR3, OU2, QR3, PD3, XL1, BU4, XR1, PU3, RL3, QL3, OD3, XR5
+ 0 1 2 3 4 5
++-----------+
+ P . B . A A 
+ P . B . C C 
+ P . . . X X 
+ Q Q Q O . . 
+ . . . O D D 
+ R R R O . .
++-----------+
+Found Solution: RR3, DR3, QR2, PD1, XL1, BD4, XR1, CR1, AR1, PU3, QL3, OD2, CR3, AR3, OU2, QR3, PD3, XL1, BU4, XR1, PU3, QL3, RL3, OD3, XR3
+Depth: 1585
+Nodes: 1633
+Different in Sol Lenth: 0
+Time: 0.23808503150939941
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 18
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ . . A B B . 
+ . . A . J . 
+ . D X X J . 
+ . D E E F . 
+ . O O O F . 
+ . . . . . .
++-----------+
+Propsed Solution: DU2, EL2, XL2, AD2, BL1, JU1, FU1, OR2, AD2, ER2, XR2, DD4, EL2, XL2, BL2, AU4, ER2, XR2, DU2, OL2, FD1, XR4
+ 0 1 2 3 4 5
++-----------+
+ B B A . J . 
+ . D A . J . 
+ . D . . X X 
+ . . E E F . 
+ O O O . F . 
+ . . . . . .
++-----------+
+Found Solution: DU2, XL2, EL2, AD1, BL1, JU1, FU1, OR2, AD3, ER2, XR2DD4, BL2, XL2, EL2, AU4, ER2, XR2DU3, OL3, FD1, XR2
+Depth: 491
+Nodes: 554
+Different in Sol Lenth: 0
+Time: 0.06342291831970215
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 19
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A . . O O O 
+ A B B C . . 
+ X X D C . P 
+ . . D . . P 
+ . . E F F P 
+ . . E Q Q Q
++-----------+
+Propsed Solution: CD1, BR2, DU2, EU2, QL1, PD1, FL3, CD1, ED1, XR6
+ 0 1 2 3 4 5
++-----------+
+ A . D O O O 
+ A . D B B . 
+ . . . . X X 
+ . . E C . P 
+ F F E C . P 
+ Q Q Q . . P
++-----------+
+Found Solution: CD1, BR2, DU2, EU2, FL3, QL3, PD1, CD1, ED1, XR4
+Depth: 1613
+Nodes: 2323
+Different in Sol Lenth: 0
+Time: 0.2560398578643799
+
+Card Number: 20
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A A B O . . 
+ P . B O . . 
+ P X X O . . 
+ P Q Q Q . . 
+ . . . . . . 
+ . . . R R R
++-----------+
+Propsed Solution: PD2, QR2, XL1, BD4, XR1, AR1, PU3, QL3, OD1, AR3, OU1, QR3, PD3, XL1, BU4, XR1, PU3, RL3, QL3, OD3, XR5
+ 0 1 2 3 4 5
++-----------+
+ P . B . A A 
+ P . B . . . 
+ P . . . X X 
+ Q Q Q O . . 
+ . . . O . . 
+ R R R O . .
++-----------+
+Found Solution: QR2, PD2, XL1, BD4, XR1, AR1, PU3, QL3, OD1, AR3, OU1, QR3, PD3, XL1, BU4, XR1, PU3, QL3, RL3, OD3, XR3
+Depth: 258
+Nodes: 262
+Different in Sol Lenth: 0
+Time: 0.033963918685913086
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 21
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ . . A O O O 
+ B . A P C C 
+ B X X P . . 
+ . D . P E E 
+ F D G G . H 
+ F Q Q Q . H
++-----------+
+Propsed Solution: BU1, GR1, XL1, AD3, XR1, BD1, OL3, PU1, EL1, HU2, QR2, AD1, DD1, GR1, EL2, PD2, CL3, HU2, PU2, ER3, AU1, DU1, FU1, QL3, PD3, XR5
+ 0 1 2 3 4 5
++-----------+
+ O O O . . H 
+ B C C . . H 
+ B . . . X X 
+ F D A P E E 
+ F D A P G G 
+ Q Q Q P . .
++-----------+
+Found Solution: BU1, XL1, FU1, GR1, AD3, XR1, BD1, OL3, PU1, EL1, HU2, QR2, GR1, AD1, DD1, EL2, PD2, CL3, PU2, HU2, ER3, DU1, AU1, QL3, PD3, XR3
+Depth: 3437
+Nodes: 3929
+Different in Sol Lenth: 0
+Time: 0.6118030548095703
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 22
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ . . O O O P 
+ . . A B B P 
+ . . A X X P 
+ . . C D E E 
+ . . C D F F 
+ . . Q Q Q .
++-----------+
+Propsed Solution: QL2, DD1, EL1, PD1, OR1, AU1, XL3, AD1, OL1, PU1, ER1, DU2, QR3, CD1, AD1, BL3, DU1, EL1, PD1, OR1, AU2, EL3, CU2, QL1, FL4, PD2, DD2, CD1, XR6
+ 0 1 2 3 4 5
++-----------+
+ . . A O O O 
+ B B A . . . 
+ . . . . X X 
+ E E C D . P 
+ F F C D . P 
+ Q Q Q . . P
++-----------+
+Found Solution: QL2, DD1, EL1, PD1, OR1, AU1, XL3, AD1, OL3, PU1, ER1, DU2, QR3, CD1, AD1, BL3, AU1, DU1, EL4, PD1, OR3, AU1, CU2, FL4, QL3, CD1, PD2, DD2, XR4
+Depth: 2362
+Nodes: 2772
+Different in Sol Lenth: 0
+Time: 0.3692359924316406
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 23
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ . . A B B . 
+ . C A . . . 
+ D C X X E . 
+ D F F . E . 
+ O O O . G . 
+ H H . . G .
++-----------+
+Propsed Solution: CU1, DU2, FL1, XL2, AD2, BL1, EU2, GU2, HR3, OR3, AD2, FR2, XR2, CD4, DD4, FL2, XL2, BL2, AU4, FR2, XR2, CU2, OL2, GD1, XR4
+ 0 1 2 3 4 5
++-----------+
+ B B A . E . 
+ . C A . E . 
+ . C . . X X 
+ . . F F G . 
+ D O O O G . 
+ D . . H H .
++-----------+
+Found Solution: DU2, CU1, XL2, FL1, AD1, BL1, EU2, GU2, HR3, OR3, AD3, FR2, XR2CD4, DD4, BL2, XL2, FL2, AU4, FR2, XR2CU3, OL2, GD1, XR2
+Depth: 4335
+Nodes: 4534
+Different in Sol Lenth: 0
+Time: 0.7355389595031738
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 24
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A A B . C C 
+ D D B . . O 
+ P X X . E O 
+ P Q Q Q E O 
+ P F . G H H 
+ . F . G I I
++-----------+
+Propsed Solution: CL1, OU1, EU1, PD1, QR2, XL1, BD4, XR1, DR1, AR1, PU3, QL3, GU3, QR3, PD3, XL1, DL1, AL1, BU4, IL1, HL2, QL2, OD3, ED2, CR1, GU1, XR6
+ 0 1 2 3 4 5
++-----------+
+ A A B G C C 
+ D D B G . . 
+ . . . . X X 
+ P Q Q Q E O 
+ P F H H E O 
+ P F . I I O
++-----------+
+Found Solution: CL1, OU1, EU1, QR2, PD1, XL1, BD4, XR1, DR1, AR1, PU3, QL3, GU3, IL1, QR3, PD3, AL1, DL1, XL1, BU4, QL2, HL2, ED2, OD3, CR1, GU1, XR4
+Depth: 8472
+Nodes: 8723
+Different in Sol Lenth: 0
+Time: 1.584157943725586
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 25
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ . A . O O O 
+ B A . C P . 
+ B X X C P D 
+ E R R R P D 
+ E . F . . G 
+ . . F H H G
++-----------+
+Propsed Solution: DU1, GU1, ED1, HR1, RL1, CD3, XR1, AD1, OL3, PU1, RR2, AD3, RL2, XL1, CU4, HL1, GD1, DU1, RR3, FU1, XR1, AU3, EU1, HL3, FD1, RL2, PD3, XR4
+ 0 1 2 3 4 5
++-----------+
+ O O O C . D 
+ B A . C . D 
+ B A . . X X 
+ E R R R P . 
+ E . F . P G 
+ H H F . P G
++-----------+
+Found Solution: OL1, DU2, GU2, HR1, ED1, RL1, CD3, XR1, AD1, OL2, PU1, RR2, AD3, XL1, RL2, CU4, HL1, GD2, RR3, EU1, FU1, XR1, AU3, HL3, FD1, RL2, PD3, XR2
+Depth: 4807
+Nodes: 4865
+Different in Sol Lenth: 0
+Time: 0.7974278926849365
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 26
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A B B O . . 
+ A C C O . . 
+ X X D O . P 
+ . . D E E P 
+ . . F . . P 
+ . . F R R R
++-----------+
+Propsed Solution: PU2, ER1, OD2, CR2, BR2, DU2, XR1, AD4, XL1, DD2, CL3, BL3, OU2, DU1, EL4, OD2, DD1, CR3, DU2, ER1, XR1, AU3, EL1, FU1, RL3, PD3, OD1, XR5
+ 0 1 2 3 4 5
++-----------+
+ B B D . . . 
+ A . D C C . 
+ A . . . X X 
+ E E F O . P 
+ . . F O . P 
+ R R R O . P
++-----------+
+Found Solution: PU2, ER1, OD2, CR2, BR2, DU2, XR1, AD4, XL1, DD2, BL3, CL3, DU2, OU2, EL4, OD2, DD2, CR3, DU2, ER1, XR1, AU3, EL1, FU1, RL3, OD1, PD3, XR3
+Depth: 2721
+Nodes: 2913
+Different in Sol Lenth: 0
+Time: 0.39864206314086914
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 27
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ O O O A . . 
+ . . P A B B 
+ X X P . . . 
+ C D P E E Q 
+ C D R R R Q 
+ F F G G . Q
++-----------+
+Propsed Solution: QU1, AD1, OR3, PU1, GR2, FR2, DD1, CD1, EL3, AD1, BL1, QU1, RR1, PD2, BL3, AU1, PU2, ER3, DU1, CU1, FL2, PD3, OL3, AU1, XR3, PU2, GL1, RL1, QD2, XR3
+ 0 1 2 3 4 5
++-----------+
+ O O O A . . 
+ B B P A . . 
+ . . P . X X 
+ C D P E E Q 
+ C D R R R Q 
+ F F . G G Q
++-----------+
+Found Solution: GR1, QU1, GR1, FR2, DD1, CD1, AD1, OR3, PU1, EL3, AD1, BL1, QU1, RR1, PD2, BL3, PU2, AU1, ER3, CU1, DU1, FL2, GL1, PD3, OL3, AU1, XR3, PU2, RL1, QD2, XR1
+Depth: 1889
+Nodes: 2132
+Different in Sol Lenth: 1
+Time: 0.30821895599365234
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 28
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ O O O . P . 
+ . . A . P . 
+ X X A . P B 
+ C D D E E B 
+ C F F G . H 
+ R R R G . H
++-----------+
+Propsed Solution: BU1, ER1, GU3, EL1, HU1, RR3, CD1, FR2, DL1, AD3, DR1, XR1, OR1, CU4, DL1, XL1, AU3, RL3, HD1, FL2, ER1, GD3, EL2, PD3, OR2, AU1, XR3, AD1, OL1, BU1, XR3
+ 0 1 2 3 4 5
++-----------+
+ C O O O . B 
+ C . A . . B 
+ . . A . X X 
+ D D E E P . 
+ F F . G P H 
+ R R R G P H
++-----------+
+Found Solution: BU1, ER1, GU3, EL1, HU1, RR3, FR2, CD1, DL1, AD3, DR1, XR1OR1, CU4, XL1, DL1, AU3, FL3, RL3, HD1, ER1, GD3, EL2, PD3, OR2, AU1, XR3, AD1, OL2, BU1, XR1
+Depth: 4327
+Nodes: 4350
+Different in Sol Lenth: 0
+Time: 0.735605001449585
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 29
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ O . A P P P 
+ O . A B . . 
+ O X X B . . 
+ C C D D . Q 
+ . . . . . Q 
+ E E F F . Q
++-----------+
+Propsed Solution: FR1, ER1, DR1, CR1, OD3, XL1, AD1, PL1, QU3, FR1, DR1, BD3, DL1, QD1, PR1, AU1, XR3, OU3, EL1, CL1, AD4, CR1, OD1, PL3, QU1, DR1, XL2, BU4, FL1, DL1, QD3, XR5
+ 0 1 2 3 4 5
++-----------+
+ P P P B . . 
+ O . . B . . 
+ O . . . X X 
+ O C C D D Q 
+ . . A . . Q 
+ E E A F F Q
++-----------+
+Found Solution: FR1, ER1, DR1, CR1, OD3, XL1, AD1, PL3, QU3, FR1, DR1, BD3, DL1, QD1, PR3, AU1, XR3OU3, CL1, EL1, AD4, XL2, CR1, OD1, PL3, QU1, DR1, BU4, DL1, FL1, QD3, XR3
+Depth: 1163
+Nodes: 1172
+Different in Sol Lenth: 0
+Time: 0.1658649444580078
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 30
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A A . O O O 
+ . . . B C C 
+ D X X B . P 
+ D . Q E E P 
+ F F Q . . P 
+ . . Q R R R
++-----------+
+Propsed Solution: AR1, DU2, XL1, QU2, FR3, QD2, XR1, DD4, XL1, AL1, QU3, EL3, BD1, CL1, PU1, FR1, BD1, QD3, XR3, QU3, ER1, DU3, EL1, QD3, AR1, DU1, XL3, BU1, QU2, FL4, BD1, QD2, XR3, QU1, RL1, PD2, XR3
+ 0 1 2 3 4 5
++-----------+
+ D A A O O O 
+ D . Q C C . 
+ . . Q . X X 
+ E E Q B . P 
+ F F . B . P 
+ R R R . . P
++-----------+
+Found Solution: AR1, DU2, XL1, QU2, FR3, QD2, XR1DD4, AL1, XL1, QU3, EL3, BD1, CL1, PU1, FR1, BD1, QD3, XR3, QU3, ER1, DU3, EL1, QD3, AR1, DU1, XL3, QU2, BU1, FL4, BD1, QD2, XR3, QU2, RL3, PD2, XR1
+Depth: 3947
+Nodes: 4087
+Different in Sol Lenth: 0
+Time: 0.6285209655761719
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 31
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A A O B C C 
+ . . O B . . 
+ X X O . . . 
+ D E E F F P 
+ D . . K . P 
+ H H . K . P
++-----------+
+Propsed Solution: BD1, CL1, PU3, FR1, KU1, HR4, KD1, FL1, PD1, CR1, BU1, DD1, EL1, OD3, XR3, OU3, ER1, DU3, EL1, OD3, AR1, DU1, XL3, BD1, CL1, PU1, FR1, KU1, OU1, HL4, KD1, FL1, PD3, CR1, BU1, OD1, XR6
+ 0 1 2 3 4 5
++-----------+
+ D A A B C C 
+ D . . B . . 
+ . . . . X X 
+ E E O F F P 
+ . . O K . P 
+ H H O K . P
++-----------+
+Found Solution: HR1, DD1, EL1, BD1, CL1, PU3, FR1, KU1, HR3, KD1, FL1, PD1, CR1, BU1, OD3, XR3, OU3, ER1, DU3, EL1, OD3, AR1, DU1, XL3, OU2, BD1, CL1, PU1, FR1, KU1, HL4, KD1, FL1, OD2, PD3, CR1, BU1, XR4
+Depth: 575
+Nodes: 603
+Different in Sol Lenth: 1
+Time: 0.07816410064697266
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 32
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ . A R . B B 
+ . A R . . . 
+ X X R . . . 
+ I D D E E P 
+ I F F G H P 
+ Q Q Q G H P
++-----------+
+Propsed Solution: BL1, PU3, ER1, GU3, QR1, ID1, DL1, EL2, HU3, QR2, FR3, ER2, RD3, BL1, HU1, GD2, XR3, AD1, BL2, RU3, DR1, IU3, DL1, RD3, BR2, AU1, IU1, XL3, GU1, RU2, FL4, GD1, RD2, XR3, RU1, QL3, GD1, EL1, PD3, XR3
+ 0 1 2 3 4 5
++-----------+
+ I A B B H . 
+ I A R . H . 
+ . . R . X X 
+ D D R E E P 
+ F F . G . P 
+ Q Q Q G . P
++-----------+
+Found Solution: BL1, PU3, ER1, GU3, QR1, ID1, DL1, EL2, HU3, QR2, FR3, ER2, GD2, RD3, BL1, HU1, XR3, AD1, BL2, RU3, DR1, IU3, DL1, RD3, BR2, IU1, AU1, XL3, RU2, GU2, FL4, GD2, RD2, XR3, RU2, QL3, GD1, EL1, PD3, XR1
+Depth: 4042
+Nodes: 4155
+Different in Sol Lenth: 0
+Time: 0.7048120498657227
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 33
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A . . R R R 
+ A . . B . P 
+ X X . B C P 
+ Q Q Q D C P 
+ . . E D F F 
+ I I E H H .
++-----------+
+Propsed Solution: RL2, PU1, CU1, HR1, DD1, QR3, XR1, AD3, XL1, EU3, IR1, AD1, QL3, PD1, RL1, BU1, DU2, FL3, DD2, BD1, RR3, EU1, QR2, XR1, AU4, XL1, ED1, RL2, PU1, IL1, FL1, QR1, ED3, QL3, DU1, HL1, PD3, CU1, XR1, AD1, RL1, BU1, XR5
+ 0 1 2 3 4 5
++-----------+
+ R R R B C . 
+ A . . B C . 
+ A . . . X X 
+ Q Q Q D . P 
+ F F E D . P 
+ I I E H H P
++-----------+
+Found Solution: RL2, PU1, CU1, HR1, DD1, QR3, EU1, IR1, XR1, AD4, RL1, BU1, XL1, EU2, QL3, DU2, FL3, DD2, QR1, PD1, BD1, RR3, EU1, XR1, AU4, XL1, FL1, IL1, ED1, RL2, CU1, PU1, QR2, ED3, QL3, DU1, HL1, XR1, PD3, AD1, RL1, BU1, XR3
+Depth: 4363
+Nodes: 4407
+Different in Sol Lenth: 0
+Time: 0.7277851104736328
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 34
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ . . O A A P 
+ . . O B . P 
+ X X O B . P 
+ K Q Q Q . . 
+ K D D E F . 
+ G G . E F .
++-----------+
+Propsed Solution: PD1, FU3, AR1, BU1, GR1, KD1, QL1, EU2, GR3, DR3, ED2, BD1, AL1, PU1, QR3, OD3, XR1, KU4, XL1, OU3, QL3, PD1, AR1, BU1, EU2, GL4, DL4, ED2, BD1, AL1, PU1, FD3, QR3, OD3, AL2, BU1, XR3, KD1, AL1, OU3, QL1, PD3, XR3
+ 0 1 2 3 4 5
++-----------+
+ A A O B . . 
+ K . O B . . 
+ K . O . X X 
+ Q Q Q . . P 
+ D D . E F P 
+ G G . E F P
++-----------+
+Found Solution: GR1, FU3, KD1, QL1, PD1, AR1, BU1, EU2, GR3, DR3, ED2, BD1, AL1, PU1, QR3, OD3, XR1KU4, XL1, OU3, QL3, PD1, AR1, BU1, EU2, DL4, GL4, ED2, FD3, BD1, AL1, PU1, QR3, OD3, AL2, BU1, XR3, KD1, AL1, OU3, QL3, PD3, XR1
+Depth: 3955
+Nodes: 4117
+Different in Sol Lenth: 0
+Time: 0.63543701171875
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 35
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ O P P P A A 
+ O B C C . Q 
+ O B X X . Q 
+ R R R D . Q 
+ . . E D F F 
+ G G E . . .
++-----------+
+Propsed Solution: DD1, RR2, OD1, PL1, AL1, QU1, RR1, XR1, CR1, EU3, RL2, QD1, AR1, PR1, OU1, RL1, DU1, GR4, DD1, RR2, OD1, PL1, AL1, QU1, RR1, ED3, BD3, RL2, QD1, AR1, PR1, OU1, RL1, XL2, CL2, DU3, GL1, FL1, QD2, RR1, OD1, PL1, DU1, XR5
+ 0 1 2 3 4 5
++-----------+
+ P P P D A A 
+ O C C D . . 
+ O . . . X X 
+ O R R R . Q 
+ . B E F F Q 
+ . B E G G Q
++-----------+
+Found Solution: DD1, RR1, XR1, CR1, OD1, PL1, AL1, QU1, RR2, EU3, RL2, QD1, AR1, PR1, OU1, RL1, DU1, GR4, DD1, RR1, OD1, PL1, AL1, QU1, RR2, ED3, RL1, BD3, CL2, XL2, QD1, AR1, PR1, OU1, RL2, DU3, FL1, GL1, RR1, QD2, OD1, PL1, DU1, XR3
+Depth: 2558
+Nodes: 2822
+Different in Sol Lenth: 0
+Time: 0.4296858310699463
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 36
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A A B . C C 
+ D D B . O P 
+ Q X X . O P 
+ Q R R R O P 
+ Q . . E F F 
+ G G . E H H
++-----------+
+Propsed Solution: GR1, QD1, XL1, BD1, CL2, PU1, OU1, RR2, BD2, XR1, DR1, QU2, GL1, BD1, RL2, OD1, CR1, AR1, QU1, RL1, EU3, RR1, QD2, AL1, CL1, OU1, RR2, BU1, GR1, QD1, XL1, DL1, BU2, HL1, FL2, RL2, PD3, OD2, CR2, EU1, BU1, XR2, QU1, GL1, HL1, OD1, XR4
+ 0 1 2 3 4 5
++-----------+
+ A A B E C C 
+ D D B E . . 
+ Q . . . X X 
+ Q R R R O P 
+ Q F F . O P 
+ G G H H O P
++-----------+
+Found Solution: GR1, QD1, XL1, BD1, CL2, OU1, PU1, RR2, BD2, XR1, QU1, GL1, BD1, RL2, DR1, OD1, CR1, AR1, QU2, RL1, EU3, HL1, RR1, QD1, AL1, CL1, OU1, RR2, BU1, GR1, QD2, DL1, XL1, BU2, RL2, FL3, PD3, OD1, CR2, BU1, EU1, XR1, QU1, GL1, HL1, OD2, XR3
+Depth: 1942
+Nodes: 1949
+Different in Sol Lenth: 0
+Time: 0.32685089111328125
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 37
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ A . . O O O 
+ A B B C . . 
+ X X D C . R 
+ . . D E E R 
+ . . F G G R 
+ . . F Q Q Q
++-----------+
+Propsed Solution: OL1, RU2, GR1, ER1, CD2, BR2, DU1, FU1, QL3, CD1, EL1, RD1, OR1, DU1, XR1, AD3, XL1, DD1, OL1, RU1, ER1, CU2, QR3, FD1, DD1, BL3, CU1, DU1, AD1, EL4, RD1, CD1, DD1, BR3, OR1, DU2, ER1, XR1, AU4, EL1, XL1, FU2, QL1, GL4, RD2, CD1, FD1, XR6
+ 0 1 2 3 4 5
++-----------+
+ A . D O O O 
+ A . D B B . 
+ . . . . X X 
+ E E F C . R 
+ G G F C . R 
+ Q Q Q . . R
++-----------+
+Found Solution: OL2, RU2, GR1, ER1, CD1, BR2, DU1, FU1, QL3, CD2, EL1, RD1, OR2, DU1, XR1, AD3, XL1, DD1, OL3, RU1, ER1, CU2, QR3, FD1, AD1, DD1, BL3, CU2, DU1, EL4, DD1, RD1, CD2, BR3, OR3, DU2, ER1, XR1, AU4, XL1, EL1, FU2, GL4, QL3, CD1, FD1, RD2, XR4
+Depth: 3760
+Nodes: 4024
+Different in Sol Lenth: 0
+Time: 0.5769510269165039
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 38
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ . . A O O O 
+ . . A B . . 
+ X X C B . R 
+ D D C E E R 
+ F G H H . R 
+ F G I I . .
++-----------+
+Propsed Solution: IR2, HR1, CD2, AD1, OL1, RU2, HR1, ER1, BD3, EL1, RD1, OR1, AU1, XR3, AD1, OL1, RU1, ER1, DR2, GU4, FU4, DL2, EL1, RD1, OR1, AU1, XL3, AD1, OL1, RU1, ER1, BU3, EL1, RD1, OR1, AU1, CU2, HL4, CD1, AD1, OL1, RU1, IL3, ER1, BD3, EL1, RD3, OR1, AU1, XR6
+ 0 1 2 3 4 5
++-----------+
+ F G A O O O 
+ F G A . . . 
+ . . . . X X 
+ D D C E E R 
+ H H C B . R 
+ I I . B . R
++-----------+
+Found Solution: RU1, IR2, HR2, CD2, AD1, OL3, RU1, ER1, BD3, EL2, RD1, OR3, AU1, XR3, AD1, OL1, RU1, ER2, DR2, FU4, GU4, DL2, EL2, RD1, OR1, AU1, XL3, AD1, OL1, RU1, ER2, BU3, EL1, RD1, OR1, AU1, CU2, HL4, IL4, CD1, AD1, OL1, RU1, ER1, BD3, EL1, RD3, OR1, AU1, XR4
+Depth: 3585
+Nodes: 3693
+Different in Sol Lenth: 0
+Time: 0.5464460849761963
+
+
+Algorithm: A Star - cars blocking exit
+Card Number: 39
+Status: SOLVED
+ 0 1 2 3 4 5
++-----------+
+ O A A . B . 
+ O C D . B P 
+ O C D X X P 
+ Q Q Q E . P 
+ . . F E G G 
+ H H F I I .
++-----------+
+Propsed Solution: PU1, IR1, ED1, QR3, FU1, HR1, OD3, AL1, DU1, CD2, XL3, BD1, DD1, AR3, DU1, XR2, OU3, HL1, FD1, CU3, QL3, PD1, XL1, AR1, EU4, QR2, XR1, CD3, XL1, ED1, AL1, PU1, QR1, FU1, HR1, OD3, XL1, DD1, AL3, BU1, EU1, DU1, XR3, OU1, HL1, FD1, IL1, GL1, QL1, PD3, XR3
+ 0 1 2 3 4 5
++-----------+
+ A A D E B . 
+ O . D E B . 
+ O . . . X X 
+ O C Q Q Q P 
+ . C F G G P 
+ H H F I I P
++-----------+
+Found Solution: PU1, IR1, ED1, QR3, FU1, HR1, CD2, OD3, AL1, DU1, XL3, BD1, DD1, AR3, DU1, XR2, OU3, CU3, XL1, HL1, FD1, QL3, PD1, AR1, EU4, GL1, IL1, QR2, XR1, CD3, XL1, ED1, AL1, PU1, QR1, FU1, HR1, OD3, XL1, DD1, AL3, DU1, EU1, BU1, XR1, OU2, HL1, FD1, QL1, PD3, XR3
+Depth: 3024
+Nodes: 3201
+Different in Sol Lenth: 0
+Time: 0.5118401050567627
+
+
+Total Time: 18.012059926986694

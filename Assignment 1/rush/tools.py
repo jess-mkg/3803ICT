@@ -320,13 +320,17 @@ class Tools:
                 self.possible_moves_down(node[0], loc, size, letter, NullHandler, rec_depth, node[1])
                 self.possible_moves_up(node[0], loc, size, letter, NullHandler, rec_depth, node[1])
 
-    def cars_in_path(self, node):
-        val = 0
+    def cars_in_path(self, node, action):
         cars = []
-        for i in range(5, 1, -1):
+        letter = "X"
+        X = False
+        if action != []:
+               letter = self.MyStrip(action)
+        for i in range(2, 6):
             pos = node[2][i]
-            if pos != "." and pos != "X":
-                val += 1
+            if pos == "X":
+                X = True
+            if pos != "." and pos != "X" and pos != letter and X:
                 cars.append(pos)
 
         return cars
@@ -334,15 +338,19 @@ class Tools:
     def cars_blocking_cars(self, board, action):
         cars = set()
         letter = "X"
+        X = False
         if action != []:
            letter = self.MyStrip(action)
-        for y in range(5, 1, -1):
-            pos = board[2][y] 
-            if pos != "." and pos != "X":
-                for x in range(0,6):
-                    p = board[x][y]             
-                    if p != "." and p != "X" and p != letter:
-                        cars.add(p)    
+        for y in range(2, 6):
+            pos = board[2][y]
+            if pos == "X":
+                X = True
+            if pos != "." and pos != "X" and X and pos != letter:
+                cars.add(pos)
+            for x in range(0,6):
+                p = board[x][y]             
+                if p != "." and p != "X" and p != letter:
+                    cars.add(p)    
         return cars
 
     def MyStrip(self, action):
@@ -479,15 +487,14 @@ class Tools:
                 break
             
             else:
-                amount = len(self.cars_in_path(current[0])) + depth
+                amount = len(self.cars_in_path(current[0], current[1])) + depth
                 self.get_children(current)
-                hValues = [(node, len(self.cars_in_path(node[0]))+depth) for node in self.child_nodes]
+                hValues = [(node, len(self.cars_in_path(node[0], current[1]))) for node in self.child_nodes]
                 hValues.sort(key = lambda x: x[1])
-                hValues.sort(reverse=True)
-        
+
                 for node, val in hValues:
+                    nodes += 1
                     if str(node[0]) not in explored:
-                        nodes += 1
                         if val <= amount:
                             queue.append(node)
                             explored.add(str(node[0]))
@@ -522,11 +529,10 @@ class Tools:
             else:
                 amount = len(self.cars_blocking_cars(current[0], current[1])) + depth
                 self.get_children(current)
-                hValues = [(node, len(self.cars_blocking_cars(node[0], node[1]))+depth) for node in self.child_nodes]
+                hValues = [(node, len(self.cars_blocking_cars(node[0], node[1]))) for node in self.child_nodes]
                 self.child_nodes.clear()
                 hValues.sort(key = lambda x: x[1])
-                hValues.sort(reverse=True)
-        
+
                 for node, val in hValues:
                     nodes += 1
                     if str(node[0]) not in explored:
