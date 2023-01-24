@@ -1,5 +1,6 @@
 
 This folder holds code for a minor Shell which is able to perform simple tasks such as; 
+
                 - calcuations
                 - give time
                 - give a given path of a file or folder 
@@ -9,3 +10,4 @@ This folder holds code for a minor Shell which is able to perform simple tasks s
                 - quitting the shell 
 
 There is a makefile to help complie the source code. 
+The code is written in C.
