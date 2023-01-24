@@ -1,4 +1,3 @@
-Jessica McGrahan 
 
 This folder holds code for a minor Shell which is able to perform simple tasks such as; 
                 - calcuations
